@@ -277,20 +277,6 @@ public class imuyeet2 extends LinearOpMode
             }
         }
     }
-   /* public void right(int Millis, double pwr)
-    {
-        long startTime = System.currentTimeMillis();
-        while (opModeIsActive()) {
-            motorLeftF.setPower(pwr);
-            motorRightF.setPower(pwr);
-            motorRightB.setPower(pwr);
-            motorLeftB.setPower(pwr);
-
-            if ((System.currentTimeMillis() - startTime) > Millis) {
-                break;
-            }
-        }
-    }  */
     public void runWithGyro(int TIME, double pwr, String direction){
         if (direction == "REVERSE") {
             correctionR = 0;
