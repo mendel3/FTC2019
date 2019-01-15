@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -18,6 +19,7 @@ import java.util.Locale;
 //@Disabled
 public class imuyeet2 extends LinearOpMode
 {
+    private ElapsedTime runtime = new ElapsedTime();
     DcMotor                 motorLeftF;
     DcMotor                 motorRightF;
     DcMotor motorRightB;
@@ -29,6 +31,13 @@ public class imuyeet2 extends LinearOpMode
     public Orientation angles;
     public Acceleration gravity;
     double globalAngle, power = .01, correction;
+    static final double     COUNTS_PER_MOTOR_REV    = 1120 ;    // eg: TETRIX Motor Encoder
+    static final double     DRIVE_GEAR_REDUCTION    = 1.0 ;     // This is < 1.0 if geared UP
+    static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
+    static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
+            (WHEEL_DIAMETER_INCHES * 3.14152);
+    static final double     DRIVE_SPEED             = 0.6;
+    static final double     TURN_SPEED              = 0.6;
 
 
     String formatAngle(AngleUnit angleUnit, double angle) {
@@ -204,79 +213,6 @@ public class imuyeet2 extends LinearOpMode
         // reset angle tracking on new heading.
         resetAngle();
     }
-    public void driveEncoder(int Millis, double pwr, String direction)
-    {
-        if (direction == "FORWARD"){
-            long startTime = System.currentTimeMillis();
-            while (opModeIsActive()) {
-                motorLeftF.setPower(pwr + correctionF);
-                motorRightF.setPower(pwr);
-                motorRightB.setPower(pwr);
-                motorLeftB.setPower(pwr + correctionF);
-                telemetry.addData("Angle", angles);
-
-                if ((System.currentTimeMillis() - startTime) > Millis) {
-                    break;
-                }
-                motorRightF.setPower(0);
-                motorLeftF.setPower(0);
-                motorRightB.setPower(0);
-                motorLeftB.setPower(0);
-        }
-
-        }
-        else if (direction == "BACKWARD") {
-            long startTime = System.currentTimeMillis();
-            while (opModeIsActive()) {
-                motorLeftF.setPower(-pwr + correctionF);
-                motorRightF.setPower(-pwr);
-                motorRightB.setPower(-pwr);
-                motorLeftB.setPower(-pwr + correctionF);
-
-                if ((System.currentTimeMillis() - startTime) > Millis) {
-                    break;
-                }
-                motorRightF.setPower(0);
-                motorLeftF.setPower(0);
-                motorRightB.setPower(0);
-                motorLeftB.setPower(0);
-            }
-        }
-        else if (direction == "RIGHT") {
-            long startTime = System.currentTimeMillis();
-            while (opModeIsActive()) {
-                motorLeftF.setPower(pwr);
-                motorRightF.setPower(-pwr);
-                motorRightB.setPower(pwr);
-                motorLeftB.setPower(-pwr);
-
-                if ((System.currentTimeMillis() - startTime) > Millis) {
-                    break;
-                }
-                motorRightF.setPower(0);
-                motorLeftF.setPower(0);
-                motorRightB.setPower(0);
-                motorLeftB.setPower(0);
-            }
-        }
-        else if (direction == "LEFT") {
-            long startTime = System.currentTimeMillis();
-            while (opModeIsActive()) {
-                motorLeftF.setPower(-pwr);
-                motorRightF.setPower(pwr);
-                motorRightB.setPower(-pwr);
-                motorLeftB.setPower(pwr);
-
-                if ((System.currentTimeMillis() - startTime) > Millis) {
-                    break;
-                }
-                motorRightF.setPower(0);
-                motorLeftF.setPower(0);
-                motorRightB.setPower(0);
-                motorLeftB.setPower(0);
-            }
-        }
-    }
     public void runWithGyro(int TIME, double pwr, String direction){
         if (direction == "REVERSE") {
             correctionR = 0;
@@ -389,5 +325,353 @@ public class imuyeet2 extends LinearOpMode
 
         return correctionF;
     }
+    /*
+  public void driveEncoder(int timeout, String direction, double LEFT_MOTOR_POWER, double RIGHT_MOTOR_POWER, int LEFT_MOTOR_ENCODER, int RIGHT_MOTOR_ENCODER)
+    {
+        double ticksForCM = 34;
+        LEFT_MOTOR_ENCODER = (int) (LEFT_MOTOR_ENCODER * ticksForCM);
+        RIGHT_MOTOR_ENCODER = (int) (RIGHT_MOTOR_ENCODER * ticksForCM);
+        if (direction == "FORWARD"){
+            long startTime = System.currentTimeMillis();
+            while (opModeIsActive()) {
+                motorLeftF.setPower(pwr * (1 + correctionF));
+                motorRightF.setPower(pwr);
+                motorRightB.setPower(pwr);
+                motorLeftB.setPower(pwr * (1 + correctionF));
+                telemetry.addData("Angle", angles);
 
+                if ((System.currentTimeMillis() - startTime) > Millis) {
+                    break;
+                }
+                motorRightF.setPower(0);
+                motorLeftF.setPower(0);
+                motorRightB.setPower(0);
+                motorLeftB.setPower(0);
+            }
+
+        }
+        else if (direction == "BACKWARD") {
+            long startTime = System.currentTimeMillis();
+            while (opModeIsActive()) {
+                motorLeftF.setPower(-pwr * (1 + correctionF));
+                motorRightF.setPower(-pwr);
+                motorRightB.setPower(-pwr);
+                motorLeftB.setPower(-pwr * (1 + correctionF));
+
+                if ((System.currentTimeMillis() - startTime) > Millis) {
+                    break;
+                }
+                motorRightF.setPower(0);
+                motorLeftF.setPower(0);
+                motorRightB.setPower(0);
+                motorLeftB.setPower(0);
+            }
+        }
+        else if (direction == "RIGHT") {
+            long startTime = System.currentTimeMillis();
+            while (opModeIsActive()) {
+                motorLeftF.setPower(pwr * (1 + correctionF));
+                motorRightF.setPower(-pwr);
+                motorRightB.setPower(pwr);
+                motorLeftB.setPower(-pwr * (1 + correctionF));
+
+                if ((System.currentTimeMillis() - startTime) > Millis) {
+                    break;
+                }
+                motorRightF.setPower(0);
+                motorLeftF.setPower(0);
+                motorRightB.setPower(0);
+                motorLeftB.setPower(0);
+            }
+        }
+        else if (direction == "LEFT") {
+            long startTime = System.currentTimeMillis();
+            while (opModeIsActive()) {
+                motorLeftF.setPower(-pwr * (1 + correctionF));
+                motorRightF.setPower(pwr);
+                motorRightB.setPower(-pwr);
+                motorLeftB.setPower(pwr * (1 + correctionF));
+
+                if ((System.currentTimeMillis() - startTime) > Millis) {
+                    break;
+                }
+                motorRightF.setPower(0);
+                motorLeftF.setPower(0);
+                motorRightB.setPower(0);
+                motorLeftB.setPower(0);
+            }
+        }
+    }*/
+  public void runWithEncoders(String direction,
+          float LEFT_MOTOR_POWER, float RIGHT_MOTOR_POWER, int LEFT_MOTOR_ENCODER, int RIGHT_MOTOR_ENCODER, int TIME) throws InterruptedException {
+      double ticksForCM = 34;
+      LEFT_MOTOR_ENCODER = (int) (LEFT_MOTOR_ENCODER * ticksForCM);
+      RIGHT_MOTOR_ENCODER = (int) (RIGHT_MOTOR_ENCODER * ticksForCM);
+      if (direction == "FORWARD"){
+              runUsingEncoders();
+              resetEncoders();//resets the motors
+              Thread.sleep(50);
+              motorLeftF.setTargetPosition(LEFT_MOTOR_ENCODER);
+              motorRightF.setTargetPosition(RIGHT_MOTOR_ENCODER);//set position for the motors
+              motorLeftB.setTargetPosition(LEFT_MOTOR_ENCODER);
+              motorRightB.setTargetPosition(RIGHT_MOTOR_ENCODER);
+
+
+              motorLeftF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+              motorRightF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+              motorRightB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+              motorLeftB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+              Thread.sleep(50);
+              motorLeftF.setPower(LEFT_MOTOR_POWER);//sets the speed
+              motorRightF.setPower(RIGHT_MOTOR_POWER);
+              motorRightB.setPower(RIGHT_MOTOR_POWER);
+              motorLeftB.setPower(LEFT_MOTOR_POWER);
+
+              long start = System.currentTimeMillis();
+              while (motorLeftB.isBusy() || motorRightB.isBusy()) {
+                  telemetry.addLine("leftPos:" + motorLeftB.getCurrentPosition() + " rightPos: " + motorRightB.getCurrentPosition());
+                  telemetry.addLine("motorLeftB: " + motorLeftB.isBusy() + " motorRightB :" + motorRightB.isBusy());
+                  telemetry.addLine("leftPos:" + motorLeftF.getCurrentPosition() + " rightPos: " + motorRightF.getCurrentPosition());
+                  telemetry.addLine("motorLeftF: " + motorLeftF.isBusy() + " motorRightF :" + motorRightF.isBusy());
+                  telemetry.addLine("motorLeftF target" + motorLeftF.getTargetPosition());
+                  telemetry.addLine("motorLeftB target" + motorLeftB.getTargetPosition());
+                  telemetry.addLine("motorRightF target" + motorRightF.getTargetPosition());
+                  telemetry.addLine("motorRightB target" + motorRightB.getTargetPosition());
+                  telemetry.update();
+                    if ((System.currentTimeMillis() - start) > TIME) {//if the time limit is reached then terminate the command
+                      /* motorRightB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                      motorLeftB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                      motorRightF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                      motorLeftF.setMode(DcMotor.RunMode.RUN_USING_ENCODER); */
+                      break;
+                  }
+               /*   if (motorLeftB.isBusy() == false || motorRightB.isBusy() == false) {
+                      motorRightB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                      motorLeftB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                      motorRightF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                      motorLeftF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                  } */
+              }
+
+      }
+      else if (direction == "BACKWARD") {
+              runUsingEncoders();
+              resetEncoders();//resets the motors
+              Thread.sleep(50);
+              motorLeftF.setTargetPosition(LEFT_MOTOR_ENCODER);
+              motorRightF.setTargetPosition(RIGHT_MOTOR_ENCODER);//set position for the motors
+              motorLeftB.setTargetPosition(LEFT_MOTOR_ENCODER);
+              motorRightB.setTargetPosition(RIGHT_MOTOR_ENCODER);
+
+
+              motorLeftF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+              motorRightF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+              motorRightB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+              motorLeftB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+              Thread.sleep(50);
+              motorLeftF.setPower(LEFT_MOTOR_POWER);//sets the speed
+              motorRightF.setPower(RIGHT_MOTOR_POWER);
+              motorRightB.setPower(RIGHT_MOTOR_POWER);
+              motorLeftB.setPower(RIGHT_MOTOR_POWER);
+
+              long start = System.currentTimeMillis();
+              while (motorLeftB.isBusy() || motorRightB.isBusy()) {
+                  telemetry.addLine("leftPos:" + motorLeftB.getCurrentPosition() + " rightPos: " + motorRightB.getCurrentPosition());
+                  telemetry.addLine("motorLeftB: " + motorLeftB.isBusy() + " motorRightB :" + motorRightB.isBusy());
+                  telemetry.addLine("leftPos:" + motorLeftF.getCurrentPosition() + " rightPos: " + motorRightF.getCurrentPosition());
+                  telemetry.addLine("motorLeftF: " + motorLeftF.isBusy() + " motorRightF :" + motorRightF.isBusy());
+                  telemetry.addLine("motorLeftF target" + motorLeftF.getTargetPosition());
+                  telemetry.addLine("motorLeftB target" + motorLeftB.getTargetPosition());
+                  telemetry.addLine("motorRightF target" + motorRightF.getTargetPosition());
+                  telemetry.addLine("motorRightB target" + motorRightB.getTargetPosition());
+                  telemetry.update();
+                  if ((System.currentTimeMillis() - start) > TIME) {//if the time limit is reached then terminate the command
+                    /*  motorRightB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                      motorLeftB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                      motorRightF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                      motorLeftF.setMode(DcMotor.RunMode.RUN_USING_ENCODER); */
+                      break;
+                  }
+                  /* if (motorLeftB.isBusy() == false || motorRightB.isBusy() == false) {
+                      motorRightB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                      motorLeftB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                      motorRightF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                      motorLeftF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                  } */
+
+              }
+
+      }
+      else if (direction == "RIGHT") {
+          runUsingEncoders();
+          resetEncoders();//resets the motors
+          Thread.sleep(50);
+          motorLeftF.setTargetPosition(LEFT_MOTOR_ENCODER);
+          motorRightF.setTargetPosition(-RIGHT_MOTOR_ENCODER);//set position for the motors
+          motorLeftB.setTargetPosition(-LEFT_MOTOR_ENCODER);
+          motorRightB.setTargetPosition(RIGHT_MOTOR_ENCODER);
+
+
+          motorLeftF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+          motorRightF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+          motorRightB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+          motorLeftB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+          Thread.sleep(50);
+
+          motorLeftF.setPower(LEFT_MOTOR_POWER);//sets the speed
+          motorRightF.setPower(RIGHT_MOTOR_POWER);
+          motorRightB.setPower(RIGHT_MOTOR_POWER);
+          motorLeftB.setPower(LEFT_MOTOR_POWER);
+
+          long start = System.currentTimeMillis();
+          while (motorLeftB.isBusy() || motorRightB.isBusy()) {
+              telemetry.addLine("leftPos:" + motorLeftB.getCurrentPosition() + " rightPos: " + motorRightB.getCurrentPosition());
+              telemetry.addLine("motorLeftB: " + motorLeftB.isBusy() + " motorRightB :" + motorRightB.isBusy());
+              telemetry.addLine("leftPos:" + motorLeftF.getCurrentPosition() + " rightPos: " + motorRightF.getCurrentPosition());
+              telemetry.addLine("motorLeftF: " + motorLeftF.isBusy() + " motorRightF :" + motorRightF.isBusy());
+              telemetry.addLine("motorLeftF target" + motorLeftF.getPower());
+              telemetry.addLine("motorLeftB target" + motorLeftB.getPower());
+              telemetry.addLine("motorRightF target" + motorRightF.getPower());
+              telemetry.addLine("motorRightB target" + motorRightB.getPower());
+              telemetry.update();
+              if ((System.currentTimeMillis() - start) > TIME) {//if the time limit is reached then terminate the command
+                 /* motorRightB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                  motorLeftB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                  motorRightF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                  motorLeftF.setMode(DcMotor.RunMode.RUN_USING_ENCODER); */
+                  break;
+              }
+             /* if (motorLeftB.isBusy() == false || motorRightB.isBusy() == false) {
+                  motorRightB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                  motorLeftB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                  motorRightF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                  motorLeftF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+              } */
+             }
+      }
+      else if (direction == "LEFT") {
+          runUsingEncoders();
+          resetEncoders();//resets the motors
+          Thread.sleep(50);
+          motorLeftF.setTargetPosition(LEFT_MOTOR_ENCODER);
+          motorRightF.setTargetPosition(-RIGHT_MOTOR_ENCODER);//set position for the motors
+          motorLeftB.setTargetPosition(-LEFT_MOTOR_ENCODER);
+          motorRightB.setTargetPosition(RIGHT_MOTOR_ENCODER);
+
+
+          motorLeftF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+          motorRightF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+          motorRightB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+          motorLeftB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+          Thread.sleep(50);
+
+          motorLeftF.setPower(LEFT_MOTOR_POWER);//sets the speed
+          motorRightF.setPower(RIGHT_MOTOR_POWER);
+          motorRightB.setPower(RIGHT_MOTOR_POWER);
+          motorLeftB.setPower(LEFT_MOTOR_POWER);
+
+          long start = System.currentTimeMillis();
+          while (motorLeftB.isBusy() || motorRightB.isBusy()) {
+              telemetry.addLine("leftPos:" + motorLeftB.getCurrentPosition() + " rightPos: " + motorRightB.getCurrentPosition());
+              telemetry.addLine("motorLeftB: " + motorLeftB.isBusy() + " motorRightB :" + motorRightB.isBusy());
+              telemetry.addLine("leftPos:" + motorLeftF.getCurrentPosition() + " rightPos: " + motorRightF.getCurrentPosition());
+              telemetry.addLine("motorLeftF: " + motorLeftF.isBusy() + " motorRightF :" + motorRightF.isBusy());
+              telemetry.addLine("motorLeftF target" + motorLeftF.getPower());
+              telemetry.addLine("motorLeftB target" + motorLeftB.getPower());
+              telemetry.addLine("motorRightF target" + motorRightF.getPower());
+              telemetry.addLine("motorRightB target" + motorRightB.getPower());
+              telemetry.update();
+              if ((System.currentTimeMillis() - start) > TIME) {//if the time limit is reached then terminate the command
+                  break;
+              }
+          }
+
+      }
+  }
+
+
+
+
+
+  public void driveEncoder(double speed, double leftInches, double rightInches,
+                           double timeoutS)
+  {
+      int newLeftTarget;
+      int newRightTarget;
+      if (opModeIsActive()){
+          newLeftTarget = motorLeftF.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
+          newRightTarget = motorRightF.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
+          motorLeftF.setTargetPosition(newLeftTarget);
+          motorLeftB.setTargetPosition(newLeftTarget);
+          motorRightF.setTargetPosition(newRightTarget);
+          motorRightF.setTargetPosition(newRightTarget);
+
+          motorLeftB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+          motorLeftF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+          motorRightB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+          motorRightF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+          runtime.reset();
+          motorLeftF.setPower(Math.abs(speed));
+          motorLeftB.setPower(Math.abs(speed));
+          motorRightF.setPower(Math.abs(speed));
+          motorRightB.setPower(Math.abs(speed));
+          while (opModeIsActive() &&
+                  (runtime.seconds() < timeoutS) &&
+                  (motorLeftF.isBusy() && motorRightF.isBusy())) {
+
+              // Display it for the driver.
+              telemetry.addData("Path1",  "Running to %7d :%7d", newLeftTarget,  newRightTarget);
+              telemetry.addData("Path2",  "Running at %7d :%7d",
+                      motorLeftF.getCurrentPosition(),
+                      motorRightF.getCurrentPosition());
+              telemetry.update();
+          }
+          // Stop all motion;
+          motorRightF.setPower(0);
+          motorLeftF.setPower(0);
+          motorRightB.setPower(0);
+          motorLeftB.setPower(0);
+
+          // Turn off RUN_TO_POSITION
+          motorLeftB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+          motorLeftF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+          motorRightB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+          motorRightF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+          sleep(250);   // optional pause after each move
+      }
+
+
+
+  }
+  public void stopMotion(){
+      motorRightF.setPower(0);
+      motorLeftF.setPower(0);
+      motorRightB.setPower(0);
+      motorLeftB.setPower(0);
+  }
+    public void runUsingEncoders() {
+        motorLeftF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motorRightF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motorLeftB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motorRightB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+    }
+    public void resetEncoders() {//will reset encoders
+        motorLeftF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorRightF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorLeftB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorRightB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    }
+    public void runForward(){
+        motorLeftF.setPower(-1);
+        motorRightF.setPower(1);
+        motorLeftB.setPower(-1);
+        motorRightB  .setPower(1);
+    }
 }
