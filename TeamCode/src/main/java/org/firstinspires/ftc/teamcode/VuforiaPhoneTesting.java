@@ -251,5 +251,8 @@ public class VuforiaPhoneTesting extends OpMode {
         vuforia.stop();
 
     }
-
+    public void VuforiaPhoneTest(){
+        init();
+        loop();
+}
 }
