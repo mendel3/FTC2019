@@ -67,6 +67,23 @@ public class robotYeet extends LinearOpMode
             (WHEEL_DIAMETER_INCHES * 3.14152);
     static final double     DRIVE_SPEED             = 0.6;
     static final double     TURN_SPEED              = 0.6;
+    public static final float mmPerInch        = 25.4f;
+    public static final float mmFTCFieldWidth  = (12*6) * mmPerInch;       // the width of the FTC field (from the center point to the outer panels)
+    public static final float mmTargetHeight   = (6) * mmPerInch;          // the height of the center of the target image above the floor
+
+    // Select which camera you want use.  The FRONT camera is the one on the same side as the screen.
+    // Valid choices are:  BACK or FRONT
+    public static final VuforiaLocalizer.CameraDirection CAMERA_CHOICE = BACK;
+
+    //Vuforia variables
+    public OpenGLMatrix lastLocation = null;
+    boolean targetVisible;
+    Dogeforia vuforia;
+    WebcamName webcamName;
+    List<VuforiaTrackable> allTrackables = new ArrayList<VuforiaTrackable>();
+
+    //Detector object
+    GoldAlignDetector detector;
 
 
     String formatAngle(AngleUnit angleUnit, double angle) {
@@ -697,31 +714,10 @@ public class robotYeet extends LinearOpMode
         motorLeftB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorRightB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
-    public void runForward(){
-        motorLeftF.setPower(-1);
-        motorRightF.setPower(1);
-        motorLeftB.setPower(-1);
-        motorRightB  .setPower(1);
-    }
 
     //Elapsed time and measurement constants
-    private static final float mmPerInch        = 25.4f;
-    private static final float mmFTCFieldWidth  = (12*6) * mmPerInch;       // the width of the FTC field (from the center point to the outer panels)
-    private static final float mmTargetHeight   = (6) * mmPerInch;          // the height of the center of the target image above the floor
 
-    // Select which camera you want use.  The FRONT camera is the one on the same side as the screen.
-    // Valid choices are:  BACK or FRONT
-    private static final VuforiaLocalizer.CameraDirection CAMERA_CHOICE = BACK;
 
-    //Vuforia variables
-    private OpenGLMatrix lastLocation = null;
-    boolean targetVisible;
-    Dogeforia vuforia;
-    WebcamName webcamName;
-    List<VuforiaTrackable> allTrackables = new ArrayList<VuforiaTrackable>();
-
-    //Detector object
-    GoldAlignDetector detector;
 
     public void initVu() {
         // Setup camera and Vuforia parameters

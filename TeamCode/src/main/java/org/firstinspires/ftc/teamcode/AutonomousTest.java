@@ -12,13 +12,15 @@ public class AutonomousTest extends robotYeet {
     public void runOpMode() throws InterruptedException {
         initRobot();
         initgyro();
-initVu();
+    initVu();
 waitForStart();
       //  runForward();
+
 
         ///driveEncoder(1,6,6,5, "FORWARD");
        // driveEncoder(-0.5,12,6,5);
 loopVu();
+
         runWithEncoders("FORWARD", 1, 1, 30, 30, 5000);
        sleep(1000);
        runWithEncoders("RIGHT",1,1,30,30,25000);
