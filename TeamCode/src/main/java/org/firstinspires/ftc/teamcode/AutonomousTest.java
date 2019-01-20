@@ -14,15 +14,12 @@ public class AutonomousTest extends robotYeet {
         initgyro();
     initVu();
 waitForStart();
-      //  runForward();
-
-
-        ///driveEncoder(1,6,6,5, "FORWARD");
-       // driveEncoder(-0.5,12,6,5);
-loopVu();
-
+startVu();
+    //loopVu();
+    if (targetVisible) {
         runWithEncoders("FORWARD", 1, 1, 30, 30, 5000);
-       sleep(1000);
+        sleep(1000);
+    }
        runWithEncoders("RIGHT",1,1,30,30,25000);
         sleep(1000);
         runWithEncoders("BACKWARD", 1, 1, -30, -30, 5000);

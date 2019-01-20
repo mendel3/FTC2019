@@ -85,6 +85,9 @@ public class robotYeet extends LinearOpMode
     //Detector object
     GoldAlignDetector detector;
 
+    VuforiaTrackables targetsRoverRuckus;
+
+
 
     String formatAngle(AngleUnit angleUnit, double angle) {
         return formatDegrees(AngleUnit.DEGREES.fromUnit(angleUnit, angle));
@@ -371,83 +374,7 @@ public class robotYeet extends LinearOpMode
 
         return correctionF;
     }
-    /*
-  public void driveEncoder(int timeout, String direction, double LEFT_MOTOR_POWER, double RIGHT_MOTOR_POWER, int LEFT_MOTOR_ENCODER, int RIGHT_MOTOR_ENCODER)
-    {
-        double ticksForCM = 34;
-        LEFT_MOTOR_ENCODER = (int) (LEFT_MOTOR_ENCODER * ticksForCM);
-        RIGHT_MOTOR_ENCODER = (int) (RIGHT_MOTOR_ENCODER * ticksForCM);
-        if (direction == "FORWARD"){
-            long startTime = System.currentTimeMillis();
-            while (opModeIsActive()) {
-                motorLeftF.setPower(pwr * (1 + correctionF));
-                motorRightF.setPower(pwr);
-                motorRightB.setPower(pwr);
-                motorLeftB.setPower(pwr * (1 + correctionF));
-                telemetry.addData("Angle", angles);
 
-                if ((System.currentTimeMillis() - startTime) > Millis) {
-                    break;
-                }
-                motorRightF.setPower(0);
-                motorLeftF.setPower(0);
-                motorRightB.setPower(0);
-                motorLeftB.setPower(0);
-            }
-
-        }
-        else if (direction == "BACKWARD") {
-            long startTime = System.currentTimeMillis();
-            while (opModeIsActive()) {
-                motorLeftF.setPower(-pwr * (1 + correctionF));
-                motorRightF.setPower(-pwr);
-                motorRightB.setPower(-pwr);
-                motorLeftB.setPower(-pwr * (1 + correctionF));
-
-                if ((System.currentTimeMillis() - startTime) > Millis) {
-                    break;
-                }
-                motorRightF.setPower(0);
-                motorLeftF.setPower(0);
-                motorRightB.setPower(0);
-                motorLeftB.setPower(0);
-            }
-        }
-        else if (direction == "RIGHT") {
-            long startTime = System.currentTimeMillis();
-            while (opModeIsActive()) {
-                motorLeftF.setPower(pwr * (1 + correctionF));
-                motorRightF.setPower(-pwr);
-                motorRightB.setPower(pwr);
-                motorLeftB.setPower(-pwr * (1 + correctionF));
-
-                if ((System.currentTimeMillis() - startTime) > Millis) {
-                    break;
-                }
-                motorRightF.setPower(0);
-                motorLeftF.setPower(0);
-                motorRightB.setPower(0);
-                motorLeftB.setPower(0);
-            }
-        }
-        else if (direction == "LEFT") {
-            long startTime = System.currentTimeMillis();
-            while (opModeIsActive()) {
-                motorLeftF.setPower(-pwr * (1 + correctionF));
-                motorRightF.setPower(pwr);
-                motorRightB.setPower(-pwr);
-                motorLeftB.setPower(pwr * (1 + correctionF));
-
-                if ((System.currentTimeMillis() - startTime) > Millis) {
-                    break;
-                }
-                motorRightF.setPower(0);
-                motorLeftF.setPower(0);
-                motorRightB.setPower(0);
-                motorLeftB.setPower(0);
-            }
-        }
-    }*/
   public void runWithEncoders(String direction,
           float LEFT_MOTOR_POWER, float RIGHT_MOTOR_POWER, int LEFT_MOTOR_ENCODER, int RIGHT_MOTOR_ENCODER, int TIME) throws InterruptedException {
       double ticksForCM = 34;
@@ -486,18 +413,10 @@ public class robotYeet extends LinearOpMode
                   telemetry.addLine("motorRightB target" + motorRightB.getTargetPosition());
                   telemetry.update();
                     if ((System.currentTimeMillis() - start) > TIME) {//if the time limit is reached then terminate the command
-                      /* motorRightB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                      motorLeftB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                      motorRightF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                      motorLeftF.setMode(DcMotor.RunMode.RUN_USING_ENCODER); */
+
                       break;
                   }
-               /*   if (motorLeftB.isBusy() == false || motorRightB.isBusy() == false) {
-                      motorRightB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                      motorLeftB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                      motorRightF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                      motorLeftF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                  } */
+
               }
 
       }
@@ -534,18 +453,9 @@ public class robotYeet extends LinearOpMode
                   telemetry.addLine("motorRightB target" + motorRightB.getTargetPosition());
                   telemetry.update();
                   if ((System.currentTimeMillis() - start) > TIME) {//if the time limit is reached then terminate the command
-                    /*  motorRightB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                      motorLeftB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                      motorRightF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                      motorLeftF.setMode(DcMotor.RunMode.RUN_USING_ENCODER); */
+
                       break;
                   }
-                  /* if (motorLeftB.isBusy() == false || motorRightB.isBusy() == false) {
-                      motorRightB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                      motorLeftB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                      motorRightF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                      motorLeftF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                  } */
 
               }
 
@@ -584,18 +494,9 @@ public class robotYeet extends LinearOpMode
               telemetry.addLine("motorRightB target" + motorRightB.getPower());
               telemetry.update();
               if ((System.currentTimeMillis() - start) > TIME) {//if the time limit is reached then terminate the command
-                 /* motorRightB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                  motorLeftB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                  motorRightF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                  motorLeftF.setMode(DcMotor.RunMode.RUN_USING_ENCODER); */
+
                   break;
               }
-             /* if (motorLeftB.isBusy() == false || motorRightB.isBusy() == false) {
-                  motorRightB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                  motorLeftB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                  motorRightF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                  motorLeftF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-              } */
              }
       }
       else if (direction == "LEFT") {
@@ -718,7 +619,6 @@ public class robotYeet extends LinearOpMode
     //Elapsed time and measurement constants
 
 
-
     public void initVu() {
         // Setup camera and Vuforia parameters
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
@@ -733,7 +633,7 @@ public class robotYeet extends LinearOpMode
         vuforia.enableConvertFrameToBitmap();
 
         // Set target names
-        VuforiaTrackables targetsRoverRuckus = this.vuforia.loadTrackablesFromAsset("RoverRuckus");
+         targetsRoverRuckus = this.vuforia.loadTrackablesFromAsset("RoverRuckus");
         VuforiaTrackable blueRover = targetsRoverRuckus.get(0);
         blueRover.setName("Blue-Rover");
         VuforiaTrackable redFootprint = targetsRoverRuckus.get(1);
@@ -785,7 +685,7 @@ public class robotYeet extends LinearOpMode
         }
 
         //Activate targets
-        targetsRoverRuckus.activate();
+         targetsRoverRuckus.deactivate();
 
         detector = new GoldAlignDetector(); // Create a gold aligndetector
         detector.init(hardwareMap.appContext,CameraViewDisplay.getInstance(), 0, true);
@@ -810,16 +710,20 @@ public class robotYeet extends LinearOpMode
      * Code to run ONCE when the driver hits PLAY
      */
 
-    public void startVu() {
+   public void startVu() {
         //Reset timer
         runtime.reset();
-    }
+       targetsRoverRuckus.activate();
+            // For convenience, gather together all the trackable objects in one easily-iterable collection
 
-    /*
-     * Code to run REPEATEDLY when the driver hits PLAY
+        }
+
+
+     /* Code to run REPEATEDLY when the driver hits PLAY
      */
 
     public void loopVu() {
+
 
             //Assume we can't find a target
             targetVisible = false;
@@ -861,6 +765,7 @@ public class robotYeet extends LinearOpMode
             // Update telemetry
             telemetry.update();
         }
+
 
 
     /*
