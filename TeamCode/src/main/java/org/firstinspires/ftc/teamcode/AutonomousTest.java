@@ -15,8 +15,9 @@ public class AutonomousTest extends robotYeet {
     initVu();
 waitForStart();
 startVu();
-    //loopVu();
-    if (targetVisible) {
+    loopVu();
+    telemetry.addData("is visible ", targetVisible);
+    if (targetVisible == true) {
         runWithEncoders("FORWARD", 1, 1, 30, 30, 5000);
         sleep(1000);
     }

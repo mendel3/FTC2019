@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.Range;
+import com.qualcomm.robotcore.hardware.CRServo;
 
 
 /*
@@ -38,12 +39,14 @@ public class ConceptHolonomicDrive extends OpMode {
 	DcMotor motorFrontLeft;
 	DcMotor motorBackRight;
 	DcMotor motorBackLeft;
+//	DcMotor motorLift;
+//	CRServo CRservo;
+
 
 	/**
 	 * Constructor
 	 */
 	public ConceptHolonomicDrive() {
-
 	}
 
 	@Override
@@ -61,6 +64,8 @@ public class ConceptHolonomicDrive extends OpMode {
 		motorFrontLeft = hardwareMap.dcMotor.get("motorFrontLeft");
 		motorBackLeft = hardwareMap.dcMotor.get("motorBackLeft");
 		motorBackRight = hardwareMap.dcMotor.get("motorBackRight");
+	//	motorLift = hardwareMap.dcMotor.get("motorLift");
+		//hardwareMap.crservo.get("continServo");
 		motorBackLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 		motorBackRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 		motorFrontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -84,7 +89,10 @@ public class ConceptHolonomicDrive extends OpMode {
 		double gamepad1LeftY = -gamepad1.left_stick_y;
 		double gamepad1LeftX = gamepad1.left_stick_x;
 		double gamepad1RightX = gamepad1.right_stick_x;
-
+		boolean DpadUp = gamepad1.dpad_up;
+		boolean DpadDown = gamepad1.dpad_down;
+		double liftPow = 0;
+		double CRpwr = 0;
 		// holonomic formulas
 
 		double FrontLeft = -gamepad1LeftY - gamepad1LeftX - gamepad1RightX;
@@ -104,12 +112,37 @@ public class ConceptHolonomicDrive extends OpMode {
 		BackRight = Range.clip(BackRight, -1, 1);
 		*/
 		// write the values to the motors
+	/*	if (DpadUp == true){
+			 liftPow = 1;
+		}
+		else if(DpadUp == false){
+			liftPow = 0;
+	}
+		if (DpadDown == true){
+			 liftPow = -1;
+		}
+		else if(DpadDown == false){
+			liftPow = 0;
+		}
+		*/
 		motorFrontRight.setPower(FrontRight);
 		motorFrontLeft.setPower(FrontLeft);
 		motorBackLeft.setPower(BackLeft);
 		motorBackRight.setPower(BackRight);
-
-
+		//motorLift.setPower(liftPow);
+/*		if (DpadUp == true) {
+CRpwr = 1;
+		}
+		else if (DpadDown == true){
+			CRpwr = -1;
+		}
+		else if (DpadDown == false){
+			CRpwr = 0;
+		}
+		else if (DpadDown == false){
+			CRpwr = 0;
+		}
+CRservo.setPower(CRpwr); */
 		/*
 		 * Telemetry for debugging
 		 */
