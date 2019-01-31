@@ -1,0 +1,95 @@
+package org.firstinspires.ftc.teamcode;
+
+import android.app.Activity;
+import android.graphics.Color;
+import android.view.View;
+
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
+import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.Range;
+import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
+import com.qualcomm.robotcore.hardware.Servo;
+
+import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.Func;
+import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
+import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
+import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
+import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import java.util.Locale;
+
+public abstract class robot extends LinearOpMode {
+    public Servo GservoL;
+    public Servo GservoR;
+    public Servo ballY;
+    public Servo ballX;
+    public Servo Flip;
+}
+
+public class teleOp extends OpMode {
+    Servo Rservo;
+    Servo ser2;
+    // public CRServo GservoL;
+    public Servo GservoR;
+    public Servo GservoL;
+    Servo Flip;
+    Servo ballX;
+    Servo ballY;
+}
+
+    public boolean flagForServo = false;
+
+    Rservo = hardwareMap.servo.get("Rservo");
+            // GservoL = (CRServo) hardwareMap.crservo.get("GservoL");
+            GservoR = hardwareMap.servo.get("GservoR");
+            GservoL = hardwareMap.servo.get("GservoL");
+            // ser2 = hardwareMap.servo.get("Ser2");
+            glifsLeft = hardwareMap.dcMotor.get("glifsLeft");
+            glifsRight = hardwareMap.dcMotor.get("glifsRight");
+            Elev = hardwareMap.dcMotor.get("Elev");
+            Flip = hardwareMap.servo.get("Flip");
+            ballX = hardwareMap.servo.get("ballX");
+            ballY = hardwareMap.servo.get("ballY");
+
+
+
+    public void initRobot() {
+        ballY = hardwareMap.servo.get("ballY");
+        ballX = hardwareMap.servo.get("ballX");
+        Flip = hardwareMap.servo.get("Flip");
+        //GservoL = (CRServo) hardwareMap.crservo.get("GservoL");
+        GservoL = hardwareMap.servo.get("GservoL");
+        GservoR = hardwareMap.servo.get("GservoR");
+    }
+
+    }
+    public void GlifServo(String Direction){
+        if (Direction == "UP"){
+        GservoR.setPosition(1);
+        GservoL.setPosition(0);
+        }
+        else if(Direction == "DOWN"){
+        GservoR.setPosition(0);
+        GservoL.setPosition(1);
+        }
+
+    }
+

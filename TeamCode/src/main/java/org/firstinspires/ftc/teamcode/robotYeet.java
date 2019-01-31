@@ -1,32 +1,24 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.DigitalChannel;
-import com.qualcomm.robotcore.util.ElapsedTime;
-
-import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import com.disnodeteam.dogecv.CameraViewDisplay;
 import com.disnodeteam.dogecv.DogeCV;
 import com.disnodeteam.dogecv.Dogeforia;
 import com.disnodeteam.dogecv.detectors.roverrukus.GoldAlignDetector;
 import com.disnodeteam.dogecv.filters.LeviColorFilter;
-import com.disnodeteam.dogecv.scoring.MaxAreaScorer;
-import com.disnodeteam.dogecv.scoring.RatioScorer;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-
+import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
 import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
+import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
@@ -35,6 +27,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.DEGREES;
 import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.XYZ;
@@ -43,16 +36,19 @@ import static org.firstinspires.ftc.robotcore.external.navigation.AxesReference.
 import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.BACK;
 import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.FRONT;
 
-import java.util.Locale;
-
 //@Disabled
 public class robotYeet extends LinearOpMode
 {
+    public Boolean CurrentState;
     private ElapsedTime runtime = new ElapsedTime();
     DcMotor                 motorLeftF;
     DcMotor                 motorRightF;
-    DcMotor motorRightB;
-    DcMotor                  motorLeftB;
+    DcMotor                 motorRightB;
+    DcMotor                 motorLeftB;
+    DcMotor                 lift;
+    boolean                 magnetActive;
+    DigitalChannel          magnet;
+    Servo                   DownServo;
     DigitalChannel          touch;
     BNO055IMU               imu;
     Orientation             lastAngles = new Orientation();
@@ -70,7 +66,7 @@ public class robotYeet extends LinearOpMode
     public static final float mmPerInch        = 25.4f;
     public static final float mmFTCFieldWidth  = (12*6) * mmPerInch;       // the width of the FTC field (from the center point to the outer panels)
     public static final float mmTargetHeight   = (6) * mmPerInch;          // the height of the center of the target image above the floor
-
+    public DigitalChannel MagnetLift;
     // Select which camera you want use.  The FRONT camera is the one on the same side as the screen.
     // Valid choices are:  BACK or FRONT
     public static final VuforiaLocalizer.CameraDirection CAMERA_CHOICE = BACK;
@@ -114,15 +110,28 @@ public class robotYeet extends LinearOpMode
         motorLeftB = hardwareMap.dcMotor.get("motorBackLeft");
         motorRightB = hardwareMap.dcMotor.get("motorBackRight");
         motorRightF = hardwareMap.dcMotor.get("motorFrontRight");
+        lift = hardwareMap.dcMotor.get("motor3");
         motorRightF.setDirection(DcMotor.Direction.REVERSE);
         motorRightB.setDirection(DcMotor.Direction.REVERSE);
+        magnet = hardwareMap.digitalChannel.get("magnet");
+        DownServo = hardwareMap.servo.get("DownServo");
 
         motorLeftF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorRightF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorLeftB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorRightB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-    }
 
+    }
+    public Boolean LiftDown(){
+        CurrentState = null;
+        if(MagnetLift.getState() == true){
+            CurrentState = true;
+        }
+        else {
+            CurrentState = false;
+        }
+        return CurrentState;
+    }
     public void initgyro() {
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -340,6 +349,31 @@ public class robotYeet extends LinearOpMode
         motorLeftB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorRightB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
+    public void powerAllSideForward(float pwr){
+        motorLeftB.setPower(pwr);
+        motorLeftF.setPower(pwr);
+        motorRightB.setPower(pwr);
+        motorRightF.setPower(pwr);
+    }
+    public void powerAllSideBack(double pwr){
+        motorLeftB.setPower(-pwr);
+        motorLeftF.setPower(-pwr);
+        motorRightB.setPower(-pwr);
+        motorRightF.setPower(-pwr);
+    }
+    public void powerAllSideRight(double pwr){
+        motorLeftB.setPower(-pwr);
+        motorLeftF.setPower(pwr);
+        motorRightB.setPower(pwr);
+        motorRightF.setPower(-pwr);
+    }
+    public void powerAllSideLeft(double pwr){
+        motorLeftB.setPower(pwr);
+        motorLeftF.setPower(-pwr);
+        motorRightB.setPower(-pwr);
+        motorRightF.setPower(pwr);
+    }
+
     public double CheckDirectionR() {
         // The gain value determines how sensitive the correction is to direction changes.
         // You will have to experiment with your robot to get small smooth direction changes
@@ -376,7 +410,7 @@ public class robotYeet extends LinearOpMode
     }
 
   public void runWithEncoders(String direction,
-          float LEFT_MOTOR_POWER, float RIGHT_MOTOR_POWER, int LEFT_MOTOR_ENCODER, int RIGHT_MOTOR_ENCODER, int TIME) throws InterruptedException {
+          double LEFT_MOTOR_POWER, double RIGHT_MOTOR_POWER, int LEFT_MOTOR_ENCODER, int RIGHT_MOTOR_ENCODER, int TIME) throws InterruptedException {
       double ticksForCM = 34;
       LEFT_MOTOR_ENCODER = (int) (LEFT_MOTOR_ENCODER * ticksForCM);
       RIGHT_MOTOR_ENCODER = (int) (RIGHT_MOTOR_ENCODER * ticksForCM);
@@ -778,5 +812,25 @@ public class robotYeet extends LinearOpMode
     public void VuforiaPhoneTest(){
         init();
         loop();
+    }
+
+    public void lift(){
+
+        lift.setPower(-1);
+        while(true) {
+            magnetActive = magnet.getState();
+            float liftTick = lift.getCurrentPosition();
+            if (liftTick < -9600 || !magnetActive) {
+                lift.setPower(0);
+                break;
+            }
+        }
+    }
+
+
+    public void ServoMineral(){
+        DownServo.setPosition(0.6);
+        sleep(2500);
+        DownServo.setPosition(1);
     }
 }

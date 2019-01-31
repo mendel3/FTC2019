@@ -9,9 +9,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DigitalChannel;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.CRServo;
+//import com.qualcomm.robotcore.hardware.CRServo;
 /*
 	Holonomic concepts from:
 
@@ -38,13 +36,13 @@ public class ConceptHolonomicDrive extends OpMode {
     DcMotor motorBackRight;
     DcMotor motorBackLeft;
     DcMotor motor1;
-    DcMotor motor2;
-    DcMotor motor3;
+ //   DcMotor motor2;
+   // DcMotor motor3;
     DcMotor motor4;
-    CRServo ser1;
-    Servo ser2;
-    DigitalChannel digIn;
-    boolean mineral_flag = false;
+   // CRServo ser1;
+   // Servo ser2;
+    //DigitalChannel digIn;
+   // boolean mineral_flag = false;
 //	DcMotor motorLift;
 
 
@@ -69,18 +67,19 @@ public class ConceptHolonomicDrive extends OpMode {
         motorFrontLeft = hardwareMap.dcMotor.get("motorFrontLeft");
         motorBackLeft = hardwareMap.dcMotor.get("motorBackLeft");
         motorBackRight = hardwareMap.dcMotor.get("motorBackRight");
-        digIn = hardwareMap.get(DigitalChannel.class,"magnet");
+       /* digIn = hardwareMap.get(DigitalChannel.class,"magnet");
 //        motor1 = hardwareMap.dcMotor.get("motor1");
         motor2 = hardwareMap.dcMotor.get("motor2");
         motor3 = hardwareMap.dcMotor.get("motor3");
         ser1 = hardwareMap.crservo.get("crservo");
-        ser2 = hardwareMap.servo.get("ser1");
+        ser2 = hardwareMap.servo.get("ser1"); */
         //	motorLift = hardwareMap.dcMotor.get("motorLift");
         motorBackLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorBackRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorFrontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorFrontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-//        motor1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//   /*     motor1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        /*
         motor2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motor3.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 //        motor1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -89,7 +88,7 @@ public class ConceptHolonomicDrive extends OpMode {
 //        motor1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motor2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motor3.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
+*/
 
 
         //These work without reversing (Tetrix motors).
@@ -111,7 +110,7 @@ public class ConceptHolonomicDrive extends OpMode {
         double gamepad1LeftY = -gamepad1.left_stick_y;
         double gamepad1LeftX = gamepad1.left_stick_x;
         double gamepad1RightX = gamepad1.right_stick_x;
-        boolean DpadUp = gamepad1.dpad_up;
+     /*   boolean DpadUp = gamepad1.dpad_up;
         boolean DpadDown = gamepad1.dpad_down;
         double liftPow = 0;
         double CRpwr = 0;
@@ -122,10 +121,10 @@ public class ConceptHolonomicDrive extends OpMode {
         int mineral = 0;
         int motorSpin = 0;
         boolean magnet = digIn.getState();
-
+*/
 
         // holonomic formulas
-        servoNew Servo;
+        //  servoNew Servo;
         double FrontLeft = -gamepad1LeftY - gamepad1LeftX - gamepad1RightX;
         double FrontRight = gamepad1LeftY - gamepad1LeftX - gamepad1RightX;
         double BackRight = gamepad1LeftY + gamepad1LeftX - gamepad1RightX;
@@ -145,7 +144,7 @@ public class ConceptHolonomicDrive extends OpMode {
 		BackRight = Range.clip(BackRight, -1, 1);
 		*/
 
-		// write the values to the motors
+        // write the values to the motors
 	/*	if (DpadUp == true){
 			 liftPow = 1;
 		}
@@ -163,8 +162,8 @@ public class ConceptHolonomicDrive extends OpMode {
         motorFrontLeft.setPower(FrontLeft);
         motorBackLeft.setPower(BackLeft);
         motorBackRight.setPower(BackRight);
-     //   motor1.setPower(gamepad2LeftY);
-       // motor3.setPower(gamepad2RightY);
+        //   motor1.setPower(gamepad2LeftY);
+        // motor3.setPower(gamepad2RightY);
         //motorLift.setPower(liftPow);
 /*		if (DpadUp == true) {
 CRpwr = 1;
@@ -183,14 +182,14 @@ CRservo.setPower(CRpwr); */
          * Telemetry for debugging
          */
         telemetry.addData("Text", "*** Robot Data***");
-        telemetry.addData("RstickY", String.format("%.2f", gamepad2RightY) + " "+ "LstickY " + String.format("%.2f",gamepad2LeftY));
-        telemetry.addData("ENCODER: ", String.format(String.valueOf(motor2.getCurrentPosition())));
-        /*    telemetry.addData("Joy XL YL XR",  String.format("%.2f", gamepad1LeftX) + " " + String.format("%.2f", gamepad1LeftY) + " " +  String.format("%.2f", gamepad1RightX));
+     //   telemetry.addData("RstickY", String.format("%.2f", gamepad1RightY) + " " + "LstickY " + String.format("%.2f", gamepad2LeftY));
+    //    telemetry.addData("ENCODER: ", String.format(String.valueOf(motor2.getCurrentPosition())));
+           telemetry.addData("Joy XL YL XR",  String.format("%.2f", gamepad1LeftX) + " " + String.format("%.2f", gamepad1LeftY) + " " +  String.format("%.2f", gamepad1RightX));
         telemetry.addData("f left pwr",  "front left  pwr: " + String.format("%.2f", FrontLeft));
         telemetry.addData("f right pwr", "front right pwr: " + String.format("%.2f", FrontRight));
         telemetry.addData("b right pwr", "back right pwr: " + String.format("%.2f", BackRight));
         telemetry.addData("b left pwr", "back left pwr: " + String.format("%.2f", BackLeft));
-*/
+
 
 //        if (gamepad2.a && stage == 0) {
 //
@@ -214,7 +213,7 @@ CRservo.setPower(CRpwr); */
 //                }
 //            }
 //        }
-
+/*
             if (gamepad2.x && !mineral_flag) {
                 motor2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 motor2.setTargetPosition(20);
@@ -277,6 +276,7 @@ CRservo.setPower(CRpwr); */
             ser1.setPosition(-1);
         }
 */
+/*
         if (gamepad2.b) {
             ser2.setPosition(1);
         }
@@ -309,8 +309,8 @@ CRservo.setPower(CRpwr); */
         }
 
 
-
-
+*/
+    }
     @Override
     public void stop() {
 
