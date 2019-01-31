@@ -6,14 +6,13 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 @Autonomous(name = "help me", group = "this isnt a joke")
 // I am being held against my will and forced to brute force write this code character by character
 public class AutonomousCreator1 extends robotYeet {
-@Override
+    @Override
 
     public void runOpMode() throws InterruptedException {
         initRobot();
         initgyro();
-    initVu();
-waitForStart();
-
+        initVu();
+        waitForStart();
 
 
 //    CurrentState = LiftDown();
@@ -21,11 +20,11 @@ waitForStart();
 //    if (CurrentState == true){
 //
 //    }
-startVu();
-    loopVu();
-    lift();
+        startVu();
+        loopVu();
+        lift();
 //runWithEncoders("FORWARD",0.5,0.5,50,50,1000);
-    runWithEncoders("RIGHT", 0.7, 0.7, -10, -10, 1000);
+ /*   runWithEncoders("RIGHT", 0.7, 0.7, -10, -10, 1000);
     sleep(5000);
     rotate(200,0.6);
     sleep(5000);
@@ -59,9 +58,8 @@ startVu();
         //  driveEncoder(1500,1,"FORWARD");
         //rotate(70,0.5);
       //  driveEncoder(5000,0.5,"BACKWARD");
-
+**/
 
     }
-
-
 }
+
