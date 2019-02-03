@@ -67,6 +67,7 @@ public class robotYeet extends LinearOpMode
     public static final float mmFTCFieldWidth  = (12*6) * mmPerInch;       // the width of the FTC field (from the center point to the outer panels)
     public static final float mmTargetHeight   = (6) * mmPerInch;          // the height of the center of the target image above the floor
     public DigitalChannel MagnetLift;
+    public float liftTick;
     // Select which camera you want use.  The FRONT camera is the one on the same side as the screen.
     // Valid choices are:  BACK or FRONT
     public static final VuforiaLocalizer.CameraDirection CAMERA_CHOICE = BACK;
@@ -270,6 +271,16 @@ public class robotYeet extends LinearOpMode
 
         // reset angle tracking on new heading.
         resetAngle();
+    }
+    public void brake(){
+        motorLeftF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorRightF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorLeftB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorRightB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorRightF.setPower(0);
+        motorLeftF.setPower(0);
+        motorLeftB.setPower(0);
+        motorRightB.setPower(0);
     }
     public void runWithGyro(int TIME, double pwr, String direction){
         if (direction == "REVERSE") {
@@ -819,18 +830,95 @@ public class robotYeet extends LinearOpMode
         lift.setPower(-1);
         while(true) {
             magnetActive = magnet.getState();
-            float liftTick = lift.getCurrentPosition();
-            if (liftTick < -9600 || !magnetActive) {
+             liftTick = lift.getCurrentPosition();
+            while (opModeIsActive()){
+                telemetry.addData("Lift Position",liftTick);
+                telemetry.addData("magnet status",magnetActive);
+                telemetry.update();
+            }
+            if (liftTick < -9600 || magnetActive ) {
                 lift.setPower(0);
                 break;
             }
         }
     }
-
+public void magnetTest(){
+        while (opModeIsActive()) {
+            magnetActive = magnet.getState();
+            liftTick = lift.getCurrentPosition();
+            telemetry.addData("Lift Position", liftTick);
+            telemetry.addData("magnet status", magnetActive);
+            telemetry.update();
+        }
+}
 
     public void ServoMineral(){
         DownServo.setPosition(0.6);
         sleep(2500);
         DownServo.setPosition(1);
     }
-}
+    public void DriveLeft(){
+        motorLeftF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorRightF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorLeftB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorRightB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorLeftB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motorLeftF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motorRightB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motorRightF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motorLeftF.setTargetPosition(100*34);
+        motorRightF.setTargetPosition(-100*34);//set position for the motors
+        motorLeftB.setTargetPosition(-100*34);
+        motorRightB.setTargetPosition(100*34);
+        motorRightF.setPower(0.3);
+        motorRightB.setPower(0.3);
+        motorLeftF.setPower(0.3);
+        motorLeftB.setPower(0.3);
+
+    }
+    public void DriveRight(){
+        motorLeftF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorRightF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorLeftB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorRightB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorLeftB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motorLeftF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motorRightB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motorRightF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motorLeftF.setTargetPosition(100*34);
+        motorRightF.setTargetPosition(-100*34);//set position for the motors
+        motorLeftB.setTargetPosition(-100*34);
+        motorRightB.setTargetPosition(100*34);
+        motorRightF.setPower(0.3);
+        motorRightB.setPower(0.3);
+        motorLeftF.setPower(0.3);
+        motorLeftB.setPower(0.3);
+
+    }
+    public void EncoderCheck(){
+            motorLeftF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            motorLeftF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            motorLeftF.setTargetPosition(5000);
+        motorLeftF.setPower(1);
+            while (opModeIsActive()) {
+                telemetry.addData("Mode", motorLeftF.getMode());
+                telemetry.addData("Target position", motorLeftF.getTargetPosition());
+                telemetry.addData("Current position", motorLeftF.getCurrentPosition());
+                telemetry.addData("Power",motorLeftF.getPower());
+                telemetry.update();
+            }
+        }
+    public void EncoderCheck2(){
+        motorLeftB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorLeftB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motorLeftB.setTargetPosition(5000);
+        motorLeftB.setPower(1);
+        while (opModeIsActive()) {
+            telemetry.addData("Mode", motorLeftB.getMode());
+            telemetry.addData("Target position", motorLeftB.getTargetPosition());
+            telemetry.addData("Current position", motorLeftB.getCurrentPosition());
+            telemetry.addData("Power",motorLeftB.getPower());
+            telemetry.update();
+        }
+    }
+    }

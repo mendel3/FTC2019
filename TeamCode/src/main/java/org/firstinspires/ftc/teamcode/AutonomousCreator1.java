@@ -10,22 +10,30 @@ public class AutonomousCreator1 extends robotYeet {
 
     public void runOpMode() throws InterruptedException {
         initRobot();
-        initgyro();
+    //    initgyro();
         initVu();
+        magnetTest();
         waitForStart();
-
-
-//    CurrentState = LiftDown();
-//    telemetry.addLine(String.valueOf(CurrentState));
-//    if (CurrentState == true){
-//
-//    }
         startVu();
         loopVu();
         lift();
-//runWithEncoders("FORWARD",0.5,0.5,50,50,1000);
- /*   runWithEncoders("RIGHT", 0.7, 0.7, -10, -10, 1000);
-    sleep(5000);
+        init_loop();
+
+//        while (detector.isFound() == true) {
+//            sleep(100);
+//        }
+//    CurrentState = LiftDown();
+//    telemetry.addLine(String.valueOf(CurrentState));
+//    if (CurrentState == true){
+////
+//      }
+
+     //   Thread.sleep(100);
+//brake();
+        runWithEncoders("RIGHT",0.1,0.1,10,10,1000);
+        sleep(2500);
+    runWithEncoders("BACK", 0.2, 0.2, -10, -10, 1000);
+   /* sleep(5000);
     rotate(200,0.6);
     sleep(5000);
     runWithEncoders("FORWARD", 0.6, 0.6, 10, 10, 300);
