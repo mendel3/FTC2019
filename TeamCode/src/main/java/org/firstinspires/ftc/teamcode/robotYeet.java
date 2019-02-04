@@ -46,10 +46,10 @@ public class robotYeet extends LinearOpMode
     DcMotor                 motorRightB;
     DcMotor                 motorLeftB;
     DcMotor                 lift;
-    boolean                 magnetActive;
-    DigitalChannel          magnet;
+    boolean TouchActive;
+    DigitalChannel touch;
     Servo                   DownServo;
-    DigitalChannel          touch;
+
     BNO055IMU               imu;
     Orientation             lastAngles = new Orientation();
     public double  correctionF, correctionR;
@@ -67,7 +67,7 @@ public class robotYeet extends LinearOpMode
     public static final float mmFTCFieldWidth  = (12*6) * mmPerInch;       // the width of the FTC field (from the center point to the outer panels)
     public static final float mmTargetHeight   = (6) * mmPerInch;          // the height of the center of the target image above the floor
     public DigitalChannel MagnetLift;
-    public float liftTick;
+    float liftTick;
     // Select which camera you want use.  The FRONT camera is the one on the same side as the screen.
     // Valid choices are:  BACK or FRONT
     public static final VuforiaLocalizer.CameraDirection CAMERA_CHOICE = BACK;
@@ -114,7 +114,7 @@ public class robotYeet extends LinearOpMode
         lift = hardwareMap.dcMotor.get("motor3");
         motorRightF.setDirection(DcMotor.Direction.REVERSE);
         motorRightB.setDirection(DcMotor.Direction.REVERSE);
-        magnet = hardwareMap.digitalChannel.get("magnet");
+        touch = hardwareMap.digitalChannel.get("touch");
         DownServo = hardwareMap.servo.get("DownServo");
 
         motorLeftF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -825,31 +825,35 @@ public class robotYeet extends LinearOpMode
         loop();
     }
 
-    public void lift(){
+    public void lift() throws InterruptedException {
 
         lift.setPower(-1);
-        while(true) {
-            magnetActive = magnet.getState();
-             liftTick = lift.getCurrentPosition();
-            while (opModeIsActive()){
-                telemetry.addData("Lift Position",liftTick);
-                telemetry.addData("magnet status",magnetActive);
+        Thread.sleep(100);
+            while (opModeIsActive()) {
+                TouchActive = touch.getState();
+                liftTick = lift.getCurrentPosition();
+                telemetry.addData("Lift Position", liftTick);
+                telemetry.addData("touch status", TouchActive);
                 telemetry.update();
-            }
-            if (liftTick < -9600 || magnetActive ) {
-                lift.setPower(0);
-                break;
+
+                if (liftTick < -9600 || !TouchActive) {
+                    lift.setPower(0);
+                    Thread.sleep(100);
+                    break;
+
+                }
             }
         }
-    }
+
+
 public void magnetTest(){
-        while (opModeIsActive()) {
-            magnetActive = magnet.getState();
+
+            TouchActive = touch.getState();
             liftTick = lift.getCurrentPosition();
             telemetry.addData("Lift Position", liftTick);
-            telemetry.addData("magnet status", magnetActive);
+            telemetry.addData("touch status", TouchActive);
             telemetry.update();
-        }
+
 }
 
     public void ServoMineral(){

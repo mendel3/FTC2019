@@ -38,7 +38,7 @@ import com.qualcomm.robotcore.util.Range;
             zroa = hardwareMap.dcMotor.get("motor2");
             lift = hardwareMap.dcMotor.get("motor3");
             acordion = hardwareMap.dcMotor.get("aco");
-            magnet = hardwareMap.digitalChannel.get("magnet");
+            magnet = hardwareMap.digitalChannel.get("touch");
             motorFrontRight = hardwareMap.dcMotor.get("motorFrontRight");
             motorFrontLeft = hardwareMap.dcMotor.get("motorFrontLeft");
             motorBackLeft = hardwareMap.dcMotor.get("motorBackLeft");
@@ -61,6 +61,7 @@ import com.qualcomm.robotcore.util.Range;
             lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             //lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
+
         }
 
         @Override
@@ -74,7 +75,7 @@ import com.qualcomm.robotcore.util.Range;
                 magnetActive = magnet.getState();
                 liftTick = lift.getCurrentPosition();
                 telemetry.addData("Lift Position", liftTick);
-                telemetry.addData("magnet status", magnetActive);
+                telemetry.addData("touch status", magnetActive);
                 telemetry.update();
 
 
@@ -98,7 +99,7 @@ import com.qualcomm.robotcore.util.Range;
             motorBackLeft.setPower(BackLeft);
             motorBackRight.setPower(BackRight);
 
-            telemetry.addLine("magnet Active: " + !magnetActive);
+            telemetry.addLine("touch Active: " + !magnetActive);
             magnetActive = magnet.getState();
             float liftTick = lift.getCurrentPosition();
             if (liftTick < -9600 || !magnetActive) {
@@ -208,7 +209,7 @@ import com.qualcomm.robotcore.util.Range;
             magnetActive = magnet.getState();
             liftTick = lift.getCurrentPosition();
             telemetry.addData("Lift Position", liftTick);
-            telemetry.addData("magnet status", magnetActive);
+            telemetry.addData("touch status", magnetActive);
             telemetry.update();
         }
         double scaleInput(double dVal)  {

@@ -67,7 +67,7 @@ public class ConceptHolonomicDrive extends OpMode {
         motorFrontLeft = hardwareMap.dcMotor.get("motorFrontLeft");
         motorBackLeft = hardwareMap.dcMotor.get("motorBackLeft");
         motorBackRight = hardwareMap.dcMotor.get("motorBackRight");
-       /* digIn = hardwareMap.get(DigitalChannel.class,"magnet");
+       /* digIn = hardwareMap.get(DigitalChannel.class,"touch");
 //        motor1 = hardwareMap.dcMotor.get("motor1");
         motor2 = hardwareMap.dcMotor.get("motor2");
         motor3 = hardwareMap.dcMotor.get("motor3");
@@ -120,7 +120,7 @@ public class ConceptHolonomicDrive extends OpMode {
         int hanging = 0;
         int mineral = 0;
         int motorSpin = 0;
-        boolean magnet = digIn.getState();
+        boolean touch = digIn.getState();
 */
 
         // holonomic formulas
@@ -290,19 +290,19 @@ CRservo.setPower(CRpwr); */
 
    if (gamepad2.y && hanging == 0) {
        hanging++;
-       if (magnet = true) {
+       if (touch = true) {
            motor3.setPower(0);
-       } else if (magnet = false) {
+       } else if (touch = false) {
            motor3.setPower(1);
        }
    }
 
         if (gamepad2.y && hanging != 0) {
            hanging--;
-            if (magnet = true) {
+            if (touch = true) {
                 motor3.setPower(0);
             }
-            else if (magnet = false){
+            else if (touch = false){
                 motor3.setPower(-1);
             }
             }

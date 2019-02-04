@@ -29,7 +29,6 @@
 
 package org.firstinspires.ftc.robotcontroller.external.samples;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
@@ -38,13 +37,12 @@ import com.qualcomm.robotcore.hardware.DigitalChannel;
  * This is an example LinearOpMode that shows how to use
  * a REV Robotics Touch Sensor.
  *
- * It assumes that the touch sensor is configured with a name of "digitalTouch".
+ * It assumes that the touch sensor is configured with a name of "touch".
  *
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list.
  */
 @TeleOp(name = "Sensor: Digital touch", group = "Sensor")
-@Disabled
 public class SensorDigitalTouch extends LinearOpMode {
     /**
      * The REV Robotics Touch Sensor
@@ -56,16 +54,16 @@ public class SensorDigitalTouch extends LinearOpMode {
      * The lower (first) pin stays unconnected.*
      */
 
-    DigitalChannel digitalTouch;  // Hardware Device Object
+    DigitalChannel touch;  // Hardware Device Object
 
     @Override
     public void runOpMode() {
 
-        // get a reference to our digitalTouch object.
-        digitalTouch = hardwareMap.get(DigitalChannel.class, "sensor_digital");
+        // get a reference to our touch object.
+        touch = hardwareMap.get(DigitalChannel.class, "touch");
 
         // set the digital channel to input.
-        digitalTouch.setMode(DigitalChannel.Mode.INPUT);
+        touch.setMode(DigitalChannel.Mode.INPUT);
 
         // wait for the start button to be pressed.
         waitForStart();
@@ -76,7 +74,7 @@ public class SensorDigitalTouch extends LinearOpMode {
 
             // send the info back to driver station using telemetry function.
             // if the digital channel returns true it's HIGH and the button is unpressed.
-            if (digitalTouch.getState() == true) {
+            if (touch.getState() == true) {
                 telemetry.addData("Digital Touch", "Is Not Pressed");
             } else {
                 telemetry.addData("Digital Touch", "Is Pressed");
