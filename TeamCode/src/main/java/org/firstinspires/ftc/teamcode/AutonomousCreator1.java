@@ -10,17 +10,22 @@ public class AutonomousCreator1 extends robotYeet {
 
     public void runOpMode() throws InterruptedException {
         initRobot();
+        resetEncoders();
         initgyro();
+        resetAngle();
 //        initVu();
         //magnetTest();
         telemetry.addLine("Good Luck Drivers!");
         waitForStart();
+      //  resetAngle();
+        imuTelemetry();
+
 //        startVu();
-        Thread.sleep(100);
+       // Thread.sleep(100);
 //        loopVu();
-        Thread.sleep(100);
-        lift();
-        Thread.sleep(100);
+        //Thread.sleep(100);
+        //lift();
+       // Thread.sleep(100);
 
 
 //        while (detector.isFound() == true) {
@@ -34,15 +39,34 @@ public class AutonomousCreator1 extends robotYeet {
 
      //   Thread.sleep(100);
 //brake();
-        runWithEncoders("RIGHT",0.8,0.8,5,5,1000);
-        sleep(500);
-    runWithEncoders("BACK", 0.8, 0.8, -17, -17, 1000);
-        sleep(500);
-        rotate(180,1);
-    //loopVu();
+//        runWithEncoders("LEFT",0.6,0.6,5,5,500);
+//        sleep(100);
+//    runWithEncoders("FORWARD", 0.6, 0.6, 17, 17, 500);
+ //       sleep(100);
+rotate(90,0.5);
+    /*//loopVu();
         runWithEncoders("LEFT",0.1,0.1,11,11,1000);
         sleep(1000);
-        runWithEncoders("RIGHT",0.1,0.1,35,35,1000);
+        if (detector.isFound()) {
+            DownServo.setPosition(0.6);
+            runWithEncoders("RIGHT",0.8,0.8,5,5,1000);
+            sleep(500);
+        }
+        else if (!detector.isFound()){
+            runWithEncoders("RIGHT",0.8,0.8,5,5,1000);
+            sleep(500);
+            if (detector.isFound()){
+                DownServo.setPosition(0.6);
+            }
+        }
+        else {
+            runWithEncoders("RIGHT",0.8,0.8,5,5,1000);
+            sleep(500);
+            DownServo.setPosition(0.6);
+        }
+
+
+        runWithEncoders("LEFT",0.1,0.1,35,35,1000);
         sleep(1000);
 
 

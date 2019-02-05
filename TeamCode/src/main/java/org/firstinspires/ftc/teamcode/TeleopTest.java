@@ -80,18 +80,18 @@ import com.qualcomm.robotcore.util.Range;
 
 
             if (gamepad1.right_bumper){
-                rotation = 1;
+                rotation = 0.5;
             }
             else if (gamepad1.left_bumper){
-                rotation = -1;
+                rotation = -0.5;
             }
             else{
                 rotation = 0;
             }
 
-            double FrontLeft = -gamepad1RightY - gamepad1RightX + rotation;
+            double FrontLeft = -gamepad1RightY - gamepad1RightX - rotation;
             double FrontRight = gamepad1RightY - gamepad1RightX - rotation;
-            double BackRight = gamepad1RightY + gamepad1RightX + rotation;
+            double BackRight = gamepad1RightY + gamepad1RightX - rotation;
             double BackLeft = -gamepad1RightY + gamepad1RightX - rotation;
 
             motorFrontRight.setPower(FrontRight);

@@ -137,6 +137,9 @@ public class robotYeet extends LinearOpMode
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
 
+        byte AXIS_MAP_CONFIG_BYTE = 0x18;
+        byte AXIS_MAP_SIGN_BYTE = 0x1;
+
         parameters.mode = BNO055IMU.SensorMode.IMU;
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
@@ -152,6 +155,12 @@ public class robotYeet extends LinearOpMode
         telemetry.addData("Mode", "calibrating...");
         telemetry.update();
 
+        //imu.write8(BNO055IMU.Register.OPR_MODE,BNO055IMU.SensorMode.CONFIG.bVal&0x0F);
+        sleep(250);
+        //imu.write8(BNO055IMU.Register.AXIS_MAP_CONFIG,AXIS_MAP_CONFIG_BYTE & 0x0F);
+        //imu.write8(BNO055IMU.Register.AXIS_MAP_SIGN,AXIS_MAP_SIGN_BYTE & 0x0F);
+        //imu.write8(BNO055IMU.Register.OPR_MODE,BNO055IMU.SensorMode.IMU.bVal & 0x0F);
+        sleep(250);
         // make sure the imu gyro is calibrated before continuing.
         while (!isStopRequested() && !imu.isGyroCalibrated()) {
             sleep(50);
@@ -161,10 +170,20 @@ public class robotYeet extends LinearOpMode
         telemetry.addData("Mode", "waiting for start");
         telemetry.addData("imu calib status", imu.getCalibrationStatus().toString());
         telemetry.update();
+
+
     }
+    public void imuTelemetry(){
+        while(opModeIsActive()){
+            angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.XZY, AngleUnit.DEGREES);
+            telemetry.addData("Heading",formatAngle(angles.angleUnit,angles.firstAngle));
+        telemetry.addData("Roll",formatAngle(angles.angleUnit,angles.secondAngle));
+        telemetry.addData("Pitch",formatAngle(angles.angleUnit,angles.thirdAngle));
+        telemetry.update();
+    }}
     public void resetAngle()
     {
-        lastAngles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        lastAngles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
         globalAngle = 0;
     }
 
@@ -179,9 +198,9 @@ public class robotYeet extends LinearOpMode
         // returned as 0 to +180 or 0 to -180 rolling back to -179 or +179 when rotation passes
         // 180 degrees. We detect this transition and track the total cumulative angle of rotation.
 
-        Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
 
-        double deltaAngle = angles.firstAngle - lastAngles.firstAngle;
+        double deltaAngle = angles.secondAngle - lastAngles.secondAngle;
 
         if (deltaAngle < -180)
             deltaAngle += 360;
@@ -225,7 +244,12 @@ public class robotYeet extends LinearOpMode
     public void rotate(int degrees, double power)
     {
         double  leftPower, rightPower;
+while (opModeIsActive()){
+    telemetry.addData("degrees",degrees);
+    telemetry.addData("degrees",getAngle());
+    telemetry.update();
 
+}
         // restart imu movement tracking.
         resetAngle();
 
@@ -234,13 +258,13 @@ public class robotYeet extends LinearOpMode
 
         if (degrees < 0)
         {   // turn right.
-            leftPower = -power;
-            rightPower = power;
+            leftPower = power;
+            rightPower = -power;
         }
         else if (degrees > 0)
         {   // turn left.
-            leftPower = power;
-            rightPower = -power;
+            leftPower = -power;
+            rightPower = power;
         }
         else return;
 
@@ -402,6 +426,10 @@ public class robotYeet extends LinearOpMode
 
         return correctionR;
     }
+    public void rotateTick(int ticks,double power){
+
+
+    }
     public double CheckDirectionF() {
         // The gain value determines how sensitive the correction is to direction changes.
         // You will have to experiment with your robot to get small smooth direction changes
@@ -458,10 +486,9 @@ public class robotYeet extends LinearOpMode
                   telemetry.addLine("motorRightB target" + motorRightB.getTargetPosition());
                   telemetry.update();
                     if ((System.currentTimeMillis() - start) > TIME) {//if the time limit is reached then terminate the command
-
                       break;
                   }
-
+                    Thread.sleep(30);
               }
 
       }
@@ -498,10 +525,9 @@ public class robotYeet extends LinearOpMode
                   telemetry.addLine("motorRightB target" + motorRightB.getTargetPosition());
                   telemetry.update();
                   if ((System.currentTimeMillis() - start) > TIME) {//if the time limit is reached then terminate the command
-
                       break;
                   }
-
+                  Thread.sleep(30);
               }
 
       }
@@ -509,10 +535,10 @@ public class robotYeet extends LinearOpMode
           runUsingEncoders();
           resetEncoders();//resets the motors
           Thread.sleep(50);
-          motorLeftF.setTargetPosition(LEFT_MOTOR_ENCODER);
-          motorRightF.setTargetPosition(-RIGHT_MOTOR_ENCODER);//set position for the motors
-          motorLeftB.setTargetPosition(-LEFT_MOTOR_ENCODER);
-          motorRightB.setTargetPosition(RIGHT_MOTOR_ENCODER);
+          motorLeftF.setTargetPosition(-LEFT_MOTOR_ENCODER);
+          motorRightF.setTargetPosition(RIGHT_MOTOR_ENCODER);//set position for the motors
+          motorLeftB.setTargetPosition(LEFT_MOTOR_ENCODER);
+          motorRightB.setTargetPosition(-RIGHT_MOTOR_ENCODER);
 
 
           motorLeftF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -539,9 +565,9 @@ public class robotYeet extends LinearOpMode
               telemetry.addLine("motorRightB target" + motorRightB.getPower());
               telemetry.update();
               if ((System.currentTimeMillis() - start) > TIME) {//if the time limit is reached then terminate the command
-
                   break;
               }
+              Thread.sleep(30);
              }
       }
       else if (direction == "LEFT") {
@@ -580,6 +606,7 @@ public class robotYeet extends LinearOpMode
               if ((System.currentTimeMillis() - start) > TIME) {//if the time limit is reached then terminate the command
                   break;
               }
+              Thread.sleep(30);
           }
 
       }
