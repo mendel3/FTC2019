@@ -243,6 +243,10 @@ public class robotYeet extends LinearOpMode
     }
 
     public void rotateCCW (float degrees, double power) {
+        motorLeftF = hardwareMap.dcMotor.get("motorFrontLeft");
+        motorLeftB = hardwareMap.dcMotor.get("motorBackLeft");
+        motorRightB = hardwareMap.dcMotor.get("motorBackRight");
+        motorRightF = hardwareMap.dcMotor.get("motorFrontRight");
         resetAngle();
         angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.XZY, AngleUnit.DEGREES);
         float mylesAngle = angles.secondAngle;
@@ -254,12 +258,17 @@ public class robotYeet extends LinearOpMode
         motorRightB.setPower(-power);
 
         //keep motors on until finishing the turn
-        while (mylesAngle < degrees){
+        while (opModeIsActive()) {
+            angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.XZY, AngleUnit.DEGREES);
             mylesAngle = angles.secondAngle;
-            telemetry.addLine("myles angle: " + mylesAngle);
-        }
+            telemetry.addData("myles angle: ", mylesAngle);
+            telemetry.update();
 
-        brake();
+            if (mylesAngle + 10 > degrees) {
+                brake();
+                break;
+            }
+        }
     }
 
 

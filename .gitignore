@@ -26,3 +26,5 @@ build/
 
 *ASUS_PC_01*
 
+TeamCode/src/main/java/org/firstinspires/ftc/teamcode/magnet.java
+TeamCode/src/main/java/org/firstinspires/ftc/teamcode/AutonomousTest2.java
