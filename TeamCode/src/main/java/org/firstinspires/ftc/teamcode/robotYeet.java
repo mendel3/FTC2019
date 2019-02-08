@@ -39,6 +39,8 @@ import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocaliz
 //@Disabled
 public class robotYeet extends LinearOpMode
 {
+
+    public Orientation Zangle;
     public Boolean CurrentState;
     private ElapsedTime runtime = new ElapsedTime();
     DcMotor                 motorLeftF;
@@ -49,6 +51,8 @@ public class robotYeet extends LinearOpMode
     boolean TouchActive;
     DigitalChannel touch;
     Servo                   DownServo;
+    Servo                   Angle;
+    DcMotor                 zroa;
 
     BNO055IMU               imu;
     Orientation             lastAngles = new Orientation();
@@ -68,6 +72,7 @@ public class robotYeet extends LinearOpMode
     public static final float mmTargetHeight   = (6) * mmPerInch;          // the height of the center of the target image above the floor
     public DigitalChannel MagnetLift;
     float liftTick;
+
     // Select which camera you want use.  The FRONT camera is the one on the same side as the screen.
     // Valid choices are:  BACK or FRONT
     public static final VuforiaLocalizer.CameraDirection CAMERA_CHOICE = BACK;
@@ -131,7 +136,7 @@ public class robotYeet extends LinearOpMode
         else {
             CurrentState = false;
         }
-        return CurrentState;
+              return CurrentState;
     }
     public void initgyro() {
 
@@ -176,9 +181,11 @@ public class robotYeet extends LinearOpMode
     public void imuTelemetry(){
         while(opModeIsActive()){
             angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.XZY, AngleUnit.DEGREES);
-            telemetry.addData("Heading",formatAngle(angles.angleUnit,angles.firstAngle));
-        telemetry.addData("Roll",formatAngle(angles.angleUnit,angles.secondAngle));
-        telemetry.addData("Pitch",formatAngle(angles.angleUnit,angles.thirdAngle));
+           float mylesAngle = angles.secondAngle;
+            telemetry.addData("Heading X",formatAngle(angles.angleUnit,angles.firstAngle));
+        telemetry.addData("Roll Y",formatAngle(angles.angleUnit,angles.secondAngle));
+        telemetry.addData("myles angle",mylesAngle);
+        telemetry.addData("Pitch Z",formatAngle(angles.angleUnit,angles.thirdAngle));
         telemetry.update();
     }}
     public void resetAngle()
@@ -191,16 +198,15 @@ public class robotYeet extends LinearOpMode
      * Get current cumulative angle rotation from last reset.
      * @return Angle in degrees. + = left, - = right.
      */
-    public double getAngle()
-    {
+    public double getAngle() {
         // We experimentally determined the Z axis is the axis we want to use for heading angle.
         // We have to process the angle because the imu works in euler angles so the Z axis is
         // returned as 0 to +180 or 0 to -180 rolling back to -179 or +179 when rotation passes
         // 180 degrees. We detect this transition and track the total cumulative angle of rotation.
 
-        angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
+        Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
-        double deltaAngle = angles.secondAngle - lastAngles.secondAngle;
+        double deltaAngle = angles.firstAngle - lastAngles.firstAngle;
 
         if (deltaAngle < -180)
             deltaAngle += 360;
@@ -213,7 +219,6 @@ public class robotYeet extends LinearOpMode
 
         return globalAngle;
     }
-
     /**
      * See if we are moving in a straight line and if not return a power correction value.
      * @return Power adjustment, + is adjust left - is adjust right.
@@ -237,36 +242,51 @@ public class robotYeet extends LinearOpMode
         return correction;
     }
 
+    public void rotateCCW (float degrees, double power) {
+        resetAngle();
+        angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.XZY, AngleUnit.DEGREES);
+        float mylesAngle = angles.secondAngle;
+
+        // set power to rotate.
+        motorLeftF.setPower(power);
+        motorRightF.setPower(-power);
+        motorLeftB.setPower(power);
+        motorRightB.setPower(-power);
+
+        //keep motors on until finishing the turn
+        while (mylesAngle < degrees){
+            mylesAngle = angles.secondAngle;
+            telemetry.addLine("myles angle: " + mylesAngle);
+        }
+
+        brake();
+    }
+
+
+
+
     /**
      * Rotate left or right the number of degrees. Does not support turning more than 180 degrees.
      * @param degrees Degrees to turn, + is left - is right
      */
-    public void rotate(int degrees, double power)
-    {
-        double  leftPower, rightPower;
-while (opModeIsActive()){
-    telemetry.addData("degrees",degrees);
-    telemetry.addData("degrees",getAngle());
-    telemetry.update();
-
-}
-        // restart imu movement tracking.
+    public void rotate(float degrees, double power) {
+        double leftPower, rightPower;
         resetAngle();
+        Orientation Zangle = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
+        double Z = Zangle.thirdAngle;
+        // restart imu movement tracking.
+
 
         // getAngle() returns + when rotating counter clockwise (left) and - when rotating
         // clockwise (right).
 
-        if (degrees < 0)
-        {   // turn right.
+        if (degrees < 0) {   // turn right.
             leftPower = power;
             rightPower = -power;
-        }
-        else if (degrees > 0)
-        {   // turn left.
+        } else if (degrees > 0) {   // turn left.
             leftPower = -power;
             rightPower = power;
-        }
-        else return;
+        } else return;
 
         // set power to rotate.
         motorLeftF.setPower(leftPower);
@@ -275,15 +295,43 @@ while (opModeIsActive()){
         motorRightB.setPower(rightPower);
 
         // rotate until turn is completed.
-        if (degrees < 0)
-        {
-            // On right turn we have to get off zero first.
-            while (opModeIsActive() && getAngle() == 0) {}
 
-            while (opModeIsActive() && getAngle() > degrees) {}
-        }
-        else    // left turn.
-            while (opModeIsActive() && getAngle() < degrees) {}
+        telemetry.addLine("Z: " + Z);
+        if (degrees < 0) {
+            // On right turn we have to get off zero first.
+            /*while (opModeIsActive() && angles.thirdAngle == 0) {
+
+                angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
+                telemetry.addData("Heading X",formatAngle(angles.angleUnit,angles.firstAngle));
+                telemetry.addData("Roll Y",formatAngle(angles.angleUnit,angles.secondAngle));
+                telemetry.addData("Pitch Z",formatAngle(angles.angleUnit,angles.thirdAngle));
+                telemetry.addData("Get Angle: ", getAngle());
+                telemetry.update();
+            }
+
+*/
+
+            //while (opModeIsActive() && mylesAngle > -90) {
+/*
+                angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
+                telemetry.addData("Heading X",formatAngle(angles.angleUnit,angles.firstAngle));
+                telemetry.addData("Roll Y",formatAngle(angles.angleUnit,angles.secondAngle));
+                telemetry.addData("Pitch Z",formatAngle(angles.angleUnit,angles.thirdAngle));
+                telemetry.addData("Get Angle: ", formatAngle(Zangle.angleUnit, Z));
+                telemetry.update();*/
+                telemetry.addLine("Z: " + Z);
+            }
+      //  } else    // left turn.
+            while (opModeIsActive() && Z < -90) {
+                telemetry.addLine("Z: " + Z);
+            /*
+                angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
+                telemetry.addData("Heading X",formatAngle(angles.angleUnit,angles.firstAngle));
+                telemetry.addData("Roll Y",formatAngle(angles.angleUnit,angles.secondAngle));
+                telemetry.addData("Pitch Z",formatAngle(angles.angleUnit,angles.thirdAngle));
+                telemetry.addData("Get Angle: ", formatAngle(Zangle.angleUnit, Z));
+                telemetry.update();
+            */}
 
         // turn the motors off.
         motorRightF.setPower(0);
@@ -291,16 +339,13 @@ while (opModeIsActive()){
         motorLeftB.setPower(0);
         motorRightB.setPower(0);
         // wait for rotation to stop.
-        sleep(100);
+        sleep(1000);
 
         // reset angle tracking on new heading.
         resetAngle();
     }
+
     public void brake(){
-        motorLeftF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        motorRightF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        motorLeftB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        motorRightB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorRightF.setPower(0);
         motorLeftF.setPower(0);
         motorLeftB.setPower(0);
@@ -426,10 +471,7 @@ while (opModeIsActive()){
 
         return correctionR;
     }
-    public void rotateTick(int ticks,double power){
 
-
-    }
     public double CheckDirectionF() {
         // The gain value determines how sensitive the correction is to direction changes.
         // You will have to experiment with your robot to get small smooth direction changes
@@ -668,6 +710,56 @@ while (opModeIsActive()){
 
 
   }
+  public void rotateTicks(int degreesRotate,double power, int TIME) throws InterruptedException {
+        int ticks;
+        ticks = (int)(degreesRotate*8.9);
+        runUsingEncoders();
+       resetEncoders();
+      motorLeftF.setTargetPosition(-ticks);
+      motorLeftB.setTargetPosition(-ticks);
+      motorRightF.setTargetPosition(ticks);
+      motorRightB.setTargetPosition(ticks);
+      motorLeftB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+      motorLeftF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+      motorRightB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+      motorRightF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+      Thread.sleep(300);
+      motorRightF.setPower(power);
+      motorLeftF.setPower(power);
+      motorRightB.setPower(power);
+      motorLeftB.setPower(power);
+      long start = System.currentTimeMillis();
+      while (motorLeftB.isBusy()) {
+          if (ticks > 0) {
+              if (motorLeftF.getCurrentPosition() > ticks) {
+                  resetEncoders();
+                  brake();
+              }
+          }
+          else {
+              if (motorLeftF.getCurrentPosition() < ticks) {
+                  resetEncoders();
+                  brake();
+              }
+          }
+          telemetry.addLine("leftPos: " + motorLeftB.getCurrentPosition() + " rightPos: " + motorRightB.getCurrentPosition());
+          telemetry.addLine("motorLeftB: " + motorLeftB.isBusy() + " motorRightB :" + motorRightB.isBusy());
+          telemetry.addLine("leftPos:" + motorLeftF.getCurrentPosition() + " rightPos: " + motorRightF.getCurrentPosition());
+          telemetry.addLine("motorLeftF: " + motorLeftF.isBusy() + " motorRightF :" + motorRightF.isBusy());
+          telemetry.addLine("motorLeftF target" + motorLeftF.getPower());
+          telemetry.addLine("motorLeftB target" + motorLeftB.getPower());
+          telemetry.addLine("motorRightF target" + motorRightF.getPower());
+          telemetry.addLine("motorRightB target" + motorRightB.getPower());
+          telemetry.update();
+          if ((System.currentTimeMillis() - start) > TIME) {//if the time limit is reached then terminate the command
+              break;
+          }
+
+      }
+      brake();
+
+  }
   public void stopMotion(){
       motorRightF.setPower(0);
       motorLeftF.setPower(0);
@@ -679,6 +771,49 @@ while (opModeIsActive()){
         motorRightF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorLeftB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorRightB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+
+    }
+    public void rotateUsingEncoders(double pwr, int encoder, int TIME) throws InterruptedException {
+        runUsingEncoders();
+        resetEncoders();//resets the motors
+        try {
+            Thread.sleep(50);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        motorLeftF.setTargetPosition(-encoder);
+        motorLeftB.setTargetPosition(-encoder);
+        motorRightF.setTargetPosition(encoder);
+        motorRightF.setTargetPosition(encoder);
+
+
+        motorLeftF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motorRightF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motorRightB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motorLeftB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        Thread.sleep(50);
+        motorLeftB.setPower(pwr);
+        motorLeftF.setPower(pwr);
+        motorRightB.setPower(pwr);
+        motorRightF.setPower(pwr);
+        long start = System.currentTimeMillis();
+        while (motorLeftB.isBusy() || motorRightB.isBusy()) {
+            telemetry.addLine("leftPos:" + motorLeftB.getCurrentPosition() + " rightPos: " + motorRightB.getCurrentPosition());
+            telemetry.addLine("motorLeftB: " + motorLeftB.isBusy() + " motorRightB :" + motorRightB.isBusy());
+            telemetry.addLine("leftPos:" + motorLeftF.getCurrentPosition() + " rightPos: " + motorRightF.getCurrentPosition());
+            telemetry.addLine("motorLeftF: " + motorLeftF.isBusy() + " motorRightF :" + motorRightF.isBusy());
+            telemetry.addLine("motorLeftF target" + motorLeftF.getPower());
+            telemetry.addLine("motorLeftB target" + motorLeftB.getPower());
+            telemetry.addLine("motorRightF target" + motorRightF.getPower());
+            telemetry.addLine("motorRightB target" + motorRightB.getPower());
+            telemetry.update();
+            if ((System.currentTimeMillis() - start) > TIME) {//if the time limit is reached then terminate the command
+                break;
+            }
+            Thread.sleep(30);
+        }
 
     }
     public void resetEncoders() {//will reset encoders
