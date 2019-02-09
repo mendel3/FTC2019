@@ -18,14 +18,18 @@ public class AutonomousCreator1 extends robotYeet {
         telemetry.addLine("Good Luck Drivers!");
 
         waitForStart();
-        rotateCCW(90, 0.2);
-        sleep(100);
+   /*     lift();
+        runWithEncoders("RIGHT",0.8,0.8,5,5,1000);
+        sleep(250);
+        runWithEncoders("BACK", 0.8, 0.8, -17, -17, 1000);
+        sleep(250); */
+        rotateCCW(90, 0.4);
+        rotateCCW(90, 0.4);
+
         //imuTelemetry();
         /*//sleep(100);
         rotate(-90, 0.2);
-//rotateTicks(90,0.25,2500);
-sleep(1000);
-//rotateTicks(-180,0.25,5000);
+
 //        startVu();
        // Thread.sleep(100);
 //        loopVu();
@@ -109,24 +113,7 @@ sleep(1000);
             runWithEncoders("FORWARD", 1, 1, 30, 30, 3000);
             sleep(100);
     }
-
-//    runWithEncoders("FORWARD", 1, 1, -30, -30, 5000);
-//    sleep(100);
-//    rotate(30, 1);
-//    runWithEncoders("FORWARD", 1, 1, 30, 30, 5000);
-//    sleep(100);
-//       runWithEncoders("RIGHT",1,1,30,30,2000);
-//        sleep(100);
-//        runWithEncoders("BACKWARD", 1, 1, -30, -30, 5000);
-//        sleep(100);
-//        runWithEncoders("LEFT", 1, 1, -30, -30, 5000);
-
-
-        //  driveEncoder(1500,1,"FORWARD");
-        //rotate(70,0.5);
-      //  driveEncoder(5000,0.5,"BACKWARD");
-**/
-
+*/
     }
 }
 
