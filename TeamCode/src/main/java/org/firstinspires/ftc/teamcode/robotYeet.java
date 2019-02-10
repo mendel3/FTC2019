@@ -192,6 +192,7 @@ public class robotYeet extends LinearOpMode
     {
         lastAngles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
         globalAngle = 0;
+
     }
 
     /**
@@ -241,15 +242,21 @@ public class robotYeet extends LinearOpMode
 
         return correction;
     }
-
+    public float mylesAngle = 0;
+    float correctionAngle = 0;
     public void rotateCCW (float degrees, double power) {
         motorLeftF = hardwareMap.dcMotor.get("motorFrontLeft");
         motorLeftB = hardwareMap.dcMotor.get("motorBackLeft");
         motorRightB = hardwareMap.dcMotor.get("motorBackRight");
         motorRightF = hardwareMap.dcMotor.get("motorFrontRight");
-        resetAngle();
         angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.XZY, AngleUnit.DEGREES);
-        float mylesAngle = angles.secondAngle;
+        telemetry.addData("myles angle now: ", mylesAngle);
+        telemetry.update();
+
+        motorLeftB.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorLeftF.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorRightF.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorRightB.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         // set power to rotate.
         motorLeftF.setPower(power);
@@ -257,19 +264,28 @@ public class robotYeet extends LinearOpMode
         motorLeftB.setPower(power);
         motorRightB.setPower(-power);
 
+sleep(50);
         //keep motors on until finishing the turn
         while (opModeIsActive()) {
             angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.XZY, AngleUnit.DEGREES);
             mylesAngle = angles.secondAngle;
-            telemetry.addData("myles angle: ", mylesAngle);
+            telemetry.addData("myles angle on going: ", mylesAngle);
             telemetry.update();
 
-            if (mylesAngle + 10 > degrees) {
+            if (mylesAngle + 10 > degrees + correctionAngle) {
+                telemetry.addData("first time correction ", correctionAngle);
                 brake();
+                correctionAngle += degrees;
+                telemetry.addData("second time correction ", correctionAngle);
                 break;
             }
+
         }
-    }
+
+        telemetry.addData("first time correction ", correctionAngle);
+        telemetry.addData("second time correction ", correctionAngle);
+        telemetry.update();
+sleep(2000);    }
 
 
 
@@ -508,16 +524,15 @@ public class robotYeet extends LinearOpMode
               runUsingEncoders();
               resetEncoders();//resets the motors
               Thread.sleep(50);
+          motorLeftF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+          motorRightF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+          motorRightB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+          motorLeftB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
               motorLeftF.setTargetPosition(LEFT_MOTOR_ENCODER);
               motorRightF.setTargetPosition(RIGHT_MOTOR_ENCODER);//set position for the motors
               motorLeftB.setTargetPosition(LEFT_MOTOR_ENCODER);
               motorRightB.setTargetPosition(RIGHT_MOTOR_ENCODER);
 
-
-              motorLeftF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-              motorRightF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-              motorRightB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-              motorLeftB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
               Thread.sleep(50);
               motorLeftF.setPower(LEFT_MOTOR_POWER);//sets the speed
@@ -547,22 +562,23 @@ public class robotYeet extends LinearOpMode
               runUsingEncoders();
               resetEncoders();//resets the motors
               Thread.sleep(50);
-              motorLeftF.setTargetPosition(LEFT_MOTOR_ENCODER);
-              motorRightF.setTargetPosition(RIGHT_MOTOR_ENCODER);//set position for the motors
-              motorLeftB.setTargetPosition(LEFT_MOTOR_ENCODER);
-              motorRightB.setTargetPosition(RIGHT_MOTOR_ENCODER);
+          motorLeftF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+          motorRightF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+          motorRightB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+          motorLeftB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+              motorLeftF.setTargetPosition(-LEFT_MOTOR_ENCODER);
+              motorRightF.setTargetPosition(-RIGHT_MOTOR_ENCODER);//set position for the motors
+              motorLeftB.setTargetPosition(-LEFT_MOTOR_ENCODER);
+              motorRightB.setTargetPosition(-RIGHT_MOTOR_ENCODER);
 
 
-              motorLeftF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-              motorRightF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-              motorRightB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-              motorLeftB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
 
               Thread.sleep(50);
-              motorLeftF.setPower(LEFT_MOTOR_POWER);//sets the speed
-              motorRightF.setPower(RIGHT_MOTOR_POWER);
-              motorRightB.setPower(RIGHT_MOTOR_POWER);
-              motorLeftB.setPower(RIGHT_MOTOR_POWER);
+              motorLeftF.setPower(-LEFT_MOTOR_POWER);//sets the speed
+              motorRightF.setPower(-RIGHT_MOTOR_POWER);
+              motorRightB.setPower(-RIGHT_MOTOR_POWER);
+              motorLeftB.setPower(-RIGHT_MOTOR_POWER);
 
               long start = System.currentTimeMillis();
               while (motorLeftB.isBusy() || motorRightB.isBusy()) {

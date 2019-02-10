@@ -13,27 +13,30 @@ public class AutonomousCreator1 extends robotYeet {
     //    resetEncoders();
         initgyro();
        resetAngle();
-//        initVu();
+        initVu();
+        mylesAngle = 0;
         //magnetTest();
         telemetry.addLine("Good Luck Drivers!");
 
         waitForStart();
-   /*     lift();
-        runWithEncoders("RIGHT",0.8,0.8,5,5,1000);
-        sleep(250);
-        runWithEncoders("BACK", 0.8, 0.8, -17, -17, 1000);
-        sleep(250); */
-        rotateCCW(90, 0.4);
-        rotateCCW(90, 0.4);
+   //     lift();
+    //    mylesAngle = angles.secondAngle;
+ //       telemetry.addData("angle after landing:", mylesAngle);
+   //     runWithEncoders("LEFT",0.2,0.2,5,5,1000);
+     //   sleep(250);
+       // runWithEncoders("BACKWARD", 0.2, 0.2, -19, -19, 1000);
+        //sleep(1000);
+//        rotateCCW(90, 0.2);
+  //      sleep(2000);
+      //sleep(2000);
+    //   rotateCCW(83, 0.2);
+      //  sleep(2500);
 
-        //imuTelemetry();
-        /*//sleep(100);
-        rotate(-90, 0.2);
 
-//        startVu();
-       // Thread.sleep(100);
-//        loopVu();
-        //Thread.sleep(100);
+       startVu();
+        Thread.sleep(100);
+        loopVu();
+        Thread.sleep(100);
         //lift();
        // Thread.sleep(100);
 
@@ -49,39 +52,43 @@ public class AutonomousCreator1 extends robotYeet {
 
      //   Thread.sleep(100);
 //brake();
-   /*runWithEncoders("LEFT",0.6,0.6,5,5,500);
-        sleep(100);
-    runWithEncoders("FORWARD", 0.2, 0.2, 30, 30, 500);
-        sleep(100);
+   //runWithEncoders("LEFT",0.6,0.6,5,5,500);
+       // sleep(100);
+    //runWithEncoders("FORWARD", 0.2, 0.2, 30, 30, 500);
+      //  sleep(100);
 
 //loopVu();
-        runWithEncoders("LEFT",0.1,0.1,11,11,1000);
-        sleep(1000);
+       // runWithEncoders("LEFT",0.1,0.1,11,11,1000);
+       // sleep(1000);
         if (detector.isFound()) {
-            DownServo.setPosition(0.6);
-            runWithEncoders("RIGHT",0.8,0.8,5,5,1000);
-            sleep(500);
+            DownServo.setPosition(-1);
+            sleep(1000);
+            DownServo.setPosition(1);
+            //runWithEncoders("RIGHT",0.8,0.8,5,5,1000);
+           // sleep(500);
 
         }
-        else if (!detector.isFound()){
-            runWithEncoders("RIGHT",0.8,0.8,5,5,1000);
-            sleep(500);
-            if (detector.isFound()){
-                DownServo.setPosition(0.6);
-                 runWithEncoders("RIGHT",0.8,0.8,5,5,1000);
-            sleep(500);
-            }
-        }
-        else {
-            runWithEncoders("RIGHT",0.8,0.8,5,5,1000);
-            sleep(500);
-            DownServo.setPosition(0.6);
-             runWithEncoders("RIGHT",0.8,0.8,5,5,1000);
-            sleep(500);
-        }
+         if (!detector.isFound()) {
+             runWithEncoders("LEFT", 0.2, 0.2, 15, 15, 1000);
+             sleep(500);
+             if (detector.isFound()) {
+                 DownServo.setPosition(-1);
+                 sleep(1000);
+                 DownServo.setPosition(1);
+                 //  runWithEncoders("RIGHT",0.8,0.8,5,5,1000);
+                 // sleep(500);
+             }
+             else {
+                 runWithEncoders("LEFT", 0.2, 0.2, 15, 15, 1000);
+                 sleep(500);
+                 DownServo.setPosition(-1);
+                 DownServo.setPosition(1);
+                 runWithEncoders("RIGHT", 0.2, 0.2, 5, 5, 1000);
+                 sleep(500);
+             }
+         }
 
-
-        runWithEncoders("LEFT",0.1,0.1,35,35,1000);
+       /* runWithEncoders("LEFT",0.1,0.1,35,35,1000);
         sleep(1000);
         zroa.setPower(0.8);
         Angle.setPosition(0.8);
