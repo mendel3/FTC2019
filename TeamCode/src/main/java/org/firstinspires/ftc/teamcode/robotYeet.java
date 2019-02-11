@@ -926,6 +926,9 @@ sleep(2000);    }
         detector.useDefaults(); // Use default settings
         detector.areaScoringMethod = DogeCV.AreaScoringMethod.MAX_AREA; // Can also be PERFECT_AREA
         //detector.perfectAreaScorer.perfectArea = 10000; // Uncomment if using PERFECT_AREA scoring
+        detector.debugAlignment = true;
+        detector.alignSize = 100;
+        detector.alignPosOffset = 200;
 
         //Setup Vuforia
         vuforia.setDogeCVDetector(detector); // Set the Vuforia detector

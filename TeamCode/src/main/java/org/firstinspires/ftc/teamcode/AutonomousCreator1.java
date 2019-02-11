@@ -12,33 +12,74 @@ public class AutonomousCreator1 extends robotYeet {
         initRobot();
     //    resetEncoders();
         initgyro();
-       resetAngle();
+       //resetAngle();
         initVu();
-        mylesAngle = 0;
+       // mylesAngle = 0;
         //magnetTest();
         telemetry.addLine("Good Luck Drivers!");
 
         waitForStart();
-   //     lift();
-    //    mylesAngle = angles.secondAngle;
- //       telemetry.addData("angle after landing:", mylesAngle);
-   //     runWithEncoders("LEFT",0.2,0.2,5,5,1000);
-     //   sleep(250);
-       // runWithEncoders("BACKWARD", 0.2, 0.2, -19, -19, 1000);
-        //sleep(1000);
-//        rotateCCW(90, 0.2);
-  //      sleep(2000);
-      //sleep(2000);
-    //   rotateCCW(83, 0.2);
-      //  sleep(2500);
+     // lift();
+       // mylesAngle = angles.secondAngle;
+       //telemetry.addData("angle after landing:", mylesAngle);
+        runWithEncoders("LEFT",0.2,0.2,10,10,1000);
+        sleep(250);
+        runWithEncoders("BACKWARD", 0.2, 0.2, -17, -17, 1000);
+        sleep(1000);
+        rotateTicks(-10,0.2,3);
+  rotateCCW(90, 0.2);
+        sleep(2000);
+     // sleep(2000);
+       rotateCCW(73, 0.2);
+        sleep(500);
 
 
        startVu();
         Thread.sleep(100);
-        loopVu();
+            loopVu();
+
         Thread.sleep(100);
+        runWithEncoders("RIGHT", 0.2, 0.2, 2, 2, 1000);
+        sleep(1000);
         //lift();
-       // Thread.sleep(100);
+
+
+
+        if (!detector.isFound()){
+            runWithEncoders("LEFT", 0.2, 0.2, 15, 15, 1000);
+            sleep(1000);
+            if (detector.isFound()) {
+                telemetry.addData("Middle",true);
+                runWithEncoders("LEFT", 0.2, 0.2, 3, 3, 1000);
+                sleep(500);
+                DownServo.setPosition(-1);
+                sleep(1000);
+                DownServo.setPosition(1);
+                sleep(250);
+            }
+            else {
+                telemetry.addData("Furthest Left",true);
+                runWithEncoders("LEFT", 0.2, 0.2, 15, 15, 1000);
+                sleep(500);
+                DownServo.setPosition(-1);
+                sleep(1000);
+                DownServo.setPosition(1);
+                runWithEncoders("RIGHT", 0.2, 0.2, 5, 5, 1000);
+                sleep(500);
+            }
+
+        }
+
+        if (detector.isFound()) {
+            telemetry.addData("First",true);
+            DownServo.setPosition(-1);
+            sleep(1000);
+            DownServo.setPosition(1);
+            sleep(250);
+        }
+
+
+        // Thread.sleep(100);
 
 
 //        while (detector.isFound() == true) {
@@ -60,33 +101,21 @@ public class AutonomousCreator1 extends robotYeet {
 //loopVu();
        // runWithEncoders("LEFT",0.1,0.1,11,11,1000);
        // sleep(1000);
-        if (detector.isFound()) {
-            DownServo.setPosition(-1);
-            sleep(1000);
-            DownServo.setPosition(1);
+
             //runWithEncoders("RIGHT",0.8,0.8,5,5,1000);
            // sleep(500);
 
-        }
-         if (!detector.isFound()) {
-             runWithEncoders("LEFT", 0.2, 0.2, 15, 15, 1000);
-             sleep(500);
-             if (detector.isFound()) {
-                 DownServo.setPosition(-1);
-                 sleep(1000);
-                 DownServo.setPosition(1);
-                 //  runWithEncoders("RIGHT",0.8,0.8,5,5,1000);
-                 // sleep(500);
-             }
-             else {
-                 runWithEncoders("LEFT", 0.2, 0.2, 15, 15, 1000);
-                 sleep(500);
-                 DownServo.setPosition(-1);
-                 DownServo.setPosition(1);
-                 runWithEncoders("RIGHT", 0.2, 0.2, 5, 5, 1000);
-                 sleep(500);
-             }
-         }
+/*while (!detector.isFound()){
+    runWithEncoders("LEFT", 0.2, 0.2, 2, 2, 1000);
+    sleep(500);
+    if (detector.isFound()){
+        DownServo.setPosition(-1);
+        sleep(1000);
+        DownServo.setPosition(1);
+    }
+}
+
+
 
        /* runWithEncoders("LEFT",0.1,0.1,35,35,1000);
         sleep(1000);
