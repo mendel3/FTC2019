@@ -72,6 +72,7 @@ public class robotYeet extends LinearOpMode
     public static final float mmTargetHeight   = (6) * mmPerInch;          // the height of the center of the target image above the floor
     public DigitalChannel MagnetLift;
     float liftTick;
+    public boolean isCameraDone = false;
 
     // Select which camera you want use.  The FRONT camera is the one on the same side as the screen.
     // Valid choices are:  BACK or FRONT

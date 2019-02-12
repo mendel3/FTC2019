@@ -25,13 +25,13 @@ public class AutonomousCreator1 extends robotYeet {
         runWithEncoders("LEFT",0.2,0.2,10,10,1000);
         sleep(250);
         runWithEncoders("BACKWARD", 0.2, 0.2, -17, -17, 1000);
-        sleep(1000);
+        sleep(100);
         rotateTicks(-10,0.2,3);
   rotateCCW(90, 0.2);
-        sleep(2000);
+        sleep(200);
      // sleep(2000);
        rotateCCW(73, 0.2);
-        sleep(500);
+        sleep(100);
 
 
        startVu();
@@ -40,32 +40,35 @@ public class AutonomousCreator1 extends robotYeet {
 
         Thread.sleep(100);
         runWithEncoders("RIGHT", 0.2, 0.2, 2, 2, 1000);
-        sleep(1000);
+        sleep(500);
         //lift();
 
 
 
         if (!detector.isFound()){
             runWithEncoders("LEFT", 0.2, 0.2, 15, 15, 1000);
-            sleep(1000);
+            sleep(500);
             if (detector.isFound()) {
                 telemetry.addData("Middle",true);
                 runWithEncoders("LEFT", 0.2, 0.2, 3, 3, 1000);
                 sleep(500);
                 DownServo.setPosition(-1);
-                sleep(1000);
-                DownServo.setPosition(1);
                 sleep(250);
+                DownServo.setPosition(1);
+                sleep(100);
+                isCameraDone = true;
             }
             else {
                 telemetry.addData("Furthest Left",true);
                 runWithEncoders("LEFT", 0.2, 0.2, 15, 15, 1000);
                 sleep(500);
                 DownServo.setPosition(-1);
-                sleep(1000);
+                sleep(250);
                 DownServo.setPosition(1);
                 runWithEncoders("RIGHT", 0.2, 0.2, 5, 5, 1000);
-                sleep(500);
+                sleep(100);
+                isCameraDone = true;
+
             }
 
         }
@@ -73,11 +76,15 @@ public class AutonomousCreator1 extends robotYeet {
         if (detector.isFound()) {
             telemetry.addData("First",true);
             DownServo.setPosition(-1);
-            sleep(1000);
-            DownServo.setPosition(1);
             sleep(250);
-        }
+            DownServo.setPosition(1);
+            sleep(100);
+            isCameraDone = true;
 
+        }
+if (isCameraDone){
+
+}
 
         // Thread.sleep(100);
 
