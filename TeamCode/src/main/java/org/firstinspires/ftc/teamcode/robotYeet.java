@@ -9,6 +9,7 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -19,12 +20,13 @@ import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
-
+import  com.qualcomm.robotcore.hardware.DistanceSensor;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -53,6 +55,11 @@ public class robotYeet extends LinearOpMode
     Servo                   DownServo;
     Servo                   Angle;
     DcMotor                 zroa;
+    int DistanceSensor;
+    boolean Distance;
+    private com.qualcomm.robotcore.hardware.DistanceSensor sensorRange;
+    //Servo                 marker;
+
 
     BNO055IMU               imu;
     Orientation             lastAngles = new Orientation();
@@ -122,6 +129,7 @@ public class robotYeet extends LinearOpMode
         motorRightB.setDirection(DcMotor.Direction.REVERSE);
         touch = hardwareMap.digitalChannel.get("touch");
         DownServo = hardwareMap.servo.get("DownServo");
+        DistanceSensor = hardwareMap.digitalChannel.get("DistanceSensor");
 
         motorLeftF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorRightF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -1036,23 +1044,37 @@ sleep(2000);    }
             }
         }
 
+    public void DistanceSensor() throws InterruptedException {
+        while (opModeIsActive()) {
+            telemetry.addData("deviceName",sensorRange.getDeviceName() );
+            telemetry.addData("range", String.format("%.01f mm", sensorRange.getDistance(DistanceUnit.MM)));
+            telemetry.addData("range", String.format("%.01f cm", sensorRange.getDistance(DistanceUnit.CM)));
+            telemetry.addData("range", String.format("%.01f m", sensorRange.getDistance(DistanceUnit.METER)));
+            telemetry.addData("range", String.format("%.01f in", sensorRange.getDistance(DistanceUnit.INCH)));
 
-public void magnetTest(){
+        }
 
-            TouchActive = touch.getState();
-            liftTick = lift.getCurrentPosition();
-            telemetry.addData("Lift Position", liftTick);
-            telemetry.addData("touch status", TouchActive);
-            telemetry.update();
 
-}
 
-    public void ServoMineral(){
+
+
+//public void magnetTest(){
+//
+  //          TouchActive = touch.getState();
+    //        liftTick = lift.getCurrentPosition();
+      //      telemetry.addData("Lift Position", liftTick);
+        //    telemetry.addData("touch status", TouchActive);
+          //  telemetry.update();
+
+//}
+
+    public void ServoMineral() {
         DownServo.setPosition(0.6);
         sleep(2500);
         DownServo.setPosition(1);
     }
-    public void DriveLeft(){
+
+    public void DriveLeft() {
         motorLeftF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorRightF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorLeftB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);

@@ -149,18 +149,18 @@ import com.qualcomm.robotcore.util.Range;
             else if (gamepad2.b){
                 collector.setPosition(-1);
             }
-            else  if (gamepad2.y){
-                collector.setPosition(0.49);
-            }
+            //else  if (gamepad2.y){
+             //   collector.setPosition(0.49);
+           // }
 
             if (gamepad2.dpad_right) {
 
                 Angle.setPosition(0.15);
             }
-            else if (gamepad2.dpad_left) {
+            else if (gamepad2.y) {
                 Angle.setPosition(0.35);
             }
-            else if (gamepad2.left_bumper) {
+            else if (gamepad2.dpad_left) {
                 Angle.setPosition(0.47);
             }
         /*    else {

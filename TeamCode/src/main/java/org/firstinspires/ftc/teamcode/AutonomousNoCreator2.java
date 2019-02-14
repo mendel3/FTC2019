@@ -12,19 +12,102 @@ public class AutonomousNoCreator2 extends robotYeet {
         initRobot();
         //    resetEncoders();
         initgyro();
-        //  resetAngle();
-//        initVu();
+        //resetAngle();
+        initVu();
+
+        // mylesAngle = 0;
         //magnetTest();
         telemetry.addLine("Good Luck Drivers!");
-        waitForStart();
-        //  resetAngle();
-        //imuTelemetry();
 
-//        startVu();
-        // Thread.sleep(100);
-//        loopVu();
-        //Thread.sleep(100);
+        waitForStart();
+        // lift();
+        // mylesAngle = angles.secondAngle;
+        //telemetry.addData("angle after landing:", mylesAngle);
+        runWithEncoders("LEFT",0.2,0.2,10,10,1000);
+        sleep(250);
+        runWithEncoders("BACKWARD", 0.2, 0.2, -17, -17, 1000);
+        sleep(100);
+        rotateTicks(-10,0.2,3);
+        rotateCCW(90, 0.2);
+        sleep(200);
+        //marker.setPosition(-1);
+        // sleep(2000);
+        rotateCCW(73, 0.2);
+        sleep(100);
+
+
+        startVu();
+        Thread.sleep(100);
+        loopVu();
+
+        Thread.sleep(100);
+        runWithEncoders("RIGHT", 0.2, 0.2, 2, 2, 1000);
+        sleep(500);
         //lift();
+
+
+
+        if (!detector.isFound()){
+            runWithEncoders("LEFT", 0.2, 0.2, 15, 15, 1000);
+            sleep(500);
+            if (detector.isFound()) {
+                telemetry.addData("Middle",true);
+                runWithEncoders("LEFT", 0.2, 0.2, 3, 3, 1000);
+                sleep(500);
+                DownServo.setPosition(-1);
+                sleep(250);
+                DownServo.setPosition(1);
+                sleep(100);
+                isCameraDone = true;
+                runWithEncoders("RIGHT", 0.2, 0.2, 15, 15, 1000);
+                sleep(250);
+                rotateCCW(90, 0.2);
+                rotateCCW(40,0.2);
+                runWithEncoders("FORWARD", 0.2, 0.2, 15, 15, 1000);
+                sleep(100);
+
+            }
+            else {
+                telemetry.addData("Furthest Left",true);
+                runWithEncoders("LEFT", 0.2, 0.2, 15, 15, 1000);
+                sleep(500);
+                DownServo.setPosition(-1);
+                sleep(250);
+                DownServo.setPosition(1);
+                runWithEncoders("RIGHT", 0.2, 0.2, 5, 5, 1000);
+                sleep(100);
+                isCameraDone = true;
+                runWithEncoders("RIGHT", 0.2, 0.2, 10, 10, 1000);
+                sleep(250);
+                rotateCCW(90, 0.2);
+                rotateCCW(40,0.2);
+                runWithEncoders("FORWARD", 0.2, 0.2, 15, 15, 1000);
+                sleep(100);
+
+
+            }
+
+        }
+
+        if (detector.isFound()) {
+            telemetry.addData("First",true);
+            DownServo.setPosition(-1);
+            sleep(250);
+            DownServo.setPosition(1);
+            sleep(100);
+            isCameraDone = true;
+            runWithEncoders("RIGHT", 0.2, 0.2, 20, 20, 1000);
+            sleep(250);
+            rotateCCW(90, 0.2);
+            rotateCCW(40,0.2);
+            runWithEncoders("FORWARD", 0.2, 0.2, 15, 15, 1000);
+            sleep(100);
+
+        }
+        if (isCameraDone){
+
+        }
+
         // Thread.sleep(100);
 
 
@@ -39,55 +122,31 @@ public class AutonomousNoCreator2 extends robotYeet {
 
         //   Thread.sleep(100);
 //brake();
-       /* runWithEncoders("LEFT",0.6,0.6,5,5,500);
-        sleep(100);
-        runWithEncoders("FORWARD", 0.2, 0.2, 30, 30, 500);
-        sleep(100);
-        rotate(90,0.5);
-        //loopVu();
-        runWithEncoders("LEFT",0.1,0.1,11,11,1000);
+        //runWithEncoders("LEFT",0.6,0.6,5,5,500);
+        // sleep(100);
+        //runWithEncoders("FORWARD", 0.2, 0.2, 30, 30, 500);
+        //  sleep(100);
+
+//loopVu();
+        // runWithEncoders("LEFT",0.1,0.1,11,11,1000);
+        // sleep(1000);
+
+        //runWithEncoders("RIGHT",0.8,0.8,5,5,1000);
+        // sleep(500);
+
+/*while (!detector.isFound()){
+    runWithEncoders("LEFT", 0.2, 0.2, 2, 2, 1000);
+    sleep(500);
+    if (detector.isFound()){
+        DownServo.setPosition(-1);
         sleep(1000);
-        if (detector.isFound()) {
-            DownServo.setPosition(0.6);
-            runWithEncoders("RIGHT",0.8,0.8,5,5,1000);
-            sleep(500);
-            rotate(75, 0.5);
-            runWithEncoders("BACK",0.8,0.8,5,5,1000);
-            sleep(500);
-
-        }
-        else if (!detector.isFound()){
-            runWithEncoders("RIGHT",0.8,0.8,5,5,1000);
-            sleep(500);
-            if (detector.isFound()){
-                DownServo.setPosition(0.6);
-                runWithEncoders("RIGHT",0.8,0.8,5,5,1000);
-                sleep(500);
-                runWithEncoders("RIGHT",0.8,0.8,5,5,1000);
-                sleep(500);
-                rotate(75, 0.5);
-                runWithEncoders("BACK",0.8,0.8,5,5,1000);
-                sleep(500);
+        DownServo.setPosition(1);
+    }
+}
 
 
-            }
-        }
-        else {
-            runWithEncoders("RIGHT",0.8,0.8,5,5,1000);
-            sleep(500);
-            DownServo.setPosition(0.6);
-            runWithEncoders("RIGHT",0.8,0.8,5,5,1000);
-            sleep(500);
-            runWithEncoders("RIGHT",0.8,0.8,5,5,1000);
-            sleep(500);
-            rotate(75, 0.5);
-            runWithEncoders("BACK",0.8,0.8,5,5,1000);
-            sleep(500);
 
-        }
-
-
-        runWithEncoders("LEFT",0.1,0.1,35,35,1000);
+       /* runWithEncoders("LEFT",0.1,0.1,35,35,1000);
         sleep(1000);
         zroa.setPower(0.8);
         Angle.setPosition(0.8);
@@ -119,24 +178,9 @@ public class AutonomousNoCreator2 extends robotYeet {
             runWithEncoders("FORWARD", 1, 1, 30, 30, 3000);
             sleep(100);
     }
-
-//    runWithEncoders("FORWARD", 1, 1, -30, -30, 5000);
-//    sleep(100);
-//    rotate(30, 1);
-//    runWithEncoders("FORWARD", 1, 1, 30, 30, 5000);
-//    sleep(100);
-//       runWithEncoders("RIGHT",1,1,30,30,2000);
-//        sleep(100);
-//        runWithEncoders("BACKWARD", 1, 1, -30, -30, 5000);
-//        sleep(100);
-//        runWithEncoders("LEFT", 1, 1, -30, -30, 5000);
-
-
-        //  driveEncoder(1500,1,"FORWARD");
-        //rotate(70,0.5);
-      //  driveEncoder(5000,0.5,"BACKWARD");
-**/
-
+*/
     }
 }
+
+
 
