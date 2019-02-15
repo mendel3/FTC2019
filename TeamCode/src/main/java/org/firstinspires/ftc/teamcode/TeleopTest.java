@@ -2,12 +2,13 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
-    @TeleOp (name = "TeleopTest", group = "help")
+@TeleOp (name = "TeleopTest", group = "help")
     public class TeleopTest extends OpMode {
         DcMotor motorFrontRight;
         DcMotor motorFrontLeft;
@@ -15,7 +16,7 @@ import com.qualcomm.robotcore.util.Range;
         DcMotor motorBackLeft;
         DcMotor zroa;
         DcMotor lift;
-        Servo collector;
+        CRServo collector;
         public float liftTick;
 
         //CRServo ser1;
@@ -49,7 +50,7 @@ import com.qualcomm.robotcore.util.Range;
             motorFrontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
             //ser1 = hardwareMap.crservo.get("crservo");
-            collector = hardwareMap.servo.get("C");
+            collector = (CRServo) hardwareMap.servo.get("C");
             //   Angle = hardwareMap.servo.get("A");
             Angle = hardwareMap.servo.get("A");
             DownServo = hardwareMap.servo.get("DownServo");
@@ -70,7 +71,7 @@ import com.qualcomm.robotcore.util.Range;
             double gamepad1RightX = gamepad1.right_stick_x;
             double rotation = 0;
             // double gamepad1RightX = gamepad1.right_stick_x;
-
+collector.setPower(1);
 
                 magnetActive = magnet.getState();
                 liftTick = lift.getCurrentPosition();
@@ -144,23 +145,26 @@ import com.qualcomm.robotcore.util.Range;
 
 
             if (gamepad2.a){
-                collector.setPosition(1);
+                collector.setPower(1);
             }
             else if (gamepad2.b){
-                collector.setPosition(-1);
+                collector.setPower(-1);
+            }
+            else if (gamepad2.y){
+                collector.setPower(0);
             }
             //else  if (gamepad2.y){
              //   collector.setPosition(0.49);
            // }
 
-            if (gamepad2.dpad_right) {
+            if (gamepad2.dpad_up) {
 
                 Angle.setPosition(0.15);
             }
-            else if (gamepad2.y) {
+            else if (gamepad2.dpad_right) {
                 Angle.setPosition(0.35);
             }
-            else if (gamepad2.dpad_left) {
+            else if (gamepad2.dpad_down) {
                 Angle.setPosition(0.47);
             }
         /*    else {
