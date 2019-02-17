@@ -9,6 +9,7 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -40,6 +41,7 @@ import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocaliz
 //@Disabled
 public class robotYeet extends LinearOpMode {
 
+    public DistanceSensor sensorRange;
     public Orientation Zangle;
     public Boolean CurrentState;
     private ElapsedTime runtime = new ElapsedTime();
@@ -53,10 +55,9 @@ public class robotYeet extends LinearOpMode {
     Servo DownServo;
     Servo Angle;
     DcMotor zroa;
-    int DistanceSensor;
     boolean Distance;
-    private com.qualcomm.robotcore.hardware.DistanceSensor sensorRange;
-    Servo                 marker;
+
+    Servo marker;
 
 
     BNO055IMU imu;
@@ -77,6 +78,7 @@ public class robotYeet extends LinearOpMode {
     public static final float mmTargetHeight = (6) * mmPerInch;          // the height of the center of the target image above the floor
     public DigitalChannel MagnetLift;
     float liftTick;
+    double getDistance;
     public boolean isCameraDone = false;
 
     // Select which camera you want use.  The FRONT camera is the one on the same side as the screen.
@@ -109,7 +111,6 @@ public class robotYeet extends LinearOpMode {
 
     public void runOpMode() throws InterruptedException {
 
-
     }
 
     /**
@@ -126,7 +127,14 @@ public class robotYeet extends LinearOpMode {
         touch = hardwareMap.digitalChannel.get("touch");
         DownServo = hardwareMap.servo.get("DownServo");
         marker = hardwareMap.servo.get("marker");
-        DigitalChannel DistanceSensor = hardwareMap.digitalChannel.get("DistanceSensor");
+        //sensorRange = hardwareMap.get(com.qualcomm.robotcore.hardware.DistanceSensor.class, "sensor_range");
+
+        // you can also cast this to a Rev2mDistanceSensor if you want to use added
+        // methods associated with the Rev2mDistanceSensor class.
+        //Rev2mDistanceSensor sensorTimeOfFlight = (Rev2mDistanceSensor)sensorRange;
+
+        telemetry.addData(">>", "Press start to continue");
+        telemetry.update();
 
         motorLeftF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorRightF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -188,6 +196,7 @@ public class robotYeet extends LinearOpMode {
 
     public void imuTelemetry() {
         while (opModeIsActive()) {
+
             angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.XZY, AngleUnit.DEGREES);
             float mylesAngle = angles.secondAngle;
             telemetry.addData("Heading X", formatAngle(angles.angleUnit, angles.firstAngle));
@@ -253,6 +262,7 @@ public class robotYeet extends LinearOpMode {
 
         return correction;
     }
+
     //public float MyLastAngle = 0;
     public float mylesAngle = 0;
     float correctionAngle = 0;
@@ -285,9 +295,9 @@ public class robotYeet extends LinearOpMode {
         while (opModeIsActive()) {
             angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.XZY, AngleUnit.DEGREES);
             mylesAngle = angles.secondAngle;
-          //  mylesAngle = mylesAngle - MyLastAngle;
+            //  mylesAngle = mylesAngle - MyLastAngle;
             telemetry.addData("myles angle on going: ", mylesAngle);
-          //  telemetry.addData("MyLastAngle", MyLastAngle);
+            //  telemetry.addData("MyLastAngle", MyLastAngle);
             telemetry.addData("Corrrectionangle: ", correctionAngle);
             telemetry.update();
 
@@ -297,7 +307,7 @@ public class robotYeet extends LinearOpMode {
                 brake();
                 correctionAngle += degrees;
                 telemetry.addData("second time correction ", correctionAngle);
-            //    MyLastAngle = mylesAngle;
+                //    MyLastAngle = mylesAngle;
                 break;
             }
 
@@ -1056,13 +1066,28 @@ public class robotYeet extends LinearOpMode {
         }
     }
 
-    public void DistanceSensor() throws InterruptedException {
+    public void DistanceSensor(DistanceSensor SensorRange) throws InterruptedException {
+        motorRightB.setPower(-0.3);
+        motorRightF.setPower(0.3);
+        motorLeftB.setPower(0.3);
+        motorLeftF.setPower(-0.3);
+
         while (opModeIsActive()) {
-            telemetry.addData("deviceName", sensorRange.getDeviceName());
-            telemetry.addData("range", String.format("%.01f mm", sensorRange.getDistance(DistanceUnit.MM)));
-            telemetry.addData("range", String.format("%.01f cm", sensorRange.getDistance(DistanceUnit.CM)));
-            telemetry.addData("range", String.format("%.01f m", sensorRange.getDistance(DistanceUnit.METER)));
-            telemetry.addData("range", String.format("%.01f in", sensorRange.getDistance(DistanceUnit.INCH)));
+            sensorRange = hardwareMap.get(DistanceSensor.class, "sensor_range");
+            getDistance = SensorRange.getDistance(DistanceUnit.CM);
+              telemetry.addData("range", String.format("%.01f cm", SensorRange.getDistance(DistanceUnit.CM)));
+              telemetry.update();
+
+            if (getDistance < 20) {
+                brake();
+                break;
+            }
+            else {
+                motorRightB.setPower(-0.3);
+                motorRightF.setPower(0.3);
+                motorLeftB.setPower(0.3);
+                motorLeftF.setPower(-0.3);
+        }
 
         }
     }
@@ -1070,14 +1095,13 @@ public class robotYeet extends LinearOpMode {
 
 
 
-
 //public void magnetTest(){
 //
-  //          TouchActive = touch.getState();
-    //        liftTick = lift.getCurrentPosition();
-      //      telemetry.addData("Lift Position", liftTick);
-        //    telemetry.addData("touch status", TouchActive);
-          //  telemetry.update();
+            //          TouchActive = touch.getState();
+            //        liftTick = lift.getCurrentPosition();
+            //      telemetry.addData("Lift Position", liftTick);
+            //    telemetry.addData("touch status", TouchActive);
+            //  telemetry.update();
 
 //}
 
