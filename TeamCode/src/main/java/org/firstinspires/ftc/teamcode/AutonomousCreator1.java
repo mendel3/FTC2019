@@ -57,7 +57,7 @@ public class AutonomousCreator1 extends robotYeet {
 
            runWithEncoders("LEFT", 0.2, 0.2, 10, 10, 1000);
             sleep(250);
-            runWithEncoders("BACKWARD", 0.2, 0.2, -17, -17, 1000);
+            runWithEncoders("BACKWARD", 0.2, 0.2, -18, -18, 1000);
             sleep(100);
             rotateTicks(-10, 0.2, 3);
             rotateCCW(90, 0.2);
@@ -102,7 +102,7 @@ public class AutonomousCreator1 extends robotYeet {
                 // sleep(100);
                 //runWithEncoders("FORWARD", 0.2, 0.2, -3, -3, 250);
                 //sleep(100);
-                runWithEncoders("RIGHT", 0.7, 1, 20, 20, 500);
+                runWithEncoders("RIGHT", 1, 0.6, 20, 20, 500);
 
 
             } else if (!detector.isFound()) {
@@ -122,23 +122,23 @@ public class AutonomousCreator1 extends robotYeet {
                     stopVu();
                     runWithEncoders("LEFT", 0.2, 0.2, 35, 35, 1000);
                     sleep(100);
-                    rotateTicks(514,0.4,1155);
+                    rotateTicks(516,0.4,1150);
                     sleep(500);
                     runWithEncoders("FORWARD", 0.2, 0.2, -14, -14, 1000);
                     sleep(100);
                     runWithEncoders("LEFT", 0.2, 0.2, 45, 45, 2000);
                     sleep(250);
                     marker.setPosition(1);
-                    sleep(500);
-                    marker.setPosition(-1);
                     sleep(100);
-                    rotateTicks(-8,0.2,200);
+                    marker.setPosition(0.5);
                     sleep(100);
-                    runWithEncoders("RIGHT", 0.2, 0.3, 60, 60, 2500);
+                    rotateTicks(-7,0.2,200);
+                    sleep(100);
+                    runWithEncoders("RIGHT", 0.2, 0.3, 65, 65, 2500);
                    // sleep(100);
                     //runWithEncoders("FORWARD", 0.2, 0.2, -3, -3, 250);
                     //sleep(100);
-                    runWithEncoders("RIGHT", 0.7, 1, 20, 20, 500);
+                    runWithEncoders("RIGHT", 0.6, 0.7, 13, 13, 500);
 
                     //isCameraDone = true;
              //       rotateTicks(90, 0.2, 500);

@@ -50,7 +50,7 @@ import com.qualcomm.robotcore.util.Range;
             motorFrontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
             //ser1 = hardwareMap.crservo.get("crservo");
-            collector = (CRServo) hardwareMap.servo.get("C");
+            collector = hardwareMap.get(CRServo.class, "C");
             //   Angle = hardwareMap.servo.get("A");
             Angle = hardwareMap.servo.get("A");
             DownServo = hardwareMap.servo.get("DownServo");
