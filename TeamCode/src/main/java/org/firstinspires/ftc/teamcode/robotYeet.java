@@ -52,7 +52,7 @@ public class robotYeet extends LinearOpMode {
     DcMotor lift;
     boolean TouchActive;
     DigitalChannel touch;
-    Servo DownServo;
+    Servo MineralServo;
     Servo Angle;
     DcMotor zroa;
     boolean Distance;
@@ -125,7 +125,7 @@ public class robotYeet extends LinearOpMode {
         motorRightF.setDirection(DcMotor.Direction.REVERSE);
         motorRightB.setDirection(DcMotor.Direction.REVERSE);
         touch = hardwareMap.digitalChannel.get("touch");
-        DownServo = hardwareMap.servo.get("DownServo");
+        MineralServo = hardwareMap.servo.get("MineralServo");
         marker = hardwareMap.servo.get("marker");
         //sensorRange = hardwareMap.get(com.qualcomm.robotcore.hardware.DistanceSensor.class, "sensor_range");
 
@@ -216,7 +216,7 @@ public class robotYeet extends LinearOpMode {
     /**
      * Get current cumulative angle rotation from last reset.
      *
-     * @return Angle in degrees. + = left, - = right.
+     * @return Box in degrees. + = left, - = right.
      */
     public double getAngle() {
         // We experimentally determined the Z axis is the axis we want to use for heading angle.
@@ -318,7 +318,7 @@ public class robotYeet extends LinearOpMode {
         telemetry.update();
 
 
-        sleep(2000);
+        sleep(250);
     }
 
 
@@ -363,7 +363,7 @@ public class robotYeet extends LinearOpMode {
                 telemetry.addData("Heading X",formatAngle(angles.angleUnit,angles.firstAngle));
                 telemetry.addData("Roll Y",formatAngle(angles.angleUnit,angles.secondAngle));
                 telemetry.addData("Pitch Z",formatAngle(angles.angleUnit,angles.thirdAngle));
-                telemetry.addData("Get Angle: ", getAngle());
+                telemetry.addData("Get Box: ", getAngle());
                 telemetry.update();
             }
 
@@ -375,7 +375,7 @@ public class robotYeet extends LinearOpMode {
                 telemetry.addData("Heading X",formatAngle(angles.angleUnit,angles.firstAngle));
                 telemetry.addData("Roll Y",formatAngle(angles.angleUnit,angles.secondAngle));
                 telemetry.addData("Pitch Z",formatAngle(angles.angleUnit,angles.thirdAngle));
-                telemetry.addData("Get Angle: ", formatAngle(Zangle.angleUnit, Z));
+                telemetry.addData("Get Box: ", formatAngle(Zangle.angleUnit, Z));
                 telemetry.update();*/
             telemetry.addLine("Z: " + Z);
         }
@@ -387,7 +387,7 @@ public class robotYeet extends LinearOpMode {
                 telemetry.addData("Heading X",formatAngle(angles.angleUnit,angles.firstAngle));
                 telemetry.addData("Roll Y",formatAngle(angles.angleUnit,angles.secondAngle));
                 telemetry.addData("Pitch Z",formatAngle(angles.angleUnit,angles.thirdAngle));
-                telemetry.addData("Get Angle: ", formatAngle(Zangle.angleUnit, Z));
+                telemetry.addData("Get Box: ", formatAngle(Zangle.angleUnit, Z));
                 telemetry.update();
             */
         }
@@ -1106,9 +1106,9 @@ public class robotYeet extends LinearOpMode {
 //}
 
      /*   public void ServoMineral {
-            DownServo.setPosition(0.6);
+            MineralServo.setPosition(0.6);
             sleep(2500);
-            DownServo.setPosition(1);
+            MineralServo.setPosition(1);
         }
 
     public void DriveLeft() {

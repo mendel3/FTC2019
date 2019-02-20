@@ -24,10 +24,10 @@ public class AutonomousNoCreator2 extends robotYeet {
         // mylesAngle = angles.secondAngle;
         //telemetry.addData("angle after landing:", mylesAngle);
         runWithEncoders("LEFT",0.2,0.2,10,10,1000);
-        sleep(250);
+        sleep(100);
         runWithEncoders("BACKWARD", 0.2, 0.2, -17, -17, 1000);
         sleep(100);
-        rotateTicks(-10,0.2,3);
+        rotateTicks(-10,0.2,10);
         rotateCCW(90, 0.2);
         sleep(200);
         //marker.setPosition(-1);
@@ -42,21 +42,21 @@ public class AutonomousNoCreator2 extends robotYeet {
 
         Thread.sleep(100);
         runWithEncoders("RIGHT", 0.2, 0.2, 2, 2, 1000);
-        sleep(500);
+        sleep(250);
         //lift();
 
 
 
         if (!detector.isFound()){
             runWithEncoders("LEFT", 0.2, 0.2, 15, 15, 1000);
-            sleep(500);
+            sleep(300);
             if (detector.isFound()) {
                 telemetry.addData("Middle",true);
                 runWithEncoders("LEFT", 0.2, 0.2, 3, 3, 1000);
-                sleep(500);
-                DownServo.setPosition(-1);
                 sleep(250);
-                DownServo.setPosition(1);
+                MineralServo.setPosition(-1);
+                sleep(250);
+                MineralServo.setPosition(1);
                 sleep(100);
                 isCameraDone = true;
                 runWithEncoders("RIGHT", 0.2, 0.2, 15, 15, 1000);
@@ -70,10 +70,10 @@ public class AutonomousNoCreator2 extends robotYeet {
             else {
                 telemetry.addData("Furthest Left",true);
                 runWithEncoders("LEFT", 0.2, 0.2, 15, 15, 1000);
-                sleep(500);
-                DownServo.setPosition(-1);
                 sleep(250);
-                DownServo.setPosition(1);
+                MineralServo.setPosition(-1);
+                sleep(250);
+                MineralServo.setPosition(1);
                 runWithEncoders("RIGHT", 0.2, 0.2, 5, 5, 1000);
                 sleep(100);
                 isCameraDone = true;
@@ -91,9 +91,9 @@ public class AutonomousNoCreator2 extends robotYeet {
 
         if (detector.isFound()) {
             telemetry.addData("First",true);
-            DownServo.setPosition(-1);
+            MineralServo.setPosition(-1);
             sleep(250);
-            DownServo.setPosition(1);
+            MineralServo.setPosition(1);
             sleep(100);
             isCameraDone = true;
             runWithEncoders("RIGHT", 0.2, 0.2, 20, 20, 1000);
@@ -138,9 +138,9 @@ public class AutonomousNoCreator2 extends robotYeet {
     runWithEncoders("LEFT", 0.2, 0.2, 2, 2, 1000);
     sleep(500);
     if (detector.isFound()){
-        DownServo.setPosition(-1);
+        MineralServo.setPosition(-1);
         sleep(1000);
-        DownServo.setPosition(1);
+        MineralServo.setPosition(1);
     }
 }
 
@@ -148,9 +148,9 @@ public class AutonomousNoCreator2 extends robotYeet {
 
        /* runWithEncoders("LEFT",0.1,0.1,35,35,1000);
         sleep(1000);
-        zroa.setPower(0.8);
-        Angle.setPosition(0.8);
-        zroa.setPower(-0.8);
+        slider.setPower(0.8);
+        Box.setPosition(0.8);
+        slider.setPower(-0.8);
         runWithEncoders("RIGHT",0.1,0.1,35,35,1000);
         sleep(1000);
         runWithEncoders("BACK",0.8,0.8,5,5,1000);

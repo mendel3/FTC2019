@@ -8,21 +8,21 @@ import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
-@TeleOp (name = "TeleopTest", group = "help")
-    public class TeleopTest extends OpMode {
+@TeleOp (name = "TeleOp", group = "help")
+    public class TeleOp_real extends OpMode {
         DcMotor motorFrontRight;
         DcMotor motorFrontLeft;
         DcMotor motorBackRight;
         DcMotor motorBackLeft;
-        DcMotor zroa;
+        DcMotor slider;
         DcMotor lift;
-        CRServo collector;
+        CRServo fingers;
         public float liftTick;
 
         //CRServo ser1;
-       // Servo Angle;
-        Servo Angle;
-        Servo DownServo;
+       // Servo Box;
+        Servo Box;
+        Servo MineralServo;
         DcMotor acordion;
         DigitalChannel magnet;
         boolean lastUpperValue;
@@ -30,13 +30,13 @@ import com.qualcomm.robotcore.util.Range;
         boolean magnetActive;
 
         int liftState = 0;
-        public TeleopTest(){
+        public TeleOp_real(){
 
         }
         @Override
         public void init(){
             telemetry.addLine("Good Luck");
-            zroa = hardwareMap.dcMotor.get("motor2");
+            slider = hardwareMap.dcMotor.get("motor2");
             lift = hardwareMap.dcMotor.get("motor3");
             acordion = hardwareMap.dcMotor.get("aco");
             magnet = hardwareMap.digitalChannel.get("touch");
@@ -50,13 +50,13 @@ import com.qualcomm.robotcore.util.Range;
             motorFrontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
             //ser1 = hardwareMap.crservo.get("crservo");
-            collector = hardwareMap.get(CRServo.class, "C");
-            //   Angle = hardwareMap.servo.get("A");
-            Angle = hardwareMap.servo.get("A");
-            DownServo = hardwareMap.servo.get("DownServo");
+            fingers = hardwareMap.get(CRServo.class, "C");
+            //   Box = hardwareMap.servo.get("A");
+            Box = hardwareMap.servo.get("A");
+            MineralServo = hardwareMap.servo.get("MineralServo");
             lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-            zroa.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            slider.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             acordion.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -71,7 +71,7 @@ import com.qualcomm.robotcore.util.Range;
             double gamepad1RightX = gamepad1.right_stick_x;
             double rotation = 0;
             // double gamepad1RightX = gamepad1.right_stick_x;
-collector.setPower(1);
+fingers.setPower(1);
 
                 magnetActive = magnet.getState();
                 liftTick = lift.getCurrentPosition();
@@ -118,14 +118,14 @@ collector.setPower(1);
             //lift.setPower(gamepad2.left_stick_y);
             telemetry.addLine("lift Power: " + lift.getPower());
             telemetry.addLine("lift:" + liftTick);
-            telemetry.addLine("zroa:" + zroa.getCurrentPosition());
+            telemetry.addLine("slider:" + slider.getCurrentPosition());
             lastUpperValue = gamepad2.dpad_up;
             lastLowerValue = gamepad2.dpad_down;
 
             telemetry.addLine("last upper value" + lastUpperValue);
             telemetry.addLine("last lower value" + lastLowerValue);
 
-            zroa.setPower(gamepad2.right_stick_y);
+            slider.setPower(gamepad2.right_stick_y);
 
 
 
@@ -145,34 +145,34 @@ collector.setPower(1);
 
 
             if (gamepad2.a){
-                collector.setPower(1);
+                fingers.setPower(1);
             }
             else if (gamepad2.b){
-                collector.setPower(-1);
+                fingers.setPower(-1);
             }
             else if (gamepad2.y){
-                collector.setPower(0);
+                fingers.setPower(0);
             }
             //else  if (gamepad2.y){
-             //   collector.setPosition(0.49);
+             //   fingers.setPosition(0.49);
            // }
 
             if (gamepad2.dpad_up) {
 
-                Angle.setPosition(0.15);
+                Box.setPosition(0.15);
             }
             else if (gamepad2.dpad_right) {
-                Angle.setPosition(0.35);
+                Box.setPosition(0.35);
             }
             else if (gamepad2.dpad_down) {
-                Angle.setPosition(0.47);
+                Box.setPosition(0.47);
             }
         /*    else {
-                Angle.setPosition(0.47);
+                Box.setPosition(0.47);
             }
     */
             if (gamepad2.right_bumper) {
-                DownServo.setPosition(0.8);
+                MineralServo.setPosition(0.8);
             }
 
 
@@ -186,13 +186,13 @@ collector.setPower(1);
                 liftState--;
             }
             if(liftState == 0){
-                Angle.setPosition(0.15);
+                Box.setPosition(0.15);
             }
             else if(liftState == 1){
-                Angle.setPosition(0.9);
+                Box.setPosition(0.9);
             }
             else{
-                Angle.setPosition(0.47);
+                Box.setPosition(0.47);
             }
             if(liftState < 0){
                 liftState = 0;
@@ -216,32 +216,5 @@ collector.setPower(1);
             telemetry.addData("touch status", magnetActive);
             telemetry.update();
         }
-        double scaleInput(double dVal)  {
-            double[] scaleArray = { 0.0, 0.05, 0.09, 0.10, 0.12, 0.15, 0.18, 0.24,
-                    0.30, 0.36, 0.43, 0.50, 0.60, 0.72, 0.85, 1.00, 1.00 };
 
-            // get the corresponding index for the scaleInput array.
-            int index = (int) (dVal * 16.0);
-
-            // index should be positive.
-            if (index < 0) {
-                index = -index;
-            }
-
-            // index cannot exceed size of array minus 1.
-            if (index > 16) {
-                index = 16;
-            }
-
-            // get value from the array.
-            double dScale = 0.0;
-            if (dVal < 0) {
-                dScale = -scaleArray[index];
-            } else {
-                dScale = scaleArray[index];
-            }
-
-            // return scaled value.
-            return dScale;
-        }
     }

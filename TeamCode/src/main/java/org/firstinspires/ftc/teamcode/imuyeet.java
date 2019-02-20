@@ -120,7 +120,7 @@ public class imuyeet extends LinearOpMode
 
     /**
      * Get current cumulative angle rotation from last reset.
-     * @return Angle in degrees. + = left, - = right.
+     * @return Box in degrees. + = left, - = right.
      */
     private double getAngle()
     {
