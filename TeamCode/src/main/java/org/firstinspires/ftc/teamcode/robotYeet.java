@@ -7,6 +7,7 @@ import com.disnodeteam.dogecv.detectors.roverrukus.GoldAlignDetector;
 import com.disnodeteam.dogecv.filters.LeviColorFilter;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
@@ -56,6 +57,8 @@ public class robotYeet extends LinearOpMode {
     Servo Angle;
     DcMotor zroa;
     boolean Distance;
+    CRServo collector;
+
 
     Servo marker;
 
@@ -127,6 +130,8 @@ public class robotYeet extends LinearOpMode {
         touch = hardwareMap.digitalChannel.get("touch");
         DownServo = hardwareMap.servo.get("DownServo");
         marker = hardwareMap.servo.get("marker");
+        collector = hardwareMap.get(CRServo.class, "C");
+        Angle = hardwareMap.servo.get("A");
         //sensorRange = hardwareMap.get(com.qualcomm.robotcore.hardware.DistanceSensor.class, "sensor_range");
 
         // you can also cast this to a Rev2mDistanceSensor if you want to use added

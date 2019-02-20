@@ -29,6 +29,8 @@ public class AutonomousCreator1 extends robotYeet {
         // mylesAngle = 0;
         //magnetTest();
         telemetry.addLine("Good Luck Drivers!");
+        startVu();
+        Thread.sleep(20);
 
         waitForStart();
         // generic DistanceSensor methods.
@@ -56,22 +58,22 @@ public class AutonomousCreator1 extends robotYeet {
 
 
            runWithEncoders("LEFT", 0.2, 0.2, 10, 10, 1000);
-            sleep(250);
-            runWithEncoders("BACKWARD", 0.2, 0.2, -18, -18, 1000);
-            sleep(100);
-            rotateTicks(-10, 0.2, 3);
-            rotateCCW(90, 0.2);
             sleep(50);
+            runWithEncoders("BACKWARD", 0.2, 0.2, -18, -18, 1000);
+            sleep(50);
+            rotateTicks(-10, 0.2, 3);
+            sleep(50);
+            rotateCCW(90, 0.2);
             rotateCCW(73, 0.2);
             sleep(50);
 
 
-            startVu();
-            Thread.sleep(100);
+        startVu();
+        Thread.sleep(20);
             loopVu();
 
-            Thread.sleep(100);
-            runWithEncoders("RIGHT", 0.2, 0.2, 2, 2, 1000);
+            Thread.sleep(50);
+            runWithEncoders("RIGHT", 0.2, 0.2, 3, 3, 1000);
             sleep(250);
             //lift();
 
@@ -84,26 +86,29 @@ public class AutonomousCreator1 extends robotYeet {
                 DownServo.setPosition(1);
                 sleep(100);
                 stopVu();
-                runWithEncoders("LEFT", 0.2, 0.2, 55, 55, 1000);
+                rotateTicks(-18, 0.2, 200);
                 sleep(100);
-                rotateTicks(514,0.4,1155);
-                sleep(500);
-                runWithEncoders("FORWARD", 0.2, 0.2, -14, -14, 1000);
+                runWithEncoders("LEFT", 0.2, 0.2, 75, 75, 1500);
+                sleep(100);
+                rotateTicks(-50,0.3,200);
+                sleep(250);
+                runWithEncoders("FORWARD", 0.2, 0.2, -17, -17, 1000);
                 sleep(100);
                 runWithEncoders("LEFT", 0.2, 0.2, 45, 45, 2000);
                 sleep(250);
-                marker.setPosition(1);
-                sleep(500);
-                marker.setPosition(-1);
-                sleep(100);
-                rotateTicks(-8,0.2,200);
-                sleep(100);
-                runWithEncoders("RIGHT", 0.2, 0.3, 60, 60, 2500);
+                marker.setPosition(0.6);
+                sleep(150);
+                rotateTicks(15,0.2,200);
+                //sleep(100);
+                runWithEncoders("RIGHT", 0.2, 0.3, 63, 63, 2500);
                 // sleep(100);
                 //runWithEncoders("FORWARD", 0.2, 0.2, -3, -3, 250);
-                //sleep(100);
-                runWithEncoders("RIGHT", 1, 0.6, 20, 20, 500);
-
+                sleep(100);
+                //runWithEncoders("RIGHT", 1, 0.6, 20, 20, 500);
+                rotateTicks(85, 0.2, 200);
+                sleep(100);
+                DownServo.setPosition(-1);
+                sleep(250);
 
             } else if (!detector.isFound()) {
                 //runWithEncoders("BACK", 0.2, 0.2, 8, 8, 1000);
@@ -122,8 +127,8 @@ public class AutonomousCreator1 extends robotYeet {
                     stopVu();
                     runWithEncoders("LEFT", 0.2, 0.2, 35, 35, 1000);
                     sleep(100);
-                    rotateTicks(516,0.4,1150);
-                    sleep(500);
+                    rotateTicks(-50,0.3,200);
+                    sleep(250);
                     runWithEncoders("FORWARD", 0.2, 0.2, -14, -14, 1000);
                     sleep(100);
                     runWithEncoders("LEFT", 0.2, 0.2, 45, 45, 2000);
@@ -132,13 +137,16 @@ public class AutonomousCreator1 extends robotYeet {
                     sleep(100);
                     marker.setPosition(0.5);
                     sleep(100);
-                    rotateTicks(-7,0.2,200);
+                    rotateTicks(-6,0.2,190);
                     sleep(100);
-                    runWithEncoders("RIGHT", 0.2, 0.3, 65, 65, 2500);
+                    runWithEncoders("RIGHT", 0.2, 0.3, 55, 55, 2500);
                    // sleep(100);
                     //runWithEncoders("FORWARD", 0.2, 0.2, -3, -3, 250);
                     //sleep(100);
-                    runWithEncoders("RIGHT", 0.6, 0.7, 13, 13, 500);
+                    rotateTicks(85,0.2,500);
+                    DownServo.setPosition(-1);
+                    sleep(100);
+
 
                     //isCameraDone = true;
              //       rotateTicks(90, 0.2, 500);
@@ -180,32 +188,33 @@ public class AutonomousCreator1 extends robotYeet {
                 } else {
 
                     telemetry.addData("Furthest Left", true);
-                    runWithEncoders("LEFT", 0.2, 0.2, 3, 3, 1000);
+                    runWithEncoders("LEFT", 0.2, 0.2, 16, 16, 1000);
                     sleep(100);
                     DownServo.setPosition(-1);
-                    sleep(450);
+                    sleep(400);
                     DownServo.setPosition(1);
-                    sleep(100);
                     stopVu();
                     runWithEncoders("LEFT", 0.2, 0.2, 26, 26, 1000);
                     sleep(100);
-                    rotateTicks(514,0.4,1155);
-                    sleep(500);
-                    runWithEncoders("FORWARD", 0.2, 0.2, -14, -14, 1000);
-                    sleep(100);
-                    runWithEncoders("LEFT", 0.2, 0.2, 45, 45, 2000);
+                    rotateTicks(-50,0.3,200);
                     sleep(250);
-                    marker.setPosition(1);
-                    sleep(500);
-                    marker.setPosition(-1);
-                    sleep(100);
-                    rotateTicks(-8,0.2,200);
-                    sleep(100);
-                    runWithEncoders("RIGHT", 0.2, 0.3, 60, 60, 2500);
+                    runWithEncoders("FORWARD", 0.3, 0.3, -3, -3, 1000);
+                    sleep(50);
+                    runWithEncoders("LEFT", 0.3, 0.3, 45, 45, 2000);
+                    sleep(50);
+                    marker.setPosition(0.5);
+                    sleep(150);
+                    rotateTicks(-8,0.3,200);
+                    sleep(50);
+                    runWithEncoders("RIGHT", 0.3, 0.4, 57, 57, 2500);
+                    rotateTicks(80, 0.3, 200);
+                    sleep(20);
+                    DownServo.setPosition(-0.4);
+                    sleep(250);
+
                     // sleep(100);
                     //runWithEncoders("FORWARD", 0.2, 0.2, -3, -3, 250);
                     //sleep(100);
-                    runWithEncoders("RIGHT", 0.7, 1, 20, 20, 500);
 
 
                 }
