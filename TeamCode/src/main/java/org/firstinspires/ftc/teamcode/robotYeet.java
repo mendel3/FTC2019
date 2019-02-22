@@ -1,6 +1,9 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.disnodeteam.dogecv.CameraViewDisplay;
+import com.disnodeteam.dogecv.CameraViewDisplay;
+import com.disnodeteam.dogecv.OpenCVPipeline;
+import com.disnodeteam.dogecv.detectors.DogeCVDetector;
 import com.disnodeteam.dogecv.DogeCV;
 import com.disnodeteam.dogecv.Dogeforia;
 import com.disnodeteam.dogecv.detectors.roverrukus.GoldAlignDetector;
@@ -30,6 +33,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+
+import org.opencv.core.Mat;
+import org.opencv.core.Point;
 
 import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.DEGREES;
 import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.XYZ;
@@ -125,7 +131,7 @@ public class robotYeet extends LinearOpMode {
         motorRightF.setDirection(DcMotor.Direction.REVERSE);
         motorRightB.setDirection(DcMotor.Direction.REVERSE);
         touch = hardwareMap.digitalChannel.get("touch");
-        MineralServo = hardwareMap.servo.get("MineralServo");
+        MineralServo = hardwareMap.servo.get("DownServo");
         marker = hardwareMap.servo.get("marker");
         //sensorRange = hardwareMap.get(com.qualcomm.robotcore.hardware.DistanceSensor.class, "sensor_range");
 

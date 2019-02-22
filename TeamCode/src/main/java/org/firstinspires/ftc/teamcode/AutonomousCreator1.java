@@ -26,7 +26,8 @@ public class AutonomousCreator1 extends robotYeet {
         initVu();
         // mylesAngle = 0;
         //magnetTest();
-       telemetry.addLine("Good Luck Drivers!");
+       telemetry.addData("Good Luck Drivers!",true);
+       telemetry.update();
 
         waitForStart();
         // generic DistanceSensor methods.
@@ -94,19 +95,17 @@ public class AutonomousCreator1 extends robotYeet {
                 sleep(250);
                 marker.setPosition(-1);
                 sleep(100);
-                rotateTicks(-8,0.2,2000);
+                rotateTicks(100,0.2,750);
                 sleep(100);
-                runWithEncoders("RIGHT", 0.2, 0.3, 60, 60, 2500);
-                // sleep(100);
-                //runWithEncoders("FORWARD", 0.2, 0.2, -3, -3, 250);
-                //sleep(100);
-                runWithEncoders("RIGHT", 1, 0.6, 20, 20, 500);
+                MineralServo.setPosition(0.5);
+                sleep(500);
+                runWithEncoders("FORWARD", 0.35, 0.4, -60, -60, 3500);
 
 
             } else if (!detector.isFound()) {
                 //runWithEncoders("BACK", 0.2, 0.2, 8, 8, 1000);
                 //sleep(500);
-            //    rotateTicks(-10, 0.2, 500);
+                rotateTicks(-20, 0.2, 500);
                 runWithEncoders("LEFT", 0.2, 0.2, 15, 15, 1000);
                 sleep(250);
             }
@@ -134,50 +133,11 @@ public class AutonomousCreator1 extends robotYeet {
                     sleep(100);
                     marker.setPosition(0.5);
                     sleep(100);
-                    rotateTicks(-7,0.2,200);
+                    rotateTicks(100,0.2,750);
                     sleep(100);
-                    runWithEncoders("RIGHT", 0.2, 0.3, 65, 65, 2500);
-
-                    rotateCCW(90,0.3);
-                   // sleep(100);
-                    //runWithEncoders("FORWARD", 0.2, 0.2, -3, -3, 250);
-                    //sleep(100);
-                  //  runWithEncoders("RIGHT", 0.6, 0.7, 13, 13, 500);
-
-                    //isCameraDone = true;
-             //       rotateTicks(90, 0.2, 500);
-               //     sleep(100);
-                 //   rotateTicks(90, 0.2, 500);
-                   // sleep(100);
-                  //  rotateTicks(36, 0.2, 500);
-
-
-                    // rotateTicks(360,0.2,500);
-                    //rotateTicks(360,0.2,500);
-                    //rotateTicks(65,0.2,500);
-
-
-                    //rotateCCW(90,0.2);
-                    //sleep(1000);
-                    //rotateCCW(80,0.2);
-                   // sleep(100);
-                  //  runWithEncoders("FORWARD", 0.2, 0.2, -3, -3, 2250);
-                    //sleep(150);
-            //        runWithEncoders("RIGHT", 0.2, 0.2, 35, 35, 1000);
-              //      sleep(150);
-                    //runWithEncoders("FORWARD", 0.2, 0.2, -16, -16, 500);
-                    //sleep(150);
-                //    rotateTicks(43, 0.4, 500);
-                  //  sleep(150);
-                    //runWithEncoders("RIGHT", 0.4, 0.4, 12, 12, 500);
-              //      sleep(150);
-                //    runWithEncoders("FORWARD", 0.2, 0.6, -35, -35, 2000);
-                    //runWithEncoders("FORWARD", 0.2, 0.2, -43, -43, 2250);
-                    //sleep(150);
-                    //DistanceSensor1(5);
-                    //marker.setPosition(0.8);
-                    //runWithEncoders("FORWARD", 0.2, 0.2, 125, 125, 3250);
-                    //sleep(100);
+                    MineralServo.setPosition(0.5);
+                    sleep(500);
+                    runWithEncoders("FORWARD", 0.35, 0.4, -60, -60, 3500);
 
 
 
@@ -209,7 +169,7 @@ public class AutonomousCreator1 extends robotYeet {
                     sleep(100);
                     MineralServo.setPosition(0.5);
                     sleep(500);
-                    runWithEncoders("FORWARD", 0.2, 0.3, -70, -70, 3500);
+                    runWithEncoders("FORWARD", 0.35, 0.4, -60, -60, 35000);
                     // sleep(100);
                     //runWithEncoders("FORWARD", 0.2, 0.2, -3, -3, 250);
                     //sleep(100);
