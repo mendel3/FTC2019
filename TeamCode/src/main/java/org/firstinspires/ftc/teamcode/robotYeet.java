@@ -578,8 +578,8 @@ public class robotYeet extends LinearOpMode {
             motorLeftB.setPower(LEFT_MOTOR_POWER);
 
             long start = System.currentTimeMillis();
-            while (motorLeftB.isBusy() || motorRightB.isBusy()) {
-                telemetry.addLine("leftPos:" + motorLeftB.getCurrentPosition() + " rightPos: " + motorRightB.getCurrentPosition());
+           while (motorLeftB.isBusy() || motorRightB.isBusy()) {
+             /*   telemetry.addLine("leftPos:" + motorLeftB.getCurrentPosition() + " rightPos: " + motorRightB.getCurrentPosition());
                 telemetry.addLine("motorLeftB: " + motorLeftB.isBusy() + " motorRightB :" + motorRightB.isBusy());
                 telemetry.addLine("leftPos:" + motorLeftF.getCurrentPosition() + " rightPos: " + motorRightF.getCurrentPosition());
                 telemetry.addLine("motorLeftF: " + motorLeftF.isBusy() + " motorRightF :" + motorRightF.isBusy());
@@ -587,7 +587,7 @@ public class robotYeet extends LinearOpMode {
                 telemetry.addLine("motorLeftB target" + motorLeftB.getTargetPosition());
                 telemetry.addLine("motorRightF target" + motorRightF.getTargetPosition());
                 telemetry.addLine("motorRightB target" + motorRightB.getTargetPosition());
-                telemetry.update();
+                telemetry.update(); */
                 if ((System.currentTimeMillis() - start) > TIME) {//if the time limit is reached then terminate the command
                     break;
                 }
@@ -616,7 +616,7 @@ public class robotYeet extends LinearOpMode {
 
             long start = System.currentTimeMillis();
             while (motorLeftB.isBusy() || motorRightB.isBusy()) {
-                telemetry.addLine("leftPos:" + motorLeftB.getCurrentPosition() + " rightPos: " + motorRightB.getCurrentPosition());
+      /*          telemetry.addLine("leftPos:" + motorLeftB.getCurrentPosition() + " rightPos: " + motorRightB.getCurrentPosition());
                 telemetry.addLine("motorLeftB: " + motorLeftB.isBusy() + " motorRightB :" + motorRightB.isBusy());
                 telemetry.addLine("leftPos:" + motorLeftF.getCurrentPosition() + " rightPos: " + motorRightF.getCurrentPosition());
                 telemetry.addLine("motorLeftF: " + motorLeftF.isBusy() + " motorRightF :" + motorRightF.isBusy());
@@ -624,7 +624,7 @@ public class robotYeet extends LinearOpMode {
                 telemetry.addLine("motorLeftB target" + motorLeftB.getTargetPosition());
                 telemetry.addLine("motorRightF target" + motorRightF.getTargetPosition());
                 telemetry.addLine("motorRightB target" + motorRightB.getTargetPosition());
-                telemetry.update();
+                telemetry.update(); */
                 if ((System.currentTimeMillis() - start) > TIME) {//if the time limit is reached then terminate the command
                     break;
                 }
@@ -655,7 +655,7 @@ public class robotYeet extends LinearOpMode {
 
             long start = System.currentTimeMillis();
             while (motorLeftB.isBusy() || motorRightB.isBusy()) {
-                telemetry.addLine("leftPos:" + motorLeftB.getCurrentPosition() + " rightPos: " + motorRightB.getCurrentPosition());
+        /*        telemetry.addLine("leftPos:" + motorLeftB.getCurrentPosition() + " rightPos: " + motorRightB.getCurrentPosition());
                 telemetry.addLine("motorLeftB: " + motorLeftB.isBusy() + " motorRightB :" + motorRightB.isBusy());
                 telemetry.addLine("leftPos:" + motorLeftF.getCurrentPosition() + " rightPos: " + motorRightF.getCurrentPosition());
                 telemetry.addLine("motorLeftF: " + motorLeftF.isBusy() + " motorRightF :" + motorRightF.isBusy());
@@ -663,7 +663,7 @@ public class robotYeet extends LinearOpMode {
                 telemetry.addLine("motorLeftB target" + motorLeftB.getPower());
                 telemetry.addLine("motorRightF target" + motorRightF.getPower());
                 telemetry.addLine("motorRightB target" + motorRightB.getPower());
-                telemetry.update();
+                telemetry.update(); */
                 if ((System.currentTimeMillis() - start) > TIME) {//if the time limit is reached then terminate the command
                     break;
                 }
@@ -693,7 +693,7 @@ public class robotYeet extends LinearOpMode {
 
             long start = System.currentTimeMillis();
             while (motorLeftB.isBusy() || motorRightB.isBusy()) {
-                telemetry.addLine("leftPos:" + motorLeftB.getCurrentPosition() + " rightPos: " + motorRightB.getCurrentPosition());
+       /*         telemetry.addLine("leftPos:" + motorLeftB.getCurrentPosition() + " rightPos: " + motorRightB.getCurrentPosition());
                 telemetry.addLine("motorLeftB: " + motorLeftB.isBusy() + " motorRightB :" + motorRightB.isBusy());
                 telemetry.addLine("leftPos:" + motorLeftF.getCurrentPosition() + " rightPos: " + motorRightF.getCurrentPosition());
                 telemetry.addLine("motorLeftF: " + motorLeftF.isBusy() + " motorRightF :" + motorRightF.isBusy());
@@ -701,7 +701,7 @@ public class robotYeet extends LinearOpMode {
                 telemetry.addLine("motorLeftB target" + motorLeftB.getPower());
                 telemetry.addLine("motorRightF target" + motorRightF.getPower());
                 telemetry.addLine("motorRightB target" + motorRightB.getPower());
-                telemetry.update();
+                telemetry.update(); */
                 if ((System.currentTimeMillis() - start) > TIME) {//if the time limit is reached then terminate the command
                     break;
                 }
@@ -891,6 +891,7 @@ public class robotYeet extends LinearOpMode {
         parameters.vuforiaLicenseKey = "AeboHvn/////AAABmSzYZyUm+EUDjaQHLvzQkGkdRe3jyyOMRviFIxl0zCuj+H5SeujlEfDD8NEPYFy1sNYyPCKJWN5TK81xyMNy7Gel8jDRBvRiZY+RFH5o6Y91mRkTyhe/FC0lC0NmD537JFbt7jpvBraztI9IvxGzzuhlf0V0OsQEcgvX8IMsHMV7Dm0/yWXhP4mqgypC175SdvtwUlbYTfPowCavlKElWVendSszyhxwG6ODgghXOzgLTsjQ+Qzqf1009yw+qwsHw/gT9yHRIhy20QlpNySzjT0yOhTMgpnI2oFjFfIEehR98Gk3XTlDcbAOT769XjFIIE8HwlZxcnAhrNQiIlYxyHXkCUOTmQ6RGAqshXpzV7Zh";
         parameters.fillCameraMonitorViewParent = true;
 
+
         // Init Dogeforia
         vuforia = new Dogeforia(parameters);
         vuforia.enableConvertFrameToBitmap();
@@ -952,9 +953,9 @@ public class robotYeet extends LinearOpMode {
 
         detector = new GoldAlignDetector(); // Create a gold aligndetector
         detector.init(hardwareMap.appContext, CameraViewDisplay.getInstance(), 0, true);
+        detector.useDefaults(); // Use default settings
 
         detector.yellowFilter = new LeviColorFilter(LeviColorFilter.ColorPreset.YELLOW, 100); // Create new filter
-        detector.useDefaults(); // Use default settings
         detector.areaScoringMethod = DogeCV.AreaScoringMethod.MAX_AREA; // Can also be PERFECT_AREA
         //detector.perfectAreaScorer.perfectArea = 10000; // Uncomment if using PERFECT_AREA scoring
         detector.debugAlignment = true;
@@ -1051,13 +1052,13 @@ public class robotYeet extends LinearOpMode {
         lift.setPower(-1);
         Thread.sleep(100);
         while (opModeIsActive()) {
-            TouchActive = touch.getState();
+     //       TouchActive = touch.getState();
             liftTick = lift.getCurrentPosition();
             telemetry.addData("Lift Position", liftTick);
             telemetry.addData("touch status", TouchActive);
             telemetry.update();
 
-            if (liftTick < -9600 || !TouchActive) {
+            if (liftTick < -9500) {
                 lift.setPower(0);
                 Thread.sleep(100);
                 break;

@@ -71,7 +71,6 @@ import com.qualcomm.robotcore.util.Range;
             double gamepad1RightX = gamepad1.right_stick_x;
             double rotation = 0;
             // double gamepad1RightX = gamepad1.right_stick_x;
-fingers.setPower(1);
 
                 magnetActive = magnet.getState();
                 liftTick = lift.getCurrentPosition();
