@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 
-@Autonomous(name = "help me2", group = "this isnt a joke")
+@Autonomous(name = "AutonomousMarker", group = "this isnt a joke")
 // I am being held against my will and forced to brute force write this code character by character
 public class AutonomousNoCreator2 extends robotYeet {
     @Override
