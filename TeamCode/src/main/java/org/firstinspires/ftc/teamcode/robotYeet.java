@@ -1055,16 +1055,16 @@ public class robotYeet extends LinearOpMode {
 
     public void lift() throws InterruptedException {
 
-        lift.setPower(-1);
+        lift.setPower(1);
         Thread.sleep(100);
         while (opModeIsActive()) {
-     //       TouchActive = touch.getState();
+            TouchActive = touch.getState();
             liftTick = lift.getCurrentPosition();
             telemetry.addData("Lift Position", liftTick);
             telemetry.addData("touch status", TouchActive);
             telemetry.update();
 
-            if (liftTick < -9500) {
+            if (liftTick > 10000 ||  !TouchActive) {
                 lift.setPower(0);
                 Thread.sleep(100);
                 break;
