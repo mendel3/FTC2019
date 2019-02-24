@@ -1,22 +1,23 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 
-@Autonomous(name = "help me", group = "this isnt a joke")
+@Autonomous(name = "AutonomousCrater", group = "this isnt a joke")
 // I am being held against my will and forced to brute force write this code character by character
 public class AutonomousCreator1 extends robotYeet {
-  //  DistanceSensor sensorRange;
+    DistanceSensor sensorRange;
 
     public void runOpMode() throws InterruptedException {
         initRobot();
-        //  DistanceSensor sensorRange;
 
         // you can use this as a regular DistanceSensor.
-  //      sensorRange = hardwareMap.get(DistanceSensor.class, "sensor_range");
+        sensorRange = hardwareMap.get(DistanceSensor.class, "sensor_range");
 
         // you can also cast this to a Rev2mDistanceSensor if you want to use added
         // methods associated with the Rev2mDistanceSensor class.
-    //    Rev2mDistanceSensor sensorTimeOfFlight = (Rev2mDistanceSensor) sensorRange;
+        Rev2mDistanceSensor sensorTimeOfFlight = (Rev2mDistanceSensor) sensorRange;
 
       //  telemetry.addData(">>", "Press start to continue");
         //telemetry.update();
@@ -30,35 +31,16 @@ public class AutonomousCreator1 extends robotYeet {
        telemetry.update();
 
         waitForStart();
-        // generic DistanceSensor methods.
-       // DistanceSensor(sensorRange);
-        // generic DistanceSensor methods.
-        // telemetry.addData("deviceName",sensorRange.getDeviceName() );
-        //           telemetry.addData("range", String.format("%.01f mm", sensorRange.getDistance(DistanceUnit.MM)));
-        //         telemetry.addData("range", String.format("%.01f cm", sensorRange.getDistance(DistanceUnit.CM)));
-        //       telemetry.addData("range", String.format("%.01f m", sensorRange.getDistance(DistanceUnit.METER)));
-        //     telemetry.addData("range", String.format("%.01f in", sensorRange.getDistance(DistanceUnit.INCH)));
-
-        // Rev2mDistanceSensor specific methods.
-//            telemetry.addData("ID", String.format("%x", sensorTimeOfFlight.getModelID()));
-        //          telemetry.addData("did time out", Boolean.toString(sensorTimeOfFlight.didTimeoutOccur()));
-
-        //        telemetry.update();
-        //  }
-
-
-     //    lift();
-        // mylesAngle = angles.secondAngle;
-        //telemetry.addData("angle after landing:", mylesAngle);
-        //DistanceSensor1(5);
 
 
 
-           runWithEncoders("LEFT", 0.2, 0.2, 10, 10, 1000);
+
+           runWithEncoders("LEFT", 0.4, 0.4, 5, 5, 500);
             sleep(100);
-            runWithEncoders("BACKWARD", 0.2, 0.2, -18, -18, 1000);
-            sleep(100);
-            rotateTicks(-10, 0.2, 3);
+            runWithEncoders("BACKWARD", 0.4, 0.4, -18, -18, 1000);
+            sleep(50);
+            rotateTicks(-10, 0.3, 3);
+            sleep(10);
             rotateCCW(90, 0.2);
             sleep(50);
             rotateCCW(73, 0.2);
@@ -77,32 +59,29 @@ public class AutonomousCreator1 extends robotYeet {
                 telemetry.update();
 
                 runWithEncoders("LEFT", 0.2, 0.2, 3, 3, 1000);
-                sleep(100);
+                sleep(50);
                 MineralServo.setPosition(-1);
                 sleep(500);
                 MineralServo.setPosition(1);
+                sleep(50);
+                stopVu();
+                runWithEncoders("LEFT", 0.2, 0.2, 75, 75, 1500);
                 sleep(100);
-               // stopVu();
-                runWithEncoders("LEFT", 0.2, 0.2, 55, 55, 1000);
-                sleep(100);
-                rotateTicks(514,0.4,1170);
-                sleep(250);
-                runWithEncoders("FORWARD", 0.2, 0.2, -14, -14, 1000);
-                sleep(100);
+                rotateTicks(-50,0.3,200);
+                sleep(200);
+                runWithEncoders("FORWARD", 0.2, 0.2, -17, -17, 1000);
+                sleep(50);
                 runWithEncoders("LEFT", 0.2, 0.2, 45, 45, 2000);
                 sleep(50);
-                marker.setPosition(1);
-                sleep(250);
-                marker.setPosition(-1);
+                marker.setPosition(0.6);
                 sleep(100);
-                rotateTicks(100,0.2,750);
-                sleep(100);
-                MineralServo.setPosition(0.5);
-                sleep(500);
-                runWithEncoders("FORWARD", 0.35, 0.4, -60, -60, 3500);
-
-
-            } else if (!detector.isFound()) {
+                rotateTicks(175,0.2,250);
+                sleep(50);
+                runWithEncoders("FORWARD", 0.2, 0.3, 63, 63, 3500);
+                sleep(10);
+                zroa.setPower(0.6);
+            }
+            else if (!detector.isFound()) {
                 //runWithEncoders("BACK", 0.2, 0.2, 8, 8, 1000);
                 //sleep(500);
                 rotateTicks(-20, 0.2, 500);
