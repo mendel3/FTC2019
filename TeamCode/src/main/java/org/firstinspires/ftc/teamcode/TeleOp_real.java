@@ -188,10 +188,10 @@ zroa.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             }
     */
             if (gamepad1.a) {
-                DownServo.setPosition(-0.95);
+                DownServo.setPosition(-1);
             }
             else if (gamepad1.b){
-                DownServo.setPosition(0.7);
+                DownServo.setPosition(1);
             }
 
             if (gamepad1.y){

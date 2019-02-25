@@ -176,7 +176,7 @@ public class TeleopTest extends OpMode {
             }
     */
         if (gamepad1.a) {
-            DownServo.setPosition(0.5);
+            DownServo.setPosition(-0.9);
         }
         else if (gamepad1.b){
             DownServo.setPosition(1);
