@@ -4,7 +4,7 @@ import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 
-@Autonomous(name = "AutonomousCrater", group = "this isnt a joke")
+@Autonomous(name = "AutonomousCrater1", group = "this isnt a joke")
 // I am being held against my will and forced to brute force write this code character by character
 public class AutonomousCreator1 extends robotYeet {
     DistanceSensor sensorRange;
@@ -29,15 +29,15 @@ public class AutonomousCreator1 extends robotYeet {
         //magnetTest();
        telemetry.addData("Good Luck Drivers!",true);
        telemetry.update();
-
+        startVu();
         waitForStart();
 
 
 
 
            runWithEncoders("LEFT", 0.4, 0.4, 5, 5, 500);
-            sleep(100);
-            runWithEncoders("BACKWARD", 0.4, 0.4, -18, -18, 1000);
+            sleep(50);
+            runWithEncoders("BACKWARD", 0.4, 0.4, -19, -19, 1000);
             sleep(50);
             rotateTicks(-10, 0.3, 3);
             sleep(10);
@@ -46,13 +46,13 @@ public class AutonomousCreator1 extends robotYeet {
             rotateCCW(73, 0.2);
             sleep(10);
 
-            startVu();
-            Thread.sleep(10);
+
+
             loopVu();
 
-            Thread.sleep(100);
+            Thread.sleep(90);
             runWithEncoders("RIGHT", 0.3, 0.3, 4, 4, 1000);
-            sleep(250);
+            sleep(100);
 
             if (detector.isFound()) {
                 telemetry.addData("First", true);
@@ -61,25 +61,28 @@ public class AutonomousCreator1 extends robotYeet {
                 runWithEncoders("LEFT", 0.2, 0.2, 3, 3, 1000);
                 sleep(50);
                 MineralServo.setPosition(-1);
-                sleep(500);
+                sleep(350);
                 MineralServo.setPosition(1);
                 sleep(50);
                 stopVu();
-                runWithEncoders("LEFT", 0.2, 0.2, 75, 75, 1500);
+                rotateTicks(-7,0.3,20);
+                runWithEncoders("LEFT", 0.4, 0.4, 54, 54, 1500);
+                sleep(80);
+                rotateTicks(-54,0.3,200);
+                sleep(120);
+                runWithEncoders("FORWARD", 0.3, 0.3, -10, -10, 1000);
+                sleep(50);
+                runWithEncoders("LEFT", 0.3, 0.3, 45, 45, 2000);
                 sleep(100);
-                rotateTicks(-50,0.3,200);
+                marker.setPosition(-0.8);
                 sleep(200);
-                runWithEncoders("FORWARD", 0.2, 0.2, -17, -17, 1000);
-                sleep(50);
-                runWithEncoders("LEFT", 0.2, 0.2, 45, 45, 2000);
-                sleep(50);
-                marker.setPosition(0.6);
-                sleep(100);
-                rotateTicks(175,0.2,250);
-                sleep(50);
-                runWithEncoders("FORWARD", 0.2, 0.3, 63, 63, 3500);
+                rotateTicks(-200,0.2,450);
+                sleep(250);
+                runWithEncoders("LEFT", 0.2, 0.3, -9, -9, 3500);
+                runWithEncoders("LEFT", 0.3, 0.4, -54, -54, 3500);
+
                 sleep(10);
-                zroa.setPower(0.6);
+                zroa.setTargetPosition(6);
             }
             else if (!detector.isFound()) {
                 //runWithEncoders("BACK", 0.2, 0.2, 8, 8, 1000);
@@ -102,7 +105,7 @@ public class AutonomousCreator1 extends robotYeet {
                  //   stopVu();
                     runWithEncoders("LEFT", 0.2, 0.2, 35, 35, 1000);
                     sleep(100);
-                    rotateTicks(516,0.4,1170);
+                    rotateTicks(-110,0.4,1170);
                     sleep(250);
                     runWithEncoders("FORWARD", 0.2, 0.2, -14, -14, 1000);
                     sleep(100);
@@ -112,7 +115,7 @@ public class AutonomousCreator1 extends robotYeet {
                     sleep(100);
                     marker.setPosition(0.5);
                     sleep(100);
-                    rotateTicks(100,0.2,750);
+                    rotateTicks(95,0.2,750);
                     sleep(100);
                     MineralServo.setPosition(0.5);
                     sleep(500);

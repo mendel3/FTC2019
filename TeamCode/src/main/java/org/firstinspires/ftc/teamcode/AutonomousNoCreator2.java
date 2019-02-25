@@ -29,7 +29,7 @@ public class AutonomousNoCreator2 extends robotYeet {
         sleep(100);
         rotateTicks(-10,0.2,10);
         rotateCCW(90, 0.2);
-        sleep(200);
+        sleep(50);
         //marker.setPosition(-1);
         // sleep(2000);
         rotateCCW(73, 0.2);
@@ -54,11 +54,10 @@ public class AutonomousNoCreator2 extends robotYeet {
                 telemetry.addData("Middle",true);
                 runWithEncoders("LEFT", 0.2, 0.2, 3, 3, 1000);
                 sleep(250);
-                MineralServo.setPosition(-1);
+                runWithEncoders("FORWARD", 0.2, 0.2, 15, 15, 1000);
                 sleep(250);
-                MineralServo.setPosition(1);
                 sleep(100);
-                isCameraDone = true;
+
                 runWithEncoders("RIGHT", 0.2, 0.2, 15, 15, 1000);
                 sleep(250);
                 rotateCCW(90, 0.2);

@@ -1,13 +1,10 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.disnodeteam.dogecv.CameraViewDisplay;
-import com.disnodeteam.dogecv.CameraViewDisplay;
-import com.disnodeteam.dogecv.OpenCVPipeline;
-import com.disnodeteam.dogecv.detectors.DogeCVDetector;
-import com.disnodeteam.dogecv.DogeCV;
 import com.disnodeteam.dogecv.Dogeforia;
 import com.disnodeteam.dogecv.detectors.roverrukus.GoldAlignDetector;
 import com.disnodeteam.dogecv.filters.LeviColorFilter;
+import com.disnodeteam.dogecv.scoring.RatioScorer;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -33,9 +30,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-
-import org.opencv.core.Mat;
-import org.opencv.core.Point;
 
 import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.DEGREES;
 import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.XYZ;
@@ -85,6 +79,7 @@ public class robotYeet extends LinearOpMode {
     public DigitalChannel MagnetLift;
     float liftTick;
     double getDistance;
+    boolean distanceActive;
     public boolean isCameraDone = false;
 
     // Select which camera you want use.  The FRONT camera is the one on the same side as the screen.
@@ -133,6 +128,7 @@ public class robotYeet extends LinearOpMode {
         touch = hardwareMap.digitalChannel.get("touch");
         MineralServo = hardwareMap.servo.get("DownServo");
         marker = hardwareMap.servo.get("marker");
+        sensorRange = hardwareMap.get(DistanceSensor.class, "sensor_range");
         //sensorRange = hardwareMap.get(com.qualcomm.robotcore.hardware.DistanceSensor.class, "sensor_range");
 
         // you can also cast this to a Rev2mDistanceSensor if you want to use added
@@ -960,9 +956,9 @@ public class robotYeet extends LinearOpMode {
         detector = new GoldAlignDetector(); // Create a gold aligndetector
         detector.init(hardwareMap.appContext, CameraViewDisplay.getInstance(), 0, true);
         detector.useDefaults(); // Use default settings
-
+        detector.addScorer(new RatioScorer(1.0,100));
         detector.yellowFilter = new LeviColorFilter(LeviColorFilter.ColorPreset.YELLOW, 100); // Create new filter
-        detector.areaScoringMethod = DogeCV.AreaScoringMethod.MAX_AREA; // Can also be PERFECT_AREA
+        //detector.areaScoringMethod = DogeCV.AreaScoringMethod.MAX_AREA; // Can also be PERFECT_AREA
         //detector.perfectAreaScorer.perfectArea = 10000; // Uncomment if using PERFECT_AREA scoring
         detector.debugAlignment = true;
         detector.alignSize = 100;
@@ -1073,29 +1069,15 @@ public class robotYeet extends LinearOpMode {
         }
     }
 
-    public void DistanceSensor(DistanceSensor SensorRange) throws InterruptedException {
-        motorRightB.setPower(-0.3);
-        motorRightF.setPower(0.3);
-        motorLeftB.setPower(0.3);
-        motorLeftF.setPower(-0.3);
-
+    public void DistanceSensor() throws InterruptedException {
         while (opModeIsActive()) {
-            sensorRange = hardwareMap.get(DistanceSensor.class, "sensor_range");
-            getDistance = SensorRange.getDistance(DistanceUnit.CM);
-              telemetry.addData("range", String.format("%.01f cm", SensorRange.getDistance(DistanceUnit.CM)));
-              telemetry.update();
-
-            if (getDistance < 20) {
-                brake();
+            getDistance = sensorRange.getDistance(DistanceUnit.CM);
+                telemetry.addData("range", String.format("%.01f cm", sensorRange.getDistance(DistanceUnit.CM)));
+                telemetry.update();
+            if (getDistance < 15 && distanceActive) {
+                runWithEncoders("BACKWARD",0.2,0.2,4,4,500);
                 break;
             }
-            else {
-                motorRightB.setPower(-0.3);
-                motorRightF.setPower(0.3);
-                motorLeftB.setPower(0.3);
-                motorLeftF.setPower(-0.3);
-        }
-
         }
     }
 }

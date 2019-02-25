@@ -24,6 +24,7 @@ public class TeleopTest extends OpMode {
     Servo DownServo;
     Servo marker;
     DcMotor acordion;
+    float aTick;
     DigitalChannel magnet;
     boolean lastUpperValue;
     boolean lastLowerValue;
@@ -80,10 +81,10 @@ public class TeleopTest extends OpMode {
         telemetry.addData("touch status", magnetActive);
         telemetry.update();
         if (gamepad1.left_stick_x!=0) {
-            motorBackLeft.setPower(-gamepad1.left_stick_x);
-            motorBackRight.setPower(-gamepad1.left_stick_x);
-            motorFrontLeft.setPower(-gamepad1.left_stick_x);
-            motorFrontRight.setPower(-gamepad1.left_stick_x);
+            motorBackLeft.setPower(-gamepad1.left_stick_x*0.5);
+            motorBackRight.setPower(-gamepad1.left_stick_x*0.5);
+            motorFrontLeft.setPower(-gamepad1.left_stick_x*0.5);
+            motorFrontRight.setPower(-gamepad1.left_stick_x*0.5);
         }
         else {
 
@@ -127,11 +128,12 @@ public class TeleopTest extends OpMode {
         telemetry.addLine("last upper value" + lastUpperValue);
         telemetry.addLine("last lower value" + lastLowerValue);
 
-        zroa.setPower(gamepad2.right_stick_y);
+
+        zroa.setPower(gamepad2.right_stick_y*0.7);
 
 
 
-        acordion.setPower(gamepad2.left_stick_y);
+        acordion.setPower(gamepad2.left_stick_y*0.7);
     /*        if (-gamepad2.left_stick_y > 0){
                 acordion.setPower(gamepad2.left_stick_y);
             }
@@ -142,8 +144,9 @@ public class TeleopTest extends OpMode {
                 acordion.setPower(0);
             } */
 
-
-
+ //       zroaTick = zroa.getCurrentPosition();
+//if (zroaTick < 600 && zroaTick>1000)
+ //   zroa.setPower(0.3);
 
 
         if (gamepad2.a){
@@ -160,7 +163,7 @@ public class TeleopTest extends OpMode {
         // }
 
         if (gamepad2.dpad_left){
-            Angle.setPosition(0.47);
+            Angle.setPosition(0.22);
         }
         else if (gamepad2.dpad_up){
             Angle.setPosition(0.15);
