@@ -60,12 +60,13 @@ import com.qualcomm.robotcore.hardware.Servo;
             marker = hardwareMap.servo.get("marker");
             touch = hardwareMap.get(DigitalChannel.class, "touch");
             lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
+zroa.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             zroa.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             acordion.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             //lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            zroa.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 
         }
@@ -83,7 +84,6 @@ import com.qualcomm.robotcore.hardware.Servo;
                 telemetry.addData("Lift Position", liftTick);
                 //telemetry.addData("touch status", TouchActive);
             telemetry.addData("touch status", touch.getState());
-                telemetry.update();
            if (gamepad1.left_stick_x!=0) {
                motorBackLeft.setPower(-gamepad1.left_stick_x);
                motorBackRight.setPower(-gamepad1.left_stick_x);
@@ -200,7 +200,8 @@ import com.qualcomm.robotcore.hardware.Servo;
             else if (gamepad1.x){
                 marker.setPosition(-1);
             }
-
+telemetry.addData("zroa posittion",zroa.getCurrentPosition());
+            telemetry.update();
     /*
             if(!lastUpperVaLue && gamepad2.dpad_up){
                 liftState++;

@@ -123,6 +123,8 @@ public class robotYeet extends LinearOpMode {
         motorRightB = hardwareMap.dcMotor.get("motorBackRight");
         motorRightF = hardwareMap.dcMotor.get("motorFrontRight");
         lift = hardwareMap.dcMotor.get("motor3");
+        zroa = hardwareMap.dcMotor.get("motor2");
+
         motorRightF.setDirection(DcMotor.Direction.REVERSE);
         motorRightB.setDirection(DcMotor.Direction.REVERSE);
         touch = hardwareMap.digitalChannel.get("touch");
@@ -1080,7 +1082,7 @@ public class robotYeet extends LinearOpMode {
             }
         }
     }
-}
+
 
 
 
@@ -1137,12 +1139,11 @@ public class robotYeet extends LinearOpMode {
         motorLeftF.setPower(0.3);
         motorLeftB.setPower(0.3);
 
-    }
+    } */
     public void EncoderCheck(){
             motorLeftF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            motorLeftF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            motorLeftF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             motorLeftF.setTargetPosition(5000);
-        motorLeftF.setPower(1);
             while (opModeIsActive()) {
                 telemetry.addData("Mode", motorLeftF.getMode());
                 telemetry.addData("Target position", motorLeftF.getTargetPosition());
@@ -1151,6 +1152,7 @@ public class robotYeet extends LinearOpMode {
                 telemetry.update();
             }
         }
+        /*
     public void EncoderCheck2(){
         motorLeftB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorLeftB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -1163,6 +1165,6 @@ public class robotYeet extends LinearOpMode {
             telemetry.addData("Power",motorLeftB.getPower());
             telemetry.update();
         }
+    } */
     }
-    }
- */
+
