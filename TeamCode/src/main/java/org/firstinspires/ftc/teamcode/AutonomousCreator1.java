@@ -31,7 +31,7 @@ public class AutonomousCreator1 extends robotYeet {
         telemetry.update();
         startVu();
         waitForStart();
-        DistanceSensor();
+        //  DistanceSensor();
 
         runWithEncoders("LEFT", 0.4, 0.4, 5, 5, 500);
         sleep(50);
@@ -59,7 +59,7 @@ public class AutonomousCreator1 extends robotYeet {
             sleep(50);
             MineralServo.setPosition(-1);
             sleep(350);
-            MineralServo.setPosition(1);
+            MineralServo.setPosition(0.5);
             sleep(50);
             stopVu();
             rotateTicks(-7, 0.3, 20);
@@ -71,7 +71,7 @@ public class AutonomousCreator1 extends robotYeet {
             sleep(50);
             runWithEncoders("LEFT", 0.3, 0.3, 45, 45, 2000);
             sleep(100);
-            marker.setPosition(-0.8);
+            marker.setPosition(0.8);
             sleep(200);
             rotateTicks(-200, 0.2, 450);
             sleep(250);
@@ -104,8 +104,15 @@ public class AutonomousCreator1 extends robotYeet {
             rotateTicks(-110, 0.4, 1170);
             sleep(250);
             distanceActive = true;
+            DistanceSensor();
             runWithEncoders("FORWARD", 0.2, 0.2, -14, -14, 1000);
             sleep(100);
+            DistanceSensor();
+        }
+    }
+}
+
+            /*
             runWithEncoders("LEFT", 0.25, 0.25, 45, 45, 2500);
             sleep(250);
             marker.setPosition(1);
@@ -234,9 +241,9 @@ public class AutonomousCreator1 extends robotYeet {
             sleep(100);
     }
     }
-    */
+
     }
-}
+}*/
 
 
 

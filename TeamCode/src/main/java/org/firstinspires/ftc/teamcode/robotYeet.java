@@ -79,7 +79,7 @@ public class robotYeet extends LinearOpMode {
     public DigitalChannel MagnetLift;
     float liftTick;
     double getDistance;
-    boolean distanceActive;
+    boolean distanceActive = false;
     public boolean isCameraDone = false;
 
     // Select which camera you want use.  The FRONT camera is the one on the same side as the screen.
@@ -1080,6 +1080,7 @@ public class robotYeet extends LinearOpMode {
                 runWithEncoders("BACKWARD",0.2,0.2,4,4,500);
                 break;
             }
+            else {break;}
         }
     }
 
