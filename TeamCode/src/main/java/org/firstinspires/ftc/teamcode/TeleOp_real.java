@@ -20,14 +20,14 @@ import com.qualcomm.robotcore.hardware.Servo;
 
         //CRServo ser1;
        // Servo Angle;
-        Servo Angle;
+        Servo Box;
         Servo DownServo;
         Servo marker;
         DcMotor acordion;
     DigitalChannel touch;
     //HardwareMap.DeviceMapping<DigitalChannel> touch;
     boolean TouchActive;
-       // DigitalChannel magnet;
+       //DigitalChannel magnet;
         boolean lastUpperValue;
         boolean lastLowerValue;
         boolean magnetActive;
@@ -38,6 +38,7 @@ import com.qualcomm.robotcore.hardware.Servo;
         }
         @Override
         public void init(){
+            //configs  teleop
             telemetry.addLine("Good Luck");
             zroa = hardwareMap.dcMotor.get("motor2");
             lift = hardwareMap.dcMotor.get("motor3");
@@ -55,7 +56,7 @@ import com.qualcomm.robotcore.hardware.Servo;
             //ser1 = hardwareMap.crservo.get("crservo");
             collector = hardwareMap.get(CRServo.class, "C");
             //   Angle = hardwareMap.servo.get("A");
-            Angle = hardwareMap.servo.get("A");
+            Box = hardwareMap.servo.get("Box");
             DownServo = hardwareMap.servo.get("DownServo");
             marker = hardwareMap.servo.get("marker");
             touch = hardwareMap.get(DigitalChannel.class, "touch");
@@ -79,16 +80,17 @@ zroa.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             // double gamepad1RightX = gamepad1.right_stick_x;
             // collector.setPower(1);
 
-              //  magnetActive = magnet.getState();
+               magnetActive = touch.getState();
                 liftTick = lift.getCurrentPosition();
                 telemetry.addData("Lift Position", liftTick);
                 //telemetry.addData("touch status", TouchActive);
             telemetry.addData("touch status", touch.getState());
+            //rotation
            if (gamepad1.left_stick_x!=0) {
-               motorBackLeft.setPower(-gamepad1.left_stick_x);
-               motorBackRight.setPower(-gamepad1.left_stick_x);
-               motorFrontLeft.setPower(-gamepad1.left_stick_x);
-               motorFrontRight.setPower(-gamepad1.left_stick_x);
+               motorBackLeft.setPower(-gamepad1.left_stick_x/1.5);
+               motorBackRight.setPower(-gamepad1.left_stick_x/1.5);
+               motorFrontLeft.setPower(-gamepad1.left_stick_x/1.5);
+               motorFrontRight.setPower(-gamepad1.left_stick_x/1.5);
            }
             else {
 
@@ -102,6 +104,7 @@ zroa.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                double BackLeft = gamepad1RightY + gamepad1RightX - rotation;
                double FrontLeft = -gamepad1RightY + gamepad1RightX - rotation;
 
+               //moving
                motorFrontRight.setPower(FrontRight);
                motorFrontLeft.setPower(FrontLeft);
                motorBackLeft.setPower(BackLeft);
@@ -110,14 +113,34 @@ zroa.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             telemetry.addLine("touch not Active: " + TouchActive);
         //    magnetActive = magnet.getState();
         //    float liftTick = lift.getCurrentPosition();
-            if (touch.getState() == true) {
-                    lift.setPower(-gamepad1.left_stick_y);
+            //checking if the magnet sensor detects something
+
+            if (liftTick >= 9600 || !magnetActive) {
+                if (gamepad1.dpad_up) {
+                    lift.setPower(0);
+                }
+                else if (gamepad1.dpad_down){
+                    lift.setPower(-1);
+                }
+                else {
+                    lift.setPower(0);
+                }
+            }
+            else {
+                if (gamepad1.dpad_up) {
+                    lift.setPower(1);
+                }
+                else if (gamepad1.dpad_down){
+                    lift.setPower(-1);
+                }
+                else {
+                    lift.setPower(0);
+                }
+
             }
 
-            if (touch.getState() == false) {
-                lift.setPower(0);
-            }
-          //  else if (TouchActive = ) {
+
+            //  else if (TouchActive = ) {
             //        lift.setPower(-gamepad1.left_stick_y);
            // }
 
@@ -136,17 +159,30 @@ zroa.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             telemetry.addLine("lift Power: " + lift.getPower());
             telemetry.addLine("lift:" + liftTick);
             telemetry.addLine("zroa:" + zroa.getCurrentPosition());
+            telemetry.addLine("Acordion: "+ acordion.getCurrentPosition());
             lastUpperValue = gamepad2.dpad_up;
             lastLowerValue = gamepad2.dpad_down;
 
             telemetry.addLine("last upper value" + lastUpperValue);
             telemetry.addLine("last lower value" + lastLowerValue);
 
+            //zroa power
             zroa.setPower(gamepad2.right_stick_y);
 
 
+        //accordian power
+            if (gamepad2.left_stick_y !=0) {
+                acordion.setPower(gamepad2.left_stick_y);
+            }
+            else {
 
-            acordion.setPower(gamepad2.left_stick_y);
+                acordion.setPower(-0.075);
+            }
+            /*
+
+            else if (acordion.getCurrentPosition() >= 2000){
+                acordion.setPower(0.05);
+            }*/
     /*        if (-gamepad2.left_stick_y > 0){
                 acordion.setPower(gamepad2.left_stick_y);
             }
@@ -160,14 +196,14 @@ zroa.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
 
 
-
-            if (gamepad2.a){
+//collector fingers power
+            if (gamepad2.right_bumper){
                 collector.setPower(1);
             }
-            else if (gamepad2.b){
+            else if (gamepad2.left_bumper){
                 collector.setPower(-1);
             }
-            else if (gamepad2.y){
+            else{
                 collector.setPower(0);
             }
             //else  if (gamepad2.y){
@@ -175,25 +211,26 @@ zroa.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
            // }
 
             if (gamepad2.dpad_left){
-                Angle.setPosition(0.25);
+                Box.setPosition(0.47);
             }
             else if (gamepad2.dpad_up){
-                Angle.setPosition(0.15);
+                Box.setPosition(0.15);
             }
             else if (gamepad2.dpad_down){
-                Angle.setPosition(0.85);
+                Box.setPosition(0.85);
             }
         /*    else {
                 Angle.setPosition(0.47);
             }
     */
+        //mineral servo pos
             if (gamepad1.a) {
                 DownServo.setPosition(-1);
             }
             else if (gamepad1.b){
                 DownServo.setPosition(1);
             }
-
+            //marker pos
             if (gamepad1.y){
                 marker.setPosition(1);
             }
@@ -201,6 +238,9 @@ zroa.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 marker.setPosition(-1);
             }
 telemetry.addData("zroa posittion",zroa.getCurrentPosition());
+            telemetry.addData("Acc mode",acordion.getZeroPowerBehavior());
+            telemetry.addData("LB",gamepad2.left_bumper);
+            telemetry.addData("acc power",acordion.getPower());
             telemetry.update();
     /*
             if(!lastUpperVaLue && gamepad2.dpad_up){

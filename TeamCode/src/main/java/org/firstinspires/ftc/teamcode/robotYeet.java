@@ -118,6 +118,7 @@ public class robotYeet extends LinearOpMode {
      * Resets the cumulative angle tracking to zero.
      */
     public void initRobot() {
+        //sets the configuration of the motors
         motorLeftF = hardwareMap.dcMotor.get("motorFrontLeft");
         motorLeftB = hardwareMap.dcMotor.get("motorBackLeft");
         motorRightB = hardwareMap.dcMotor.get("motorBackRight");
@@ -130,7 +131,7 @@ public class robotYeet extends LinearOpMode {
         touch = hardwareMap.digitalChannel.get("touch");
         MineralServo = hardwareMap.servo.get("DownServo");
         marker = hardwareMap.servo.get("marker");
-        sensorRange = hardwareMap.get(DistanceSensor.class, "sensor_range");
+       // sensorRange = hardwareMap.get(DistanceSensor.class, "sensor_range");
         //sensorRange = hardwareMap.get(com.qualcomm.robotcore.hardware.DistanceSensor.class, "sensor_range");
 
         // you can also cast this to a Rev2mDistanceSensor if you want to use added
@@ -148,6 +149,7 @@ public class robotYeet extends LinearOpMode {
     }
 
     public Boolean LiftDown() {
+        //unused
         CurrentState = null;
         if (MagnetLift.getState() == true) {
             CurrentState = true;
@@ -158,7 +160,7 @@ public class robotYeet extends LinearOpMode {
     }
 
     public void initgyro() {
-
+//inits the imu
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
 
         byte AXIS_MAP_CONFIG_BYTE = 0x18;
@@ -199,6 +201,7 @@ public class robotYeet extends LinearOpMode {
     }
 
     public void imuTelemetry() {
+        //telemetry for imu
         while (opModeIsActive()) {
 
             angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.XZY, AngleUnit.DEGREES);
@@ -212,6 +215,7 @@ public class robotYeet extends LinearOpMode {
     }
 
     public void resetAngle() {
+        //unused
         lastAngles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
         globalAngle = 0;
 
@@ -223,6 +227,7 @@ public class robotYeet extends LinearOpMode {
      * @return Box in degrees. + = left, - = right.
      */
     public double getAngle() {
+        //unused
         // We experimentally determined the Z axis is the axis we want to use for heading angle.
         // We have to process the angle because the imu works in euler angles so the Z axis is
         // returned as 0 to +180 or 0 to -180 rolling back to -179 or +179 when rotation passes
@@ -272,7 +277,7 @@ public class robotYeet extends LinearOpMode {
     float correctionAngle = 0;
 
     public void rotateCCW(float degrees, double power) {
-
+//rotate function that works aorund 90% of the time, not sure why it doesn't work. gyros are weird
 
         motorLeftF = hardwareMap.dcMotor.get("motorFrontLeft");
         motorLeftB = hardwareMap.dcMotor.get("motorBackLeft");
@@ -332,6 +337,7 @@ public class robotYeet extends LinearOpMode {
      * @param degrees Degrees to turn, + is left - is right
      */
     public void rotate(float degrees, double power) {
+        //broken rotate function that uses imu
         double leftPower, rightPower;
         resetAngle();
         Orientation Zangle = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
@@ -409,6 +415,7 @@ public class robotYeet extends LinearOpMode {
     }
 
     public void brake() {
+        //stops motion
         motorRightF.setPower(0);
         motorLeftF.setPower(0);
         motorLeftB.setPower(0);
@@ -416,6 +423,7 @@ public class robotYeet extends LinearOpMode {
     }
 
     public void runWithGyro(int TIME, double pwr, String direction) {
+        //unused drive that uses imu to correct itself
         if (direction == "REVERSE") {
             correctionR = 0;
             motorRightF.setDirection(DcMotor.Direction.FORWARD);
@@ -521,6 +529,7 @@ public class robotYeet extends LinearOpMode {
     }
 
     public double CheckDirectionR() {
+        //unused
         // The gain value determines how sensitive the correction is to direction changes.
         // You will have to experiment with your robot to get small smooth direction changes
         // to stay on a straight line.
@@ -539,6 +548,7 @@ public class robotYeet extends LinearOpMode {
     }
 
     public double CheckDirectionF() {
+        //unused
         // The gain value determines how sensitive the correction is to direction changes.
         // You will have to experiment with your robot to get small smooth direction changes
         // to stay on a straight line.
@@ -558,6 +568,7 @@ public class robotYeet extends LinearOpMode {
 
     public void runWithEncoders(String direction,
                                 double LEFT_MOTOR_POWER, double RIGHT_MOTOR_POWER, int LEFT_MOTOR_ENCODER, int RIGHT_MOTOR_ENCODER, int TIME) throws InterruptedException {
+        //driving function in autonomus
         double ticksForCM = 34;
         LEFT_MOTOR_ENCODER = (int) (LEFT_MOTOR_ENCODER * ticksForCM);
         RIGHT_MOTOR_ENCODER = (int) (RIGHT_MOTOR_ENCODER * ticksForCM);
@@ -718,6 +729,7 @@ public class robotYeet extends LinearOpMode {
 
     public void driveEncoder(double speed, double leftInches, double rightInches,
                              double timeoutS) {
+        //unused
         int newLeftTarget;
         int newRightTarget;
         if (opModeIsActive()) {
@@ -768,6 +780,7 @@ public class robotYeet extends LinearOpMode {
     }
 
     public void rotateTicks(int degreesRotate, double power, int TIME) throws InterruptedException {
+        //rotate function that uses encoder ticks
         int ticks;
         ticks = (int) (degreesRotate * 8.9);
         runUsingEncoders();
@@ -834,6 +847,7 @@ public class robotYeet extends LinearOpMode {
     }
 
     public void rotateUsingEncoders(double pwr, int encoder, int TIME) throws InterruptedException {
+        //unused
         runUsingEncoders();
         resetEncoders();//resets the motors
         try {
@@ -887,6 +901,7 @@ public class robotYeet extends LinearOpMode {
 
 
     public void initVu() {
+        //not really sure what how it does it, but it starts the image recognition
         // Setup camera and Vuforia parameters
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
@@ -994,7 +1009,7 @@ public class robotYeet extends LinearOpMode {
      */
 
     public void loopVu() {
-
+    //allows image recognition to recognise targets and to allign if needed with them
 
         //Assume we can't find a target
         targetVisible = false;
@@ -1042,6 +1057,7 @@ public class robotYeet extends LinearOpMode {
      * Code to run ONCE after the driver hits STOP
      */
     public void stopVu() {
+        //stops image recognition
         vuforia.stop();
 
     }
@@ -1052,7 +1068,7 @@ public class robotYeet extends LinearOpMode {
     }
 
     public void lift() throws InterruptedException {
-
+        //Autonomous code that controls lift
         lift.setPower(1);
         Thread.sleep(100);
         while (opModeIsActive()) {
@@ -1072,6 +1088,7 @@ public class robotYeet extends LinearOpMode {
     }
 
     public void DistanceSensor() throws InterruptedException {
+        //Unused code for distance sensor
         while (opModeIsActive()) {
             getDistance = sensorRange.getDistance(DistanceUnit.CM);
                 telemetry.addData("range", String.format("%.01f cm", sensorRange.getDistance(DistanceUnit.CM)));
