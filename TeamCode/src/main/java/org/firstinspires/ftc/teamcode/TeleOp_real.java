@@ -115,7 +115,7 @@ zroa.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         //    float liftTick = lift.getCurrentPosition();
             //checking if the magnet sensor detects something
 
-            if (liftTick >= 9600 || !magnetActive) {
+            if (liftTick >= 14000 || !magnetActive) {
                 if (gamepad1.dpad_up) {
                     lift.setPower(0);
                 }

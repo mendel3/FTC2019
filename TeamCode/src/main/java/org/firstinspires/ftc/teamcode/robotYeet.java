@@ -1078,7 +1078,7 @@ public class robotYeet extends LinearOpMode {
             telemetry.addData("touch status", TouchActive);
             telemetry.update();
 
-            if (liftTick > 10000 ||  !TouchActive) {
+            if (liftTick > 14000 ||  !TouchActive) {
                 lift.setPower(0);
                 Thread.sleep(100);
                 break;

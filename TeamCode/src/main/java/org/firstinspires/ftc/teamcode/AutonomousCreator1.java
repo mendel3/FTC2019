@@ -50,18 +50,18 @@ public class AutonomousCreator1 extends robotYeet {
         //  }
 
 
-        // lift();
+         lift();
         // mylesAngle = angles.secondAngle;
         //telemetry.addData("angle after landing:", mylesAngle);
         //DistanceSensor1(5);
 
 
 
-        runWithEncoders("LEFT", 0.2, 0.2, 9, 9, 1000);
-        sleep(250);
-        runWithEncoders("BACKWARD", 0.2, 0.2, -16, -16, 1000);
+        runWithEncoders("LEFT", 0.25, 0.25, 8, 8, 1000);
         sleep(100);
-        rotateTicks(-180, 0.2, 2500);
+        runWithEncoders("BACKWARD", 0.25, 0.25, -17, -17, 1000);
+        sleep(100);
+        rotateTicks(-180, 0.25, 2500);
         //  rotateCCW(90, 0.2);
         //sleep(50);
         // rotateCCW(73, 0.2);
@@ -69,12 +69,12 @@ public class AutonomousCreator1 extends robotYeet {
 
 
 
-        Thread.sleep(100);
+     //   Thread.sleep(100);
         loopVu();
 
         Thread.sleep(100);
         runWithEncoders("RIGHT", 0.2, 0.2, 2, 2, 1000);
-        sleep(250);
+        sleep(50);
         //lift();
 
         if (detector.isFound()) {
@@ -84,38 +84,38 @@ public class AutonomousCreator1 extends robotYeet {
             MineralServo.setPosition(-1);
             sleep(400);
             MineralServo.setPosition(1);
-            rotateTicks(-8,0.2,100);
+            sleep(10);
+         //   rotateTicks(8,0.2,100);
             stopVu();
             runWithEncoders("LEFT", 0.2, 0.2, 60, 60, 3500);
             sleep(100);
             rotateTicks(-44,0.4,1155);
-            sleep(500);
-            runWithEncoders("FORWARD", 0.2, 0.2, -12, -12, 1000);
+            sleep(250);
+            runWithEncoders("FORWARD", 0.2, 0.2, -8, -8, 1000);
             sleep(100);
 
         } else if (!detector.isFound()) {
             //runWithEncoders("BACK", 0.2, 0.2, 8, 8, 1000);
             //sleep(500);
-            rotateTicks(-18, 0.2, 500);
-            runWithEncoders("LEFT", 0.2, 0.2, 15, 15, 1000);
-            sleep(250);
-            if (detector.isFound()) { runWithEncoders("LEFT", 0.2, 0.2, 3, 3, 1000);
-                sleep(100);
+            rotateTicks(-8, 0.2, 500);
+            runWithEncoders("LEFT", 0.25, 0.25, 11, 11, 1000);
+            sleep(75);
+            if (detector.isFound()) {
+                runWithEncoders("LEFT", 0.2, 0.2, 3, 3, 1000);
+                sleep(50);
                 telemetry.addData("Middle", true);
 
                 MineralServo.setPosition(-1);
                 sleep(450);
                 MineralServo.setPosition(1);
-                sleep(100);
+                sleep(50);
                 stopVu();
                 runWithEncoders("LEFT", 0.2, 0.2, 35, 35, 1000);
-                sleep(100);
+                sleep(50);
                 rotateTicks(-45,0.4,1155);
-                sleep(500);
-                runWithEncoders("FORWARD", 0.2, 0.2, -14, -14, 1000);
-
-                sleep(100);
-
+                sleep(50);
+                runWithEncoders("FORWARD", 0.25, 0.25, -17, -17, 1000);
+                sleep(50);
 
                 // sleep(100);
                 //runWithEncoders("FORWARD", 0.2, 0.2, -3, -3, 250);
@@ -155,10 +155,8 @@ public class AutonomousCreator1 extends robotYeet {
                 //marker.setPosition(0.8);
                 //runWithEncoders("FORWARD", 0.2, 0.2, 125, 125, 3250);
                 //sleep(100);
-
-
-
-            } else {
+            }
+            else {
 
                 runWithEncoders("LEFT", 0.2, 0.2, 15, 15, 1000);
                 sleep(100);
@@ -181,24 +179,25 @@ public class AutonomousCreator1 extends robotYeet {
 
 
         runWithEncoders("LEFT", 0.2, 0.3, 48, 48, 2000);
-        sleep(250);
+        sleep(50);
+        marker.setPosition(-0.6);
+        sleep(300);
         marker.setPosition(-0.9);
-        sleep(500);
-        rotateTicks(-178,0.2,2000);
+        sleep(50);
+        rotateTicks(-172,0.25,2000);
         sleep(100);
         runWithEncoders("LEFT", 0.3, 0.29, 60, 60, 2500);
         sleep(100);
         zroa.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        sleep(100);
+        sleep(10);
         zroa.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        sleep(50);
+        sleep(5);
         zroa.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         zroa.setTargetPosition(2400);
-        sleep(50);
+        sleep(5);
         while (zroa.isBusy()) {
 
-
-            zroa.setPower(0.6);
+            zroa.setPower(1);
         }
 
 /*if (isCameraDone){
