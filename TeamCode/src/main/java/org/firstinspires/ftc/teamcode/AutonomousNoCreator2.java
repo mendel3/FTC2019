@@ -79,19 +79,38 @@ public class AutonomousNoCreator2 extends robotYeet {
 
         if (detector.isFound()) {
             telemetry.addData("First", true);
+            rotateTicks(90, 0.2, 1000);
+            sleep(50);
+            runWithEncoders("LEFT", 0.2, 0.2, 44, 44, 2500);
+            sleep(50);
+            runWithEncoders("RIGHT", 0.2, 0.2, 5, 5, 250);
+            sleep(150);
+            runWithEncoders("FORWARD", 0.2, 0.2, 5, 5, 250);
+            sleep(150);
+            rotateTicks(-70,0.3,1000);
+            runWithEncoders("FORWARD", 0.2, 0.2, 4, 4, 250);
+            sleep(150);
+            runWithEncoders("LEFT", 0.2, 0.2, 15, 15, 250);
+            sleep(150);
+            marker.setPosition(-0.8);
+            rotateTicks(-89,0.3,1000);
+            runWithEncoders("LEFT", 0.25, 0.25, 65, 65, 4000);
+            zroa.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            sleep(100);
+            zroa.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            sleep(50);
+            zroa.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            zroa.setTargetPosition(2400);
+            sleep(50);
+            zroa.setPower(0.6);
+            while (zroa.isBusy()) {
+
+            }
+
+
             //  runWithEncoders("LEFT", 0.2, 0.2, 3, 3, 1000);
             //    sleep(100);
-            MineralServo.setPosition(-1);
-            sleep(400);
-            MineralServo.setPosition(1);
-            rotateTicks(-8,0.2,100);
-            stopVu();
-            runWithEncoders("LEFT", 0.2, 0.2, 60, 60, 3500);
-            sleep(100);
-            rotateTicks(-44,0.4,1155);
-            sleep(500);
-            runWithEncoders("FORWARD", 0.2, 0.2, -12, -12, 1000);
-            sleep(100);
+
 
         } else if (!detector.isFound()) {
             rotateTicks(-10, 0.2, 500);
@@ -162,7 +181,7 @@ public class AutonomousNoCreator2 extends robotYeet {
         }
 
 
-        runWithEncoders("LEFT", 0.2, 0.3, 48, 48, 2000);
+     /*   runWithEncoders("LEFT", 0.2, 0.3, 48, 48, 2000);
         sleep(250);
         marker.setPosition(-0.9);
         sleep(500);
@@ -182,6 +201,7 @@ public class AutonomousNoCreator2 extends robotYeet {
 
             zroa.setPower(0.6);
         }
+        */
 
 /*if (isCameraDone){
 
