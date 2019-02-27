@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -8,6 +9,7 @@ import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp (name = "TeleopTest", group = "help")
+@Disabled
 public class TeleopTest extends OpMode {
     DcMotor motorFrontRight;
     DcMotor motorFrontLeft;
@@ -168,9 +170,10 @@ public class TeleopTest extends OpMode {
         else if (gamepad2.dpad_up){
             Angle.setPosition(0.15);
         }
-        else if (gamepad2.dpad_down){
+        else if (gamepad2.dpad_right){
             Angle.setPosition(0.87);
         }
+
         /*    else {
                 Angle.setPosition(0.47);
             }

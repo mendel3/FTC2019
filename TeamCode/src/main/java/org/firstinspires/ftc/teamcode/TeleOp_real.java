@@ -217,6 +217,9 @@ zroa.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                 Box.setPosition(0.15);
             }
             else if (gamepad2.dpad_down){
+                Box.setPosition(0.65);
+            }
+            else if (gamepad2.dpad_right){
                 Box.setPosition(0.85);
             }
         /*    else {
