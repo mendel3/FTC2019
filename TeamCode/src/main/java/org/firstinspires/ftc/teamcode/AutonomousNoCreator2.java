@@ -60,7 +60,7 @@ public class AutonomousNoCreator2 extends robotYeet {
 
         runWithEncoders("LEFT", 0.2, 0.2, 9, 9, 1700);
         sleep(10);
-        runWithEncoders("BACKWARD", 0.2, 0.2, -16, -16, 1000);
+        runWithEncoders("BACKWARD", 0.2, 0.2, -14, -14, 1000);
         sleep(10);
         rotateTicks(-180, 0.25, 2500);
         //  rotateCCW(90, 0.2);
@@ -173,7 +173,7 @@ public class AutonomousNoCreator2 extends robotYeet {
                 sleep(400);
                 rotateTicks(-180, 0.3, 1000);
                 sleep(50);
-                runWithEncoders("LEFT", 0.3, 0.3, 59, 59, 4000);
+                runWithEncoders("LEFT", 0.3, 0.3, 60, 60, 4000);
                 zroa.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 sleep(100);
                 zroa.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);

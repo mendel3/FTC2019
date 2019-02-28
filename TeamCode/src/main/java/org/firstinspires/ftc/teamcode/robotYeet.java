@@ -4,6 +4,7 @@ import com.disnodeteam.dogecv.CameraViewDisplay;
 import com.disnodeteam.dogecv.Dogeforia;
 import com.disnodeteam.dogecv.detectors.roverrukus.GoldAlignDetector;
 import com.disnodeteam.dogecv.filters.LeviColorFilter;
+import com.disnodeteam.dogecv.scoring.PerfectAreaScorer;
 import com.disnodeteam.dogecv.scoring.RatioScorer;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -974,6 +975,7 @@ public class robotYeet extends LinearOpMode {
         detector.init(hardwareMap.appContext, CameraViewDisplay.getInstance(), 0, true);
         detector.useDefaults(); // Use default settings
         detector.addScorer(new RatioScorer(1.0,2.5));
+        detector.addScorer(new PerfectAreaScorer(6000,0.07));
         detector.yellowFilter = new LeviColorFilter(LeviColorFilter.ColorPreset.YELLOW, 100); // Create new filter
         //detector.areaScoringMethod = DogeCV.AreaScoringMethod.MAX_AREA; // Can also be PERFECT_AREA
      //   detector.perfectAreaScorer.perfectArea = 10000; // Uncomment if using PERFECT_AREA scoring
