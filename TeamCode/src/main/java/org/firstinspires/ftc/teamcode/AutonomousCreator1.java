@@ -59,7 +59,7 @@ public class AutonomousCreator1 extends robotYeet {
 
         runWithEncoders("LEFT", 0.25, 0.25, 8, 8, 1000);
         sleep(100);
-        runWithEncoders("BACKWARD", 0.25, 0.25, -17, -17, 1000);
+        runWithEncoders("BACKWARD", 0.25, 0.25, -16, -16, 1200);
         sleep(100);
         rotateTicks(-180, 0.25, 2500);
         //  rotateCCW(90, 0.2);
@@ -98,7 +98,7 @@ public class AutonomousCreator1 extends robotYeet {
             //runWithEncoders("BACK", 0.2, 0.2, 8, 8, 1000);
             //sleep(500);
             rotateTicks(-8, 0.2, 500);
-            runWithEncoders("LEFT", 0.25, 0.25, 11, 11, 1000);
+            runWithEncoders("LEFT", 0.2, 0.2, 11, 11, 1000);
             sleep(75);
             if (detector.isFound()) {
                 runWithEncoders("LEFT", 0.2, 0.2, 3, 3, 1000);
@@ -114,7 +114,7 @@ public class AutonomousCreator1 extends robotYeet {
                 sleep(50);
                 rotateTicks(-45,0.4,1155);
                 sleep(50);
-                runWithEncoders("FORWARD", 0.25, 0.25, -17, -17, 1000);
+                runWithEncoders("FORWARD", 0.25, 0.25, -14, -14, 1000);
                 sleep(50);
 
                 // sleep(100);
@@ -178,13 +178,11 @@ public class AutonomousCreator1 extends robotYeet {
         }
 
 
-        runWithEncoders("LEFT", 0.2, 0.3, 48, 48, 2000);
+        runWithEncoders("LEFT", 0.3, 0.3, 48, 48, 2000);
         sleep(150);
-        marker.setPosition(-0.6);
+        marker.setPosition(-0.8);
         sleep(450);
-        marker.setPosition(-0.9);
-        sleep(50);
-        rotateTicks(-172,0.25,2000);
+        rotateTicks(-168,0.25,2000);
         sleep(100);
         runWithEncoders("LEFT", 0.3, 0.29, 55, 55, 2500);
         sleep(100);

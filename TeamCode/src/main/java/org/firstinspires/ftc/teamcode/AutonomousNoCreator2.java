@@ -33,7 +33,7 @@ public class AutonomousNoCreator2 extends robotYeet {
 
         startVu();
         waitForStart();
-        lift();
+      //  lift();
         // generic DistanceSensor methods.
         // DistanceSensor(sensorRange)
         // generic DistanceSensor methods.
@@ -118,7 +118,7 @@ public class AutonomousNoCreator2 extends robotYeet {
 
         } else if (!detector.isFound()) {
             rotateTicks(-10, 0.2, 500);
-            runWithEncoders("LEFT", 0.3, 0.3, 13, 13, 1000);
+            runWithEncoders("LEFT", 0.25, 0.25, 11, 11, 1000);
             if (detector.isFound()) {
                 telemetry.addData("Middle", true);
                 rotateTicks(90, 0.2, 1000);
@@ -155,7 +155,7 @@ public class AutonomousNoCreator2 extends robotYeet {
                 telemetry.addData("Furthest Left", true);
                 runWithEncoders("LEFT", 0.3, 0.3, 19, 19, 2500);
                 sleep(50);
-                rotateTicks(89, 0.3, 1000);
+                rotateTicks(85, 0.3, 1000);
                 sleep(50);
                 runWithEncoders("LEFT", 0.2, 0.2, 28, 28, 2500);
                 sleep(50);
@@ -171,7 +171,7 @@ public class AutonomousNoCreator2 extends robotYeet {
                 sleep(50);
                 marker.setPosition(-0.8);
                 sleep(400);
-                rotateTicks(-180, 0.3, 1000);
+                rotateTicks(-170, 0.3, 1000);
                 sleep(50);
                 runWithEncoders("LEFT", 0.3, 0.3, 60, 60, 4000);
                 zroa.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
