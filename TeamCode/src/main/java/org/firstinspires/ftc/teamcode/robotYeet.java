@@ -973,11 +973,12 @@ public class robotYeet extends LinearOpMode {
         detector = new GoldAlignDetector(); // Create a gold aligndetector
         detector.init(hardwareMap.appContext, CameraViewDisplay.getInstance(), 0, true);
         detector.useDefaults(); // Use default settings
-        detector.addScorer(new RatioScorer(1.0,100));
+        detector.addScorer(new RatioScorer(1.0,2.5));
         detector.yellowFilter = new LeviColorFilter(LeviColorFilter.ColorPreset.YELLOW, 100); // Create new filter
         //detector.areaScoringMethod = DogeCV.AreaScoringMethod.MAX_AREA; // Can also be PERFECT_AREA
-        //detector.perfectAreaScorer.perfectArea = 10000; // Uncomment if using PERFECT_AREA scoring
+     //   detector.perfectAreaScorer.perfectArea = 10000; // Uncomment if using PERFECT_AREA scoring
         detector.debugAlignment = true;
+      //  detector.ratioScorer.
         detector.alignSize = 100;
         detector.alignPosOffset = 200;
 

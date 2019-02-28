@@ -73,7 +73,7 @@ public class AutonomousCreator1 extends robotYeet {
         loopVu();
 
         Thread.sleep(100);
-        runWithEncoders("RIGHT", 0.2, 0.2, 2, 2, 1000);
+        runWithEncoders("RIGHT", 0.2, 0.2, 4, 4, 1000);
         sleep(50);
         //lift();
 
@@ -179,14 +179,14 @@ public class AutonomousCreator1 extends robotYeet {
 
 
         runWithEncoders("LEFT", 0.2, 0.3, 48, 48, 2000);
-        sleep(50);
+        sleep(150);
         marker.setPosition(-0.6);
-        sleep(300);
+        sleep(450);
         marker.setPosition(-0.9);
         sleep(50);
         rotateTicks(-172,0.25,2000);
         sleep(100);
-        runWithEncoders("LEFT", 0.3, 0.29, 60, 60, 2500);
+        runWithEncoders("LEFT", 0.3, 0.29, 55, 55, 2500);
         sleep(100);
         zroa.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         sleep(10);

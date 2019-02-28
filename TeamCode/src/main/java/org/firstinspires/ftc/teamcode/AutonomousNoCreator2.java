@@ -24,17 +24,18 @@ public class AutonomousNoCreator2 extends robotYeet {
         telemetry.addData(">>", "Press start to continue");
         telemetry.update();
         //    resetEncoders();
-        initgyro();
+       // initgyro();
         //resetAngle();
         initVu();
         // mylesAngle = 0;
         //magnetTest();
-        telemetry.addLine("Good Luck Drivers!");
+        telemetry.addLine("Good Luck Drivers!!");
 
         startVu();
         waitForStart();
+        lift();
         // generic DistanceSensor methods.
-        // DistanceSensor(sensorRange);
+        // DistanceSensor(sensorRange)
         // generic DistanceSensor methods.
         // telemetry.addData("deviceName",sensorRange.getDeviceName() );
         //           telemetry.addData("range", String.format("%.01f mm", sensorRange.getDistance(DistanceUnit.MM)));
@@ -57,11 +58,11 @@ public class AutonomousNoCreator2 extends robotYeet {
 
 
 
-        runWithEncoders("LEFT", 0.2, 0.2, 9, 9, 1000);
-        sleep(250);
+        runWithEncoders("LEFT", 0.2, 0.2, 9, 9, 1700);
+        sleep(10);
         runWithEncoders("BACKWARD", 0.2, 0.2, -16, -16, 1000);
-        sleep(100);
-        rotateTicks(-180, 0.2, 2500);
+        sleep(10);
+        rotateTicks(-180, 0.25, 2500);
         //  rotateCCW(90, 0.2);
         //sleep(50);
         // rotateCCW(73, 0.2);
@@ -69,32 +70,35 @@ public class AutonomousNoCreator2 extends robotYeet {
 
 
 
-        Thread.sleep(100);
+        //Thread.sleep(100);
         loopVu();
 
-        Thread.sleep(100);
+        Thread.sleep(10);
         runWithEncoders("RIGHT", 0.2, 0.2, 2, 2, 1000);
-        sleep(250);
+        sleep(25);
         //lift();
 
         if (detector.isFound()) {
             telemetry.addData("First", true);
             rotateTicks(90, 0.2, 1000);
             sleep(50);
-            runWithEncoders("LEFT", 0.2, 0.2, 44, 44, 2500);
+            runWithEncoders("LEFT", 0.3, 0.3, 27, 27, 2500);
             sleep(50);
-            runWithEncoders("RIGHT", 0.2, 0.2, 5, 5, 250);
-            sleep(150);
-            runWithEncoders("FORWARD", 0.2, 0.2, 5, 5, 250);
-            sleep(150);
+            runWithEncoders("RIGHT", 0.2, 0.2, 3, 3, 250);
+            sleep(50);
+            runWithEncoders("FORWARD", 0.2, 0.2, -8, -8, 500);
+            sleep(50);
             rotateTicks(-70,0.3,1000);
-            runWithEncoders("FORWARD", 0.2, 0.2, 4, 4, 250);
-            sleep(150);
-            runWithEncoders("LEFT", 0.2, 0.2, 15, 15, 250);
-            sleep(150);
+            runWithEncoders("FORWARD", 0.2, 0.2, -6, -6, 500);
+            sleep(50);
+            runWithEncoders("LEFT", 0.3, 0.3, 19, 19, 1000);
+            sleep(50);
             marker.setPosition(-0.8);
+            sleep(400);
             rotateTicks(-89,0.3,1000);
-            runWithEncoders("LEFT", 0.25, 0.25, 65, 65, 4000);
+            runWithEncoders("FORWARD", 0.3, 0.3, -10, -10, 1000);
+            sleep(50);
+            runWithEncoders("LEFT", 0.25, 0.3, 65, 65, 4000);
             zroa.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             sleep(100);
             zroa.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -114,7 +118,7 @@ public class AutonomousNoCreator2 extends robotYeet {
 
         } else if (!detector.isFound()) {
             rotateTicks(-10, 0.2, 500);
-            runWithEncoders("LEFT", 0.2, 0.2, 13, 13, 1000);
+            runWithEncoders("LEFT", 0.3, 0.3, 13, 13, 1000);
             if (detector.isFound()) {
                 telemetry.addData("Middle", true);
                 rotateTicks(90, 0.2, 1000);
@@ -125,6 +129,8 @@ public class AutonomousNoCreator2 extends robotYeet {
                 sleep(150);
                 // rotateTicks(180,0.2,1000);
                 //sleep(50);
+                runWithEncoders("LEFT", 0.2, 0.2, 5, 5, 500);
+                sleep(50);
                 marker.setPosition(-0.8);
                 sleep(800);
                 rotateTicks(-130, 0.3, 1000);
@@ -147,24 +153,27 @@ public class AutonomousNoCreator2 extends robotYeet {
             } else {
 
                 telemetry.addData("Furthest Left", true);
-                runWithEncoders("LEFT", 0.2, 0.2, 19, 19, 2500);
+                runWithEncoders("LEFT", 0.3, 0.3, 19, 19, 2500);
                 sleep(50);
-                rotateTicks(90, 0.2, 1000);
+                rotateTicks(89, 0.3, 1000);
                 sleep(50);
-                runWithEncoders("LEFT", 0.2, 0.2, 30, 30, 2500);
+                runWithEncoders("LEFT", 0.2, 0.2, 28, 28, 2500);
                 sleep(50);
                 runWithEncoders("RIGHT", 0.2, 0.2, 5, 5, 250);
-                sleep(150);
+                sleep(100);
                 // rotateTicks(180,0.2,1000);
                 //sleep(50);
-                rotateTicks(18, 0.3, 1000);
-                runWithEncoders("LEFT", 0.2, 0.2, 10, 10, 250);
+                rotateTicks(21, 0.3, 1000);
+                sleep(50);
+                runWithEncoders("BACKWARD", 0.2, 0.2, -5, -5, 500);
+                sleep(50);
+                runWithEncoders("LEFT", 0.3, 0.3, 25, 25, 550);
                 sleep(50);
                 marker.setPosition(-0.8);
-                sleep(800);
+                sleep(400);
                 rotateTicks(-180, 0.3, 1000);
-                sleep(100);
-                runWithEncoders("LEFT", 0.25, 0.25, 65, 65, 4000);
+                sleep(50);
+                runWithEncoders("LEFT", 0.3, 0.3, 59, 59, 4000);
                 zroa.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 sleep(100);
                 zroa.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -172,7 +181,7 @@ public class AutonomousNoCreator2 extends robotYeet {
                 zroa.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 zroa.setTargetPosition(2400);
                 sleep(50);
-                zroa.setPower(0.6);
+                zroa.setPower(1);
                 while (zroa.isBusy()) {
 
                 }
